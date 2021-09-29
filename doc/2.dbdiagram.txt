@@ -1,0 +1,163 @@
+//// Order System DB 
+
+Table users {
+  id int [pk, increment] // auto-increment
+  name varchar(100)
+  email varchar(100)
+  account varchar(100)
+  password varchar(100)
+  role_id int
+  created_at datetime2
+  updated_at datetime2
+  deleted_at datetime2
+}
+
+
+Table products_inventory{
+    id int [pk, increment] // auto-increment
+    product_id int
+    unit decimal
+    description varchar(500)
+    created_at datetime2
+}
+
+Table products{
+    id int [pk, increment] // auto-increment
+    name varchar(100) 
+    price decimal
+    description varchar(500)
+    current_unit int 
+    created_at datetime2
+    updated_at datetime2
+    deleted_at datetime2
+}
+
+Table product_types_products_relationships{
+  id int [pk, increment] // auto-increment
+  product_type_id int
+  product_id int
+}
+
+Table product_types{
+    id int [pk, increment] // auto-increment
+    name varchar(100)
+    description varchar(500)
+    created_at datetime2
+    updated_at datetime2
+    deleted_at datetime2
+}
+
+
+Table orders {
+   id int [pk, increment] // auto-increment
+   type varchar(100) // in or out
+   total decimal
+   address varchar(500)
+   recipient_signature varchar(100)
+   user_id int
+   remarks varchar(100)
+   delivery_date datetime2
+   completed_date datetime2
+   created_at datetime2
+   updated_at datetime2
+   deleted_at datetime2
+}
+
+Table order_details{
+   id int [pk, increment] // auto-increment
+   order_id int
+   product_id int
+   product_name varchar(100) // record
+   price decimal
+   remarks varchar(100)
+}
+
+Table order_types{
+   type varchar(100) [pk] 
+   name varchar(100)
+   description varchar(500)
+}
+
+
+
+Table roles {
+  id int [pk, increment] // auto-increment
+  name varchar(100)
+  created_at datetime2
+  updated_at datetime2
+  deleted_at datetime2
+}
+
+Table permissions {
+  id int [pk, increment] // auto-increment
+  func_permission_id int
+  permission_type_id int
+  created_at datetime2
+}
+
+
+Table module_permissions {
+  id int [pk, increment] // auto-increment
+  name varchar(100)
+  role_id int
+  description varchar(500)
+  created_at datetime2
+}
+
+
+Table func_permissions {
+  id int [pk, increment] // auto-increment
+  module_permission_id int
+  name varchar(100)
+  description varchar(500)
+  created_at datetime2
+}
+
+
+Table permission_types {
+  id int [pk, increment] // auto-increment
+  name varchar(100)
+  description varchar(500)
+  created_at datetime2
+  updated_at datetime2
+  deleted_at datetime2
+}
+
+
+Ref: users.id > orders.user_id // many-to-one
+
+Ref: orders.type > order_types.type // many-to-one
+
+Ref: orders.id < order_details.order_id // many-to-one
+
+Ref: products.id < order_details.product_id // many-to-one
+
+Ref: products.id < product_types_products_relationships.product_id // many-to-one
+
+Ref: product_types.id < product_types_products_relationships.product_type_id // many-to-one
+
+Ref: products.id < products_inventory.product_id // many-to-one
+
+
+Ref {
+  permission_types.id < permissions.permission_type_id
+}
+
+Ref {
+  users.role_id > roles.id
+}
+
+Ref {
+  permissions.func_permission_id > func_permissions.id
+}
+
+Ref {
+  module_permissions.id < func_permissions.module_permission_id
+}
+
+
+Ref {
+  module_permissions.role_id > roles.id
+}
+
+
