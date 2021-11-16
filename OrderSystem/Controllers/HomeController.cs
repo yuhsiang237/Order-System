@@ -16,6 +16,7 @@ namespace OrderSystem.Controllers
 
         public HomeController(ILogger<HomeController> logger, OrderSystemContext context)
         {
+
             _context = context;
             _logger = logger;
         }
@@ -42,5 +43,7 @@ namespace OrderSystem.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+       
+
     }
 }
