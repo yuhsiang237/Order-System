@@ -1,0 +1,23 @@
+﻿@model OrderSystem.ViewModels.UserSignInViewModel;
+@{
+    ViewData["Title"] = "Create Page";
+}
+
+<form asp-controller="User" asp-action="SignIn">
+
+    <div>
+        <label>帳號</label>
+        <input asp-for="Account" />
+        <span asp-validation-for="Account"></span>
+        <span>@ViewData["ErrorAccount"]</span>
+    </div>
+    <div>
+        <label>密碼</label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <input type="submit" value="登入" />
+    </div>
+</form>
+

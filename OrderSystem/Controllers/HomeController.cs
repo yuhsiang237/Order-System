@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OrderSystem.Models;
+using OrderSystem.Tools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,7 +17,7 @@ namespace OrderSystem.Controllers
 
         public HomeController(ILogger<HomeController> logger, OrderSystemContext context)
         {
-
+          
             _context = context;
             _logger = logger;
         }

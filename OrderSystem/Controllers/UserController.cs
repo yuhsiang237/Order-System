@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OrderSystem.Helpers;
 using OrderSystem.Models;
+using OrderSystem.Tools;
 using OrderSystem.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -28,6 +28,37 @@ namespace OrderSystem.Controllers
             return View();
         }
 
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult SignIn(UserSignInViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            // vaild account and pwd
+            var user = _context.Users.FirstOrDefault(x =>
+               x.Account == model.Account
+            );
+            if (user == null)
+            {
+                ViewData["ErrorAccount"] = "錯誤的帳號或密碼";
+                return View();
+            }
+            Boolean isValid = HashSaltTool.Validate(model.Password, user.Salt, user.Password);
+            if (isValid)
+            {   // login success todo
+                return View();
+            }
+            else
+            {
+                ViewData["ErrorAccount"] = "錯誤的帳號或密碼";
+                return View();
+            }
+        }
         [HttpPost]
         public IActionResult SignUp(UserSignUpViewModel model)
         {
@@ -62,11 +93,15 @@ namespace OrderSystem.Controllers
             // create an account
             User user = new User();
             user.Name = model.Name;
-            // todo hash or salt 
-            user.Password = model.Password; 
             user.Email = model.Name;
             user.Account = model.Account;
-        
+            // Hash & Salt password
+            var hashSaltResponse = HashSaltTool.Generate(model.Password);
+            user.Password = hashSaltResponse.hash;
+            user.Salt = hashSaltResponse.salt;
+
+            _context.Users.Add(user);
+            _context.SaveChanges();
             return View();
         }
     }

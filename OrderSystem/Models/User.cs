@@ -18,7 +18,7 @@ namespace OrderSystem.Models
 
         public string Password { get; set; }
 
-
+        public string Salt { get; set; }
         public int? RoleId { get; set; }
         public DateTime? CreateAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
