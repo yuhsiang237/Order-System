@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,12 +29,23 @@ namespace OrderSystem
         public void ConfigureServices(IServiceCollection services)
         {
             // MVC service
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options => {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
 
             // EnityFrameworkCore service
             string connection = Configuration.GetValue<string>("DBConnectionString");
             services.AddDbContext<OrderSystemContext>(options => options.UseSqlServer(connection));
             
+            // cookie-based login service
+            double LoginExpireMinute = this.Configuration.GetValue<double>("LoginExpireMinute");
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+            {
+                // set expire 
+                option.ExpireTimeSpan = TimeSpan.FromMinutes(LoginExpireMinute);
+                option.SlidingExpiration = false;
+            });
+    
 
         }
 
@@ -54,7 +67,9 @@ namespace OrderSystem
 
             app.UseRouting();
 
+            // cookie-based service 
             app.UseAuthorization();
+            app.UseAuthentication(); 
 
             app.UseEndpoints(endpoints =>
             {

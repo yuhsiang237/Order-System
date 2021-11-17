@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using OrderSystem.Models;
 using OrderSystem.Tools;
 using OrderSystem.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OrderSystem.Controllers
@@ -33,7 +36,7 @@ namespace OrderSystem.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SignIn(UserSignInViewModel model)
+        public async Task<IActionResult> SignInAsync(UserSignInViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -50,7 +53,19 @@ namespace OrderSystem.Controllers
             }
             Boolean isValid = HashSaltTool.Validate(model.Password, user.Salt, user.Password);
             if (isValid)
-            {   // login success todo
+            {   // login success 
+                Claim[] claims = new[] {
+                    new Claim("Account", user.Account),
+                    new Claim("ID",user.Id.ToString()) 
+                };
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                // cookie-based login
+                await HttpContext.SignInAsync(claimsPrincipal,
+                    new AuthenticationProperties()
+                    {
+                        IsPersistent = true, // keep login when close browser
+                    });
                 return View();
             }
             else
@@ -59,6 +74,13 @@ namespace OrderSystem.Controllers
                 return View();
             }
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");// direct to home page
+        }
+
         [HttpPost]
         public IActionResult SignUp(UserSignUpViewModel model)
         {
