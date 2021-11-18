@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using OrderSystem.Authorization;
 using OrderSystem.Models;
 using OrderSystem.Tools;
 using OrderSystem.ViewModels;
@@ -26,6 +27,8 @@ namespace OrderSystem.Controllers
         {
             return View();
         }
+        [PermissionFilter(Permissions.Basic_UserManagement_View)]
+
         public IActionResult SignUp()
         {
             return View();

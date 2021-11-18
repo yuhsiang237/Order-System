@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OrderSystem.Authorization;
 using OrderSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -45,7 +47,10 @@ namespace OrderSystem
                 option.ExpireTimeSpan = TimeSpan.FromMinutes(LoginExpireMinute);
                 option.SlidingExpiration = false;
             });
-    
+
+            // cookie-based permission filter service 
+            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
 
         }
 
