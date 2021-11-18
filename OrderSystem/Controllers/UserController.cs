@@ -27,7 +27,6 @@ namespace OrderSystem.Controllers
         {
             return View();
         }
-        [PermissionFilter(Permissions.Basic_UserManagement_View)]
 
         public IActionResult SignUp()
         {
@@ -69,7 +68,7 @@ namespace OrderSystem.Controllers
                     {
                         IsPersistent = true, // keep login when close browser
                     });
-                return View();
+               return RedirectToAction("Index", "Home");
             }
             else
             {

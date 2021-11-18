@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 
 namespace OrderSystem.Authorization
 {
-    // 權限控制邏輯
+    /// <summary>
+    /// Permission Handler
+    /// </summary>
     public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionAuthorizationRequirement>
     {
         private readonly IServiceProvider _serviceProvider;
@@ -27,9 +29,9 @@ namespace OrderSystem.Authorization
                 context.Fail();
                 return Task.CompletedTask;
             }
+
             var requirementPermissions = requirement.Permissions;
             string userAccount = "";
-
             if (context.User != null)
             {
 
@@ -54,6 +56,10 @@ namespace OrderSystem.Authorization
                                select a.Code
                                ).ToList();
             }
+
+            // default permission code
+            userPermission.Add(Permissions.Default_Login);
+
             // check permission   
             bool isExist = false;
             for (int i = 0; i < userPermission.Count(); i++)
