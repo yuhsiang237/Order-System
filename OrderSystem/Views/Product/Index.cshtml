@@ -1,0 +1,64 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+@Html.AntiForgeryToken()
+
+<!-- Button trigger modal -->
+<button id="btn_productModal" type="button" class="btn btn-primary">
+    新增商品
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="productCreateModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">新增商品</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">商品名稱</label>
+                        <input id="product_name" type="text" class="form-control" placeholder="請輸入商品名稱">
+                        <div id="errorName"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">商品編號</label>
+                        <input id="product_number"type="text" class="form-control" placeholder="請輸入商品編號">
+                        <div id="errorNumber"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">商品價錢</label>
+                        <input id="product_price"type="number" class="form-control" placeholder="0.00">
+                        <div id="errorPrice"></div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">商品數量</label>
+                        <input id="product_currentUnit" type="number" class="form-control" placeholder="0.00">
+                        <div id="errorCurrentUnit"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">商品描述</label>
+                        <textarea  id="product_description" type="text" class="form-control" placeholder=""></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button id="btn_productCreate" type="button" class="btn btn-primary">新增</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Pages/Product/Index.js"></script>
+}

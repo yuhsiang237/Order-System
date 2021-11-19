@@ -18,6 +18,9 @@ namespace OrderSystem.Models
         }
 
         public virtual DbSet<Permission> Permissions { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductCategory> ProductCategories { get; set; }
+        public virtual DbSet<ProductProductCategoryRelationship> ProductProductCategoryRelationships { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
@@ -45,6 +48,76 @@ namespace OrderSystem.Models
                 entity.Property(e => e.CreatedAt).HasColumnName("created_at");
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+
+                entity.Property(e => e.CurrentUnit)
+                    .HasColumnType("decimal(18, 4)")
+                    .HasColumnName("current_unit");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("description");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Number)
+                    .HasMaxLength(100)
+                    .HasColumnName("number");
+
+                entity.Property(e => e.Price)
+                    .HasColumnType("decimal(18, 4)")
+                    .HasColumnName("price");
+
+                entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            });
+
+            modelBuilder.Entity<ProductCategory>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("ProductCategory");
+
+                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(500)
+                    .HasColumnName("description");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            });
+
+            modelBuilder.Entity<ProductProductCategoryRelationship>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.ProductCategoryId).HasColumnName("product_category_id");
+
+                entity.Property(e => e.ProductId).HasColumnName("product_id");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -87,6 +160,11 @@ namespace OrderSystem.Models
                     .HasColumnName("password");
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.Salt)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("salt");
 
                 entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
             });
