@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace OrderSystem.Models
+namespace OrderSystem
 {
     public partial class ProductCategory
     {

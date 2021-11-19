@@ -23,27 +23,30 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">首頁</a>
                         </li>
                         @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { "Default_Login" }))).Succeeded)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuProductLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">商品管理</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuProductLink">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">
+                                        商品項目列表
+                                    </a>
+                                </div>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="@Url.Action("Logout","User")">Logout</a>
+                                <a class="nav-link text-dark" href="@Url.Action("Logout","User")">登出</a>
                             </li>
                         }
                         @if (!(await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { "Default_Login" }))).Succeeded)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="SignUp">SignUp</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="SignUp">註冊</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="SignIn">SignIn</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="SignIn">登入</a>
                             </li>
                         }
 
@@ -53,7 +56,7 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="p-3">
             @RenderBody()
         </main>
     </div>

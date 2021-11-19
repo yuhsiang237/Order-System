@@ -29,6 +29,7 @@ $("#btn_productCreate").bind("click", function () {
             if (res.isSuccess) {
                 $('#productCreateModal').modal('hide');
                 alert('新增成功!')
+                clearSearch()
             } else {
                 if (res.error.Name) {
                     $('#errorName').html(...res.error.Name);
@@ -55,3 +56,18 @@ $("#btn_productCreate").bind("click", function () {
         error: function () { alert('A error'); }
     })
 });
+
+// list table
+function clearSearch() {
+    $('#input_number').val('')
+    $('#input_name').val('')
+    $('#select_goToPage').val(1);
+    $('#form_search').submit()
+}
+function goToPage() {
+    $('#form_search').submit()
+}
+function changePageSize() {
+    $('#form_search').submit()
+}
+// ./list table
