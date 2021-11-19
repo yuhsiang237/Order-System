@@ -26,6 +26,7 @@ namespace OrderSystem.Controllers
 
         public IActionResult CreateProduct(Product model)
         {
+
             // vaildate data
             Dictionary<string, string[]> Errors = new Dictionary<string, string[]>();
             if (model.Name == null || model.Name == "")
@@ -64,16 +65,35 @@ namespace OrderSystem.Controllers
                 return Ok(ResponseModel.Fail(null, null, 0, Errors));
             }
             // data add
-            Product m = new Product();
-            m.Name = model.Name;
-            m.Number = model.Number;
-            m.CurrentUnit = model.CurrentUnit;
-            m.Description = model.Description;
-            m.Price = model.Price;
-            _context.Products.Add(m);
-            _context.SaveChanges();
+            using(var tr = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    // create product
+                    Product p = new Product();
+                    p.Name = model.Name;
+                    p.Number = model.Number;
+                    p.CurrentUnit = model.CurrentUnit;
+                    p.Description = model.Description;
+                    p.Price = model.Price;
+                    _context.Products.Add(p);
+                    _context.SaveChanges();
+                    // create product inventory
+                    ProductInventory pi = new ProductInventory();
+                    pi.ProductId = p.Id;
+                    pi.Unit = model.CurrentUnit;
+                    pi.Description = "新增商品初始化";
+                    _context.ProductInventories.Add(pi);
+                    _context.SaveChanges();
 
-            return Ok(ResponseModel.Success("", m));
+                    tr.Commit();
+                    return Ok(ResponseModel.Success("", p));
+                }
+                catch (Exception ex)
+                {
+                    return Ok(ResponseModel.Fail("建立失敗", null, 0, ""));
+                }
+            }
         }
     }
 }

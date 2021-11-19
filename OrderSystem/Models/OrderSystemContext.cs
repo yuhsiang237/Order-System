@@ -20,6 +20,7 @@ namespace OrderSystem.Models
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductCategory> ProductCategories { get; set; }
+        public virtual DbSet<ProductInventory> ProductInventories { get; set; }
         public virtual DbSet<ProductProductCategoryRelationship> ProductProductCategoryRelationships { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -105,6 +106,26 @@ namespace OrderSystem.Models
                     .HasColumnName("name");
 
                 entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            });
+
+            modelBuilder.Entity<ProductInventory>(entity =>
+            {
+                entity.ToTable("productInventory");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("description");
+
+                entity.Property(e => e.ProductId).HasColumnName("product_id");
+
+                entity.Property(e => e.Unit)
+                    .HasColumnType("decimal(18, 4)")
+                    .HasColumnName("unit");
             });
 
             modelBuilder.Entity<ProductProductCategoryRelationship>(entity =>
