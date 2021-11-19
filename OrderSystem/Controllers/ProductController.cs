@@ -117,6 +117,46 @@ namespace OrderSystem.Controllers
 
         [HttpPost]
 
+        public IActionResult UpdateProductUnit(Product model)
+        {
+            // vaildate data
+            Dictionary<string, string[]> Errors = new Dictionary<string, string[]>();
+            if (model.CurrentUnit == null || model.CurrentUnit < 0)
+            {
+                Errors.Add("CurrentUnit", new string[] { "數量不可小於0或為空" });
+            }
+            if (Errors.Count() > 0)
+            {
+                return Ok(ResponseModel.Fail(null, null, 0, Errors));
+            }
+            // data update
+            using (var tr = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var product = _context.Products.FirstOrDefault(x => x.Id == model.Id);
+                    var inventoryUnit = model.CurrentUnit - product.CurrentUnit; // diff
+                    product.CurrentUnit = model.CurrentUnit;
+                    _context.Update(product);
+                    ProductInventory productInventory = new ProductInventory();
+                    productInventory.ProductId = product.Id;
+                    productInventory.Unit = inventoryUnit;
+                    productInventory.Description = Constant.ProductInventoryChangeCode.ManualModify+":"+model.Description;
+                    _context.ProductInventories.Add(productInventory);
+                    _context.SaveChanges();
+                    tr.Commit();
+                    return Ok(ResponseModel.Success(""));
+                }
+                catch (Exception ex)
+                {
+                    return Ok(ResponseModel.Fail("建立失敗", null, 0, ""));
+                }
+               
+            }
+        }
+
+        [HttpPost]
+
         public IActionResult CreateProduct(Product model)
         {
 
@@ -175,7 +215,7 @@ namespace OrderSystem.Controllers
                     ProductInventory pi = new ProductInventory();
                     pi.ProductId = p.Id;
                     pi.Unit = model.CurrentUnit;
-                    pi.Description = "新增商品初始化";
+                    pi.Description = Constant.ProductInventoryChangeCode.Create;
                     _context.ProductInventories.Add(pi);
                     _context.SaveChanges();
 
