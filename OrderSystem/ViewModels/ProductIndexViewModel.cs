@@ -29,6 +29,7 @@ namespace OrderSystem.ViewModels
         [Display(Name = "目前庫存量")]
 
         public decimal? CurrentUnit { get; set; }
+        public string Description { get; set; }
     }
 
 }

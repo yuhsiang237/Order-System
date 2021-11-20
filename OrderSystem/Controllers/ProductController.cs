@@ -24,13 +24,15 @@ namespace OrderSystem.Controllers
         {
             // 1.search logic
             var query = from a in _context.Products
+                        where a.IsDeleted != true
                         select new ProductIndexViewModel
                         {
                             Id = a.Id,
                             Number = a.Number,
                             Name = a.Name,
                             CurrentUnit = a.CurrentUnit,
-                            Price = a.Price
+                            Price = a.Price,
+                            Description = a.Description
                         };
 
             // 2.condition filter
@@ -116,6 +118,17 @@ namespace OrderSystem.Controllers
         }
 
         [HttpPost]
+        public IActionResult DeleteProduct(Product model)
+        {
+            var p = _context.Products.FirstOrDefault(x => x.Id == model.Id);
+            p.IsDeleted = true;
+            _context.Update(p);
+            _context.SaveChanges();
+            return Ok(ResponseModel.Success(""));
+        }
+
+
+            [HttpPost]
 
         public IActionResult UpdateProductUnit(Product model)
         {
@@ -227,6 +240,41 @@ namespace OrderSystem.Controllers
                     return Ok(ResponseModel.Fail("建立失敗", null, 0, ""));
                 }
             }
+        }
+
+        [HttpPost]
+
+        public IActionResult UpdateProduct(Product model)
+        {
+
+            // vaildate data
+            Dictionary<string, string[]> Errors = new Dictionary<string, string[]>();
+            if (model.Name == null || model.Name == "")
+            {
+                Errors.Add("Name", new string[] { "請輸入名稱" });
+            }
+       
+            if (model.Price == null)
+            {
+                Errors.Add("Price", new string[] { "請輸入價錢" });
+            }
+            if (model.Price < 0)
+            {
+                Errors.Add("Price", new string[] { "價錢不可為負" });
+            }
+            if (Errors.Count() > 0)
+            {
+                return Ok(ResponseModel.Fail(null, null, 0, Errors));
+            }
+            // update product basic info
+            var p = _context.Products.FirstOrDefault(x => x.Id == model.Id);
+            p.Name = model.Name;
+            p.Description = model.Description;
+            p.Price = model.Price;
+            _context.Update(p);
+            _context.SaveChanges();
+
+            return Ok(ResponseModel.Success("", p));
         }
     }
 }
