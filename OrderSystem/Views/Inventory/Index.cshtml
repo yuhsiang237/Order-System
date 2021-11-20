@@ -95,9 +95,9 @@
                             @Html.DisplayFor(modelItem => item.CurrentUnit)
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary">
+                            <a href="/Inventory/InventoryHistory?productId=@item.Id" class="btn btn-primary">
                                 管理庫存
-                            </button>
+                            </a>
                         </td>
                     </tr>
                 }

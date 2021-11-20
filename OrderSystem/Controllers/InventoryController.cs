@@ -15,9 +15,43 @@ namespace OrderSystem.Controllers
     {
         private readonly OrderSystemContext _context;
 
+
+
         public InventoryController(OrderSystemContext context)
         {
             _context = context;
+        }
+
+        public IActionResult InventoryHistory(int productId)
+        {
+
+            IEnumerable<InventoryHistoryViewModel> query = 
+                        from a in _context.ProductInventories
+                        where a.ProductId == productId
+                        orderby a.Id descending
+                        select new InventoryHistoryViewModel
+                        {
+                            CreateAt = a.CreatedAt,
+                            Descrption = a.Description,
+                            Unit = a.Unit
+                        };
+            Product product =
+                        (from a in _context.Products
+                        where a.Id == productId
+                        select new Product
+                        {
+                            Name = a.Name,
+                            Number = a.Number,
+                            CurrentUnit = a.CurrentUnit,
+                            Price = a.Price
+                        }).FirstOrDefault(); ;
+
+            ViewData["Name"] = product.Name;
+            ViewData["Number"] = product.Number;
+            ViewData["CurrentUnit"] = product.CurrentUnit;
+            ViewData["Price"] = product.Price;
+
+            return View(query);
         }
         public async Task<IActionResult> Index(
         string sortOrder,

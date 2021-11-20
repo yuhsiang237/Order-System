@@ -155,6 +155,7 @@ namespace OrderSystem.Controllers
                     ProductInventory productInventory = new ProductInventory();
                     productInventory.ProductId = product.Id;
                     productInventory.Unit = inventoryUnit;
+                    productInventory.CreatedAt = DateTime.Now;
                     productInventory.Description = Constant.ProductInventoryChangeCode.ManualModify+":"+model.Description;
                     _context.ProductInventories.Add(productInventory);
                     _context.SaveChanges();
@@ -229,6 +230,7 @@ namespace OrderSystem.Controllers
                     ProductInventory pi = new ProductInventory();
                     pi.ProductId = p.Id;
                     pi.Unit = model.CurrentUnit;
+                    pi.CreatedAt = DateTime.Now;
                     pi.Description = Constant.ProductInventoryChangeCode.Create;
                     _context.ProductInventories.Add(pi);
                     _context.SaveChanges();

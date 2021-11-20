@@ -1,0 +1,57 @@
+﻿@model IEnumerable<OrderSystem.ViewModels.InventoryHistoryViewModel> ;
+@{
+    ViewData["Title"] = "Create Page";
+}
+
+
+<div class="mb-3">
+    <a href="/Inventory" class="btn btn-primary">
+        返回列表
+    </a>
+</div>
+
+<div class="mb-3">
+    商品名稱:@ViewData["Name"]<br />
+    商品編號:@ViewData["Number"]<br />
+    目前數量:@ViewData["CurrentUnit"]<br />
+    價格:@ViewData["Price"]<br />
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                異動時間
+            </th>
+            <th>
+                異動數量
+            </th>
+            <th>
+                異動描述
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateAt)
+                </td>
+                <td>
+                    @if (item.Unit >= 0)
+                    {
+                        <span>+</span>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                    @Math.Abs(item.Unit.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descrption)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
