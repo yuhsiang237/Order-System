@@ -17,13 +17,26 @@ namespace OrderSystem.Controllers
 
         public HomeController(ILogger<HomeController> logger, OrderSystemContext context)
         {
-          
+            
             _context = context;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
+            // store data test
+            Order o = new Order();
+            o.Number = "12153";
+            o.Status = 1;
+            o.Total = 100;
+            o.SignName = "123";
+            o.UpdateDate = DateTime.Now;
+            o.DeliveryDate = DateTime.Now;
+            o.FinishDate = DateTime.Now;
+
+            _context.Orders.Add(o);
+            _context.SaveChanges();
+
             // get data test
             var model = _context.Users.Select(b => new User
             {
