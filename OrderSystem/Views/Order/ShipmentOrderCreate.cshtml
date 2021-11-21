@@ -1,0 +1,79 @@
+﻿@Html.AntiForgeryToken()
+<div id="CreateForm">
+    <div class="form-group">
+        <label>出貨單編號</label>
+        <input v-model="Number" type="text" class="form-control">
+        <label>出貨日</label>
+        <input class="form-control" placeholder="選擇出貨日" type="text" id="DeliveryDate" v-model="DeliveryDate" />
+        <label>完成日</label>
+        <input class="form-control" placeholder="選擇完成日" type="text" id="FinishDate" v-model="FinishDate" />
+        <label>總金額</label>
+        <input v-model="Total" type="text" class="form-control">
+        <br />
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            項目
+                        </th>
+                        <th>
+                            商品編號
+                        </th>
+                        <th>
+                            商品名稱
+                        </th>
+                        <th>
+                            價格
+                        </th>
+                        <th>
+                            數量
+                        </th>
+                        <th>
+                            備註
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in OrderDetails">
+                        <td>
+                            {{index+1}}
+                        </td>
+                        <td>
+                            <input v-model="item.Number" type="text" class="form-control" />
+                        </td>
+                        <td>
+                            <input v-model="item.Name" type="text" class="form-control" />
+                        </td>
+                        <td>
+                            <input v-model="item.Price" type="text" class="form-control" />
+                        </td>
+                        <td>
+                            <input v-model="item.Unit" type="text" class="form-control" />
+                        </td>
+                        <td>
+                            <input v-model="item.Remarks" type="text" class="form-control" />
+                        </td>
+                        <td>
+                            <button v-on:click="deleteRow(item.index)" type="button" class="btn btn-primary">
+                                刪除
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="text-right">
+        <button v-on:click="createOrder()" type="button" class="btn btn-primary">
+            新建訂單
+        </button>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Pages/Order/ShipmentOrderCreate.js"></script>
+}

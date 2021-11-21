@@ -10,6 +10,11 @@ namespace OrderSystem.Models
         public decimal? Total { get; set; }
         public string SignName { get; set; }
         public int? Status { get; set; }
+
+        public string Remarks { get; set; }
+
+        public string Address { get; set; }
+
         public DateTime? FinishDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public DateTime? UpdateDate { get; set; }
