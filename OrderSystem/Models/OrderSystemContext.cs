@@ -25,6 +25,7 @@ namespace OrderSystem.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -191,17 +192,6 @@ namespace OrderSystem.Models
                 entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
             });
 
-            modelBuilder.Entity<Order>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("id");
-                entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
-                entity.Property(e => e.DeliveryDate).HasColumnName("delivery_date");
-                entity.Property(e => e.FinishDate).HasColumnName("finish_date");
-                entity.Property(e => e.UpdateDate).HasColumnName("update_date");
-                entity.Property(e => e.SignName).HasColumnName("sign_name");
-
-
-            });
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -2,20 +2,34 @@
 <div id="CreateForm">
     <div class="form-group">
         <label>出貨單編號</label>
-        <input v-model="Number" type="text" class="form-control">
+        <input disabled value="系統自動產生" type="text" class="form-control">
         <label>出貨日</label>
         <input class="form-control" placeholder="選擇出貨日" type="text" id="DeliveryDate" v-model="DeliveryDate" />
+        <div>
+            {{Errors["Order.DeliveryDate"]}}
+        </div>
+        <label>出貨地址</label>
+        <input class="form-control" placeholder="地址" type="text" v-model="Address" />
         <label>完成日</label>
         <input class="form-control" placeholder="選擇完成日" type="text" id="FinishDate" v-model="FinishDate" />
-        <label>總金額</label>
-        <input v-model="Total" type="text" class="form-control">
+        <label>總金額(自動計算)</label>
+        <input disabled v-model="Total" type="text" class="form-control">
+        <label>簽收者</label>
+        <input v-model="SignName" type="text" class="form-control">
+        <label>備註</label>
+        <textarea class="form-control" v-model="Remarks"></textarea>
         <br />
+        <div class="text-right mb-3">
+            <button v-on:click="createRow()" type="button" class="btn btn-primary">
+                增加一列
+            </button>
+        </div>
         <div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>
-                            項目
+                            #
                         </th>
                         <th>
                             商品編號
@@ -43,19 +57,19 @@
                             {{index+1}}
                         </td>
                         <td>
-                            <input v-model="item.Number" type="text" class="form-control" />
+                            <input v-model="item.ProductNumber" type="text" class="form-control" />
                         </td>
                         <td>
-                            <input v-model="item.Name" type="text" class="form-control" />
+                            <input v-model="item.ProductName" type="text" class="form-control" />
                         </td>
                         <td>
-                            <input v-model="item.Price" type="text" class="form-control" />
+                            <input v-model="item.ProductPrice" type="text" class="form-control" />
                         </td>
                         <td>
-                            <input v-model="item.Unit" type="text" class="form-control" />
+                            <input v-model="item.ProductUnit" type="text" class="form-control" />
                         </td>
                         <td>
-                            <input v-model="item.Remarks" type="text" class="form-control" />
+                            <input v-model="item.ProductRemarks" type="text" class="form-control" />
                         </td>
                         <td>
                             <button v-on:click="deleteRow(item.index)" type="button" class="btn btn-primary">

@@ -6,47 +6,75 @@
             Type: "",
             DeliveryDate: "",
             FinishDate: "",
-            Total: "",
             Remarks: "",
             Address: "",
+            SignName: "",
+            Errors: {},
             OrderDetails: [
                 {
-                    Number: "C-1",
-                    Unit: 5,
-                    Name: "商品1",
-                    Remarks: "備註"
+                    ProductId:31,
+                    ProductNumber: "C-1",
+                    ProductUnit: 5,
+                    ProductPrice: 8,
+                    ProductName: "商品1",
+                    ProductRemarks: "備註"
                 },
                 {
-                    Number: "C-1",
-                    Unit: 5,
-                    Name: "商品1",
-                    Remarks: "備註"
+                    ProductId: 32,
+                    ProductNumber: "C-1",
+                    ProductUnit: 5,
+                    ProductPrice: 10,
+                    ProductName: "商品1",
+                    ProductRemarks: "備註"
                 }
             ]
         },
+        computed: {
+            Total: function () {
+                var _total = 0;
+                this.OrderDetails.forEach(item => {
+                    _total += Number(item.ProductUnit) * Number(item.ProductPrice);
+                })
+                return _total;
+            }
+        },
         methods: {
+            createRow() {
+                this.OrderDetails.push({});
+            },
             deleteRow(index) {
                 this.OrderDetails.splice(index, 1);
             },
             createOrder() {
+                console.log(this.DeliveryDate)
                 $.ajax({
                     type: 'POST',
+                    context: this,
                     url: '/Order/ShipmentOrderCreate',
                     contentType: 'application/x-www-form-urlencoded',
                     headers: {
                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                     },
                     data: {
-                        Number:this.Name,
-                        Type: this.Type,
-                        DeliveryDate: this.DeliveryDate,
-                        FinishDate: this.FinishDate,
-                        Total: this.Total,
-                        Remarks: this.Remarks,
-                        Address: this.Address,
+                        Order: {
+                            Number: this.Number,
+                            Type: this.Type,
+                            DeliveryDate: this.DeliveryDate,
+                            FinishDate: this.FinishDate,
+                            Total: this.Total,
+                            Remarks: this.Remarks,
+                            Address: this.Address,
+                            SignName: this.SignName
+                        },
+                        OrderDetails: this.OrderDetails
                     },
                     success: function (res) {
-                        alert('送出!')
+                        if (res.isSuccess) {
+                            alert('成功建立訂單!')
+                            this.Errors = {};
+                        } else {
+                            this.Errors = res.error;
+                        }
                     },
                     error: function () { alert('A error'); }
                 })

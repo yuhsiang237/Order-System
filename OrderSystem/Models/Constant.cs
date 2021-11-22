@@ -10,5 +10,14 @@
             public static string Create = "商品建立初始化";
             public static string ManualModify= "手動異動商品數量";
         }
+
+        /// <summary>
+        /// OrderType
+        /// </summary>
+        public static class OrderType
+        {
+            public static int Shipment = 1;
+            public static int Return =2;
+        }
     }
 }
