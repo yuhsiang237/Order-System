@@ -65,7 +65,19 @@ namespace OrderSystem.Controllers
                         calcTotal += item.ProductPrice.Value * item.ProductUnit.Value;
                         _context.OrderDetails.Add(item);
                         _context.SaveChanges();
+                        // ProductInventory add change record
+                        ProductInventory pi = new ProductInventory();
+                        pi.ProductId = product.Id;
+                        pi.Unit = -1*item.ProductUnit.Value;
+                        pi.Description = ProductInventoryChangeCode.ShipmentOrder +":"+ o.Number;
+                        pi.CreatedAt = DateTime.Now;
+                        // product update CurrentUnit
+                        product.CurrentUnit = product.CurrentUnit - item.ProductUnit.Value;
+                        _context.Update(product);
+                        _context.ProductInventories.Add(pi);
+                        _context.SaveChanges();
                     }
+
                     // set total price
                     o.Total = calcTotal;
                     _context.Update(o);

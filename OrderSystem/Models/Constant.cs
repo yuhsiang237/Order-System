@@ -9,6 +9,8 @@
         {
             public static string Create = "商品建立初始化";
             public static string ManualModify= "手動異動商品數量";
+            public static string ShipmentOrder = "出貨訂單";
+
         }
 
         /// <summary>

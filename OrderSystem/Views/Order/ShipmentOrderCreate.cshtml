@@ -29,6 +29,7 @@
                 增加一列
             </button>
         </div>
+        <error-message :errors="Errors['OrderDetails']"></error-message>
         <div>
             <table class="table table-bordered">
                 <thead>
@@ -59,19 +60,19 @@
                             {{index+1}}
                         </td>
                         <td>
-                            <select class="custom-select" @@change="productSelectChange($event)" >
+                            <select class="custom-select" v-model="item.ProductId">
                                 <option value="">請選擇</option>
                                 <option v-for="(item, index) in ProductOption" :value="item.Id" :key="item.Id">
                                     ({{item.Number}}){{item.Name}}
                                 </option>
                             </select>
-                            目前庫存:50
                         </td>
                         <td>
-                            <input v-model="item.ProductPrice" type="text" class="form-control" />
+                            <span v-text="getProductPrice(item.ProductId)"></span>
                         </td>
                         <td>
                             <input v-model="item.ProductUnit" type="text" class="form-control" />
+                            <error-message :errors="Errors['OrderDetails['+index +'].ProductUnit']"></error-message>
                         </td>
                         <td>
                             <input v-model="item.ProductRemarks" type="text" class="form-control" />

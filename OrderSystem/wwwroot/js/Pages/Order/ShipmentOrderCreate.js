@@ -2,6 +2,7 @@
     var vm = new Vue({
         el: '#CreateForm',
         data: {
+            IsSending: false, // prevent double send
             Number: "",
             Type: "",
             DeliveryDate: "",
@@ -11,24 +12,7 @@
             SignName: "",
             Errors: {},
             ProductOption:[],
-            OrderDetails: [
-                {
-                    ProductId:31,
-                    ProductNumber: "C-1",
-                    ProductUnit: 5,
-                    ProductPrice: 8,
-                    ProductName: "商品1",
-                    ProductRemarks: "備註"
-                },
-                {
-                    ProductId: 32,
-                    ProductNumber: "C-1",
-                    ProductUnit: 5,
-                    ProductPrice: 10,
-                    ProductName: "商品1",
-                    ProductRemarks: "備註"
-                }
-            ]
+            OrderDetails: []
         },
         mounted: function () {
             this.ProductOption = $Page.ProductData;
@@ -37,14 +21,23 @@
             Total: function () {
                 var _total = 0;
                 this.OrderDetails.forEach(item => {
-                    _total += Number(item.ProductUnit) * Number(item.ProductPrice);
+                    if (item.ProductUnit && item.ProductId) {
+                        _total += Number(item.ProductUnit) * Number(this.getProductPrice(item.ProductId))
+                    }
                 })
-                return _total;
+
+                return isNaN(_total) ? 0 : _total;
             }
         },
         methods: {
-            productSelectChange(e) {
-                console.log(e)
+            getProductPrice(Id) {
+                const target = this.ProductOption.find(x =>
+                    Number(x.Id) === Number(Id))
+                if (target) {
+                    return target.Price
+                } else {
+                    return 0
+                }
             },
             createRow() {
                 this.OrderDetails.push({});
@@ -53,39 +46,44 @@
                 this.OrderDetails.splice(index, 1);
             },
             createOrder() {
-                console.log(this.DeliveryDate)
-                $.ajax({
-                    type: 'POST',
-                    context: this,
-                    url: '/Order/ShipmentOrderCreate',
-                    contentType: 'application/x-www-form-urlencoded',
-                    headers: {
-                        "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                    },
-                    data: {
-                        Order: {
-                            Number: this.Number,
-                            Type: this.Type,
-                            DeliveryDate: this.DeliveryDate,
-                            FinishDate: this.FinishDate,
-                            Total: this.Total,
-                            Remarks: this.Remarks,
-                            Address: this.Address,
-                            SignName: this.SignName
+                if (this.IsSending === false) {
+                    this.IsSending = true
+                    $.ajax({
+                        type: 'POST',
+                        context: this,
+                        url: '/Order/ShipmentOrderCreate',
+                        contentType: 'application/x-www-form-urlencoded',
+                        headers: {
+                            "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                         },
-                        OrderDetails: this.OrderDetails
-                    },
-                    success: function (res) {
-                        if (res.isSuccess) {
-                            alert('成功建立訂單!')
-                            this.Errors = {};
-                        } else {
-                            
-                            this.Errors = res.error;
+                        data: {
+                            Order: {
+                                Number: this.Number,
+                                Type: this.Type,
+                                DeliveryDate: this.DeliveryDate,
+                                FinishDate: this.FinishDate,
+                                Total: this.Total,
+                                Remarks: this.Remarks,
+                                Address: this.Address,
+                                SignName: this.SignName
+                            },
+                            OrderDetails: this.OrderDetails
+                        },
+                        success: function (res) {
+                            if (res.isSuccess) {
+                                this.Errors = {};
+                                alert('成功建立訂單!')
+                            } else {
+                                this.Errors = res.error;
+                                alert('訂單建立失敗，請查看錯誤')
+
+                            }
+                        },
+                        complete: function (data) {
+                            this.IsSending = false;
                         }
-                    },
-                    error: function () { alert('A error'); }
-                })
+                    })
+                }
             }
         }
     })
