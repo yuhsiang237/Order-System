@@ -73,6 +73,7 @@
                             alert('成功建立訂單!')
                             this.Errors = {};
                         } else {
+                            
                             this.Errors = res.error;
                         }
                     },

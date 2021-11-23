@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using OrderSystem.Models;
+using OrderSystem.Models.Validator;
 using OrderSystem.Tools;
 using OrderSystem.ViewModels;
 using System;
@@ -27,17 +29,13 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public IActionResult ShipmentOrderCreate(ShipmentOrderCreateViewModel m)
         {
-
+            ShipmentOrderCreateValidator validator = new ShipmentOrderCreateValidator();
+            ValidationResult result = validator.Validate(m);
+            if (!result.IsValid)
+            {
+                return Ok(ResponseModel.Fail(null,null,0,result.Errors));
+            }
             // vaildate data
-            Dictionary<string, string> Errors = new Dictionary<string, string>();
-            if (m.Order.DeliveryDate == null)
-            {
-                Errors.Add("Order.DeliveryDate", "必須填寫出貨日期" );
-            }
-            if (Errors.Count() > 0)
-            {
-                return Ok(ResponseModel.Fail(null, null, 0, Errors));
-            }
             using (var tr = _context.Database.BeginTransaction())
             {
                 try
