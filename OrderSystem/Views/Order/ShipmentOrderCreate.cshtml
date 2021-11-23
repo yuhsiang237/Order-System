@@ -1,4 +1,9 @@
 ﻿@Html.AntiForgeryToken()
+<script>
+    var $Page = {
+        ProductData : @Html.Raw(@ViewData["ProductData"])
+    }
+</script>
 <div id="CreateForm">
     <div class="form-group">
         <label>出貨單編號</label>
@@ -6,7 +11,7 @@
         <label>出貨日</label>
         <input class="form-control" placeholder="選擇出貨日" type="text" id="DeliveryDate" v-model="DeliveryDate" />
         <div>
-            {{Errors["Order.DeliveryDate"]}}
+            <error-message :errors="Errors['Order.DeliveryDate']"></error-message>
         </div>
         <label>出貨地址</label>
         <input class="form-control" placeholder="地址" type="text" v-model="Address" />
@@ -32,10 +37,7 @@
                             #
                         </th>
                         <th>
-                            商品編號
-                        </th>
-                        <th>
-                            商品名稱
+                            (商品編號)商品名稱
                         </th>
                         <th>
                             價格
@@ -57,10 +59,13 @@
                             {{index+1}}
                         </td>
                         <td>
-                            <input v-model="item.ProductNumber" type="text" class="form-control" />
-                        </td>
-                        <td>
-                            <input v-model="item.ProductName" type="text" class="form-control" />
+                            <select class="custom-select" @@change="productSelectChange($event)" >
+                                <option value="">請選擇</option>
+                                <option v-for="(item, index) in ProductOption" :value="item.Id" :key="item.Id">
+                                    ({{item.Number}}){{item.Name}}
+                                </option>
+                            </select>
+                            目前庫存:50
                         </td>
                         <td>
                             <input v-model="item.ProductPrice" type="text" class="form-control" />

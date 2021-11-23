@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OrderSystem.Models;
 using OrderSystem.Models.Validator;
 using OrderSystem.Tools;
@@ -84,7 +85,9 @@ namespace OrderSystem.Controllers
         [HttpGet]
         public IActionResult ShipmentOrderCreate()
         {
-           
+            ViewData["ProductData"] = JsonConvert.SerializeObject((from a in _context.Products
+                                      where a.IsDeleted != true
+                                      select a).ToList());
             return View();
         }
         public IActionResult ReturnOrder()

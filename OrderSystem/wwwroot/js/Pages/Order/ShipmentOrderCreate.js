@@ -10,6 +10,7 @@
             Address: "",
             SignName: "",
             Errors: {},
+            ProductOption:[],
             OrderDetails: [
                 {
                     ProductId:31,
@@ -29,6 +30,9 @@
                 }
             ]
         },
+        mounted: function () {
+            this.ProductOption = $Page.ProductData;
+        },
         computed: {
             Total: function () {
                 var _total = 0;
@@ -39,6 +43,9 @@
             }
         },
         methods: {
+            productSelectChange(e) {
+                console.log(e)
+            },
             createRow() {
                 this.OrderDetails.push({});
             },
