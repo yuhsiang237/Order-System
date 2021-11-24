@@ -21,5 +21,14 @@
             public static int Shipment = 1;
             public static int Return =2;
         }
+        /// <summary>
+        /// OrderStatus
+        /// </summary>
+        public static class OrderStatus
+        {
+            public static int InProgress = 1;
+            public static int Return = 2;
+            public static int Completed = 3;
+        }
     }
 }

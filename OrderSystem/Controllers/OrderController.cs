@@ -1,6 +1,8 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using OrderSystem.Commons;
 using OrderSystem.Models;
 using OrderSystem.Models.Validator;
 using OrderSystem.Tools;
@@ -21,10 +23,80 @@ namespace OrderSystem.Controllers
         {
             _context = context;
         }
-
-        public IActionResult ShipmentOrder()
+        public async Task<IActionResult> ShipmentOrder(
+     string sortOrder,
+     string currentFilterNumber,
+     string searchStringNumber,
+     string currentFilterName,
+     string searchStringName,
+     int? goToPageNumber,
+     int pageSize,
+     int? pageNumber)
         {
-            return View();
+            // 1.search logic
+            var query = from a in _context.Orders
+                        where a.Type == OrderType.Shipment
+                        where a.IsDeleted != true
+                        select new ShipmentOrderViewModel { 
+                             Id = a.Id,
+                             Number = a.Number,
+                             Total = a.Total,
+                             SignName = a.SignName,
+                             Status = a.Status,
+                             DeliveryDate = a.DeliveryDate,
+                             FinishDate = a.FinishDate
+                        };
+
+            // 2.condition filter
+            if (searchStringNumber != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchStringName = currentFilterName;
+            }
+
+            ViewData["CurrentFilterNumber"] = searchStringNumber;
+
+            if (!String.IsNullOrEmpty(searchStringNumber))
+            {
+                query = query.Where(s => s.Number.Contains(searchStringNumber));
+            }
+            // 3.sort data
+            ViewData["CurrentSort"] = sortOrder;
+
+            switch (sortOrder)
+            {
+                case "0":
+                    query = query.OrderByDescending(s => s.Id);
+                    break;
+                case "1":
+                    query = query.OrderByDescending(s => s.Number);
+                    break;
+                case "2":
+                    query = query.OrderBy(s => s.Number);
+                    break;
+                default:
+                    query = query.OrderByDescending(s => s.Id);
+                    break;
+            }
+
+            // 4.go page
+            if (goToPageNumber != null)
+            {
+                pageNumber = goToPageNumber;
+            }
+
+            // 5.per page count
+            if (pageSize == 0)
+            {
+                pageSize = 10;
+            }
+            ViewData["pageSize"] = pageSize;
+
+            // 6.result
+            return View(await PaginatedList<ShipmentOrderViewModel>.CreateAsync(query.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         [HttpPost]
@@ -80,6 +152,14 @@ namespace OrderSystem.Controllers
 
                     // set total price
                     o.Total = calcTotal;
+                    if (o.FinishDate != null)
+                    {
+                        o.Status = OrderStatus.Completed;
+                    }
+                    else
+                    {
+                        o.Status = OrderStatus.InProgress;
+                    }
                     _context.Update(o);
                     _context.SaveChanges();
 

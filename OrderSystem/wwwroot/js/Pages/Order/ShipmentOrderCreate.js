@@ -73,6 +73,7 @@
                             if (res.isSuccess) {
                                 this.Errors = {};
                                 alert('成功建立訂單!')
+                                location.href = "/Order/ShipmentOrder"
                             } else {
                                 this.Errors = res.error;
                                 alert('訂單建立失敗，請查看錯誤')

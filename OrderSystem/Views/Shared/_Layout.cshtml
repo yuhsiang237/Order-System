@@ -47,8 +47,8 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuOrderLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">訂單管理</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuOrderLink">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="ShipmentOrderCreate">
-                                        出貨單新增
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="ShipmentOrder">
+                                        出貨單管理
                                     </a>
                                 </div>
                             </li>
@@ -76,7 +76,6 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - OrderSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
