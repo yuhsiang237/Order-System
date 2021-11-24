@@ -12,7 +12,7 @@
             SignName: "",
             Errors: {},
             ProductOption:[],
-            OrderDetails: []
+            OrderDetails: [{}]
         },
         mounted: function () {
             this.ProductOption = $Page.ProductData;

@@ -30,17 +30,17 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public IActionResult ShipmentOrderCreate(ShipmentOrderCreateViewModel m)
         {
-            ShipmentOrderCreateValidator validator = new ShipmentOrderCreateValidator();
-            ValidationResult result = validator.Validate(m);
-            if (!result.IsValid)
-            {
-                return Ok(ResponseModel.Fail(null,null,0,result.Errors));
-            }
             // vaildate data
             using (var tr = _context.Database.BeginTransaction())
             {
                 try
                 {
+                    ShipmentOrderCreateValidator validator = new ShipmentOrderCreateValidator(_context);
+                    ValidationResult result = validator.Validate(m);
+                    if (!result.IsValid)
+                    {
+                        return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
+                    }
                     // add order & order details
                     Order o = new Order();
                     o.Number = OrderNumberTool.GenerateNumber(OrderNumberTool.Type.Shipment);
