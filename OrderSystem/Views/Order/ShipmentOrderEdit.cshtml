@@ -1,18 +1,17 @@
 ﻿@Html.AntiForgeryToken()
 <script>
     var $Page = {
-        ProductData : @Html.Raw(@ViewData["ProductData"])
+        Order: @Html.Raw(@ViewData["Order"]),
+        OrderDetails : @Html.Raw(@ViewData["OrderDetails"])
     }
 </script>
 <div id="Form">
     <div class="form-group">
         <label>出貨單編號</label>
-        <input disabled value="系統自動產生" type="text" class="form-control">
+        <input disabled v-model="Number" type="text" class="form-control">
         <label>出貨日</label>
         <input class="form-control" placeholder="選擇出貨日" type="text" id="DeliveryDate" v-model="DeliveryDate" />
-        <div>
-            <error-message :errors="Errors['Order.DeliveryDate']"></error-message>
-        </div>
+        <error-message :errors="Errors['Order.DeliveryDate']"></error-message>
         <label>出貨地址</label>
         <input class="form-control" placeholder="地址" type="text" v-model="Address" />
         <error-message :errors="Errors['Order.Address']"></error-message>
@@ -25,11 +24,6 @@
         <label>備註</label>
         <textarea class="form-control" v-model="Remarks"></textarea>
         <br />
-        <div class="text-right mb-3">
-            <button v-on:click="createRow()" type="button" class="btn btn-primary">
-                增加一列
-            </button>
-        </div>
         <error-message :errors="Errors['OrderDetails']"></error-message>
         <div>
             <table class="table table-bordered">
@@ -50,38 +44,25 @@
                         <th>
                             備註
                         </th>
-                        <th>
-                            操作
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in OrderDetails">
                         <td>
-                            {{index+1}}
+                            <span v-text="index+1"></span>
                         </td>
                         <td>
-                            <select class="custom-select" v-model="item.ProductId">
-                                <option value="">請選擇</option>
-                                <option v-for="(item, index) in ProductOption" :value="item.Id" :key="item.Id">
-                                    ({{item.Number}}){{item.Name}}
-                                </option>
-                            </select>
+                            (<span v-text="item.ProductNumber"></span>)
+                            <span v-text="item.ProductName"></span>
                         </td>
                         <td>
-                            <span v-text="getProductPrice(item.ProductId)"></span>
+                            <span v-text="item.ProductPrice"></span>
                         </td>
                         <td>
-                            <input v-model="item.ProductUnit" type="text" class="form-control" />
-                            <error-message :errors="Errors['OrderDetails['+index +'].ProductUnit']"></error-message>
+                            <span v-text="item.ProductUnit"></span>
                         </td>
                         <td>
-                            <input v-model="item.ProductRemarks" type="text" class="form-control" />
-                        </td>
-                        <td>
-                            <button v-on:click="deleteRow(item.index)" type="button" class="btn btn-primary">
-                                刪除
-                            </button>
+                            <span v-text="item.ProductRemarks"></span>
                         </td>
                     </tr>
                 </tbody>
@@ -92,12 +73,12 @@
         <button onclick="window.history.back();" type="button" class="btn btn-primary">
             取消
         </button>
-        <button v-on:click="createOrder()" type="button" class="btn btn-primary">
-            新建訂單
+        <button v-on:click="updateOrder()" type="button" class="btn btn-primary">
+            更新訂單
         </button>
     </div>
 </div>
 
 @section Scripts {
-    <script src="~/js/Pages/Order/ShipmentOrderCreate.js"></script>
+    <script src="~/js/Pages/Order/ShipmentOrderEdit.js"></script>
 }

@@ -58,6 +58,9 @@
                     <th>
                         訂單狀態
                     </th>
+                    <th>
+                        操作
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -72,11 +75,12 @@
                         @if (@item.DeliveryDate != null)
                         {
                             @item.DeliveryDate.Value.ToString("yyyy/MM/dd")
-                }
-                else { 
+                        }
+                        else
+                        {
                             <span>-</span>
-                }
-</td>
+                        }
+                    </td>
                     <td>
                         @if (@item.FinishDate != null)
                         {
@@ -106,6 +110,11 @@
                         {
                             <span>已退貨</span>
                         }
+                    </td>
+                    <td>
+                        <a href="/Order/ShipmentOrderEdit?OrderId=@item.Id" type="button" class="btn btn-primary">
+                            管理
+                        </a>
                     </td>
                 </tr>
                 }

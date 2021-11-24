@@ -98,7 +98,34 @@ namespace OrderSystem.Controllers
             // 6.result
             return View(await PaginatedList<ShipmentOrderViewModel>.CreateAsync(query.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
-
+        
+        [HttpPost]
+        public IActionResult ShipmentOrderUpdate(ShipmentOrderUpdateViewModel m)
+        {
+            ShipmentOrderUpdateValidator validator = new ShipmentOrderUpdateValidator(_context);
+            ValidationResult result = validator.Validate(m);
+            if (!result.IsValid)
+            {
+                return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
+            }
+            var Order = _context.Orders.FirstOrDefault(x=>x.Id == m.Order.Id);
+            Order.FinishDate = m.Order.FinishDate;
+            Order.DeliveryDate = m.Order.DeliveryDate;
+            Order.Address = m.Order.Address;
+            Order.SignName = m.Order.SignName;
+            Order.Remarks = m.Order.Remarks;
+            if(Order.FinishDate != null)
+            {
+                Order.Status = Constant.OrderStatus.Completed;
+            }
+            else if((Order.FinishDate == null))
+            {
+                Order.Status = Constant.OrderStatus.InProgress;
+            }
+            _context.Update(Order);
+            _context.SaveChanges();
+            return Ok(ResponseModel.Success(""));
+        }
         [HttpPost]
         public IActionResult ShipmentOrderCreate(ShipmentOrderCreateViewModel m)
         {
@@ -180,6 +207,15 @@ namespace OrderSystem.Controllers
             ViewData["ProductData"] = JsonConvert.SerializeObject((from a in _context.Products
                                       where a.IsDeleted != true
                                       select a).ToList());
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ShipmentOrderEdit(int OrderId)
+        {
+            ViewData["Order"] = JsonConvert.SerializeObject(_context.Orders.FirstOrDefault(x => x.Id == OrderId));
+            ViewData["OrderDetails"] = JsonConvert.SerializeObject((from a in _context.OrderDetails
+                                   where a.OrderId == OrderId
+                                   select a).ToList());
             return View();
         }
         public IActionResult ReturnOrder()

@@ -2,62 +2,55 @@
     var vm = new Vue({
         el: '#Form',
         data: {
+            OrderId:"",
             IsSending: false, // prevent double send
             Number: "",
             Type: "",
             DeliveryDate: "",
             FinishDate: "",
             Remarks: "",
+            Total:"",
             Address: "",
             SignName: "",
             Errors: {},
-            ProductOption:[],
-            OrderDetails: [{}]
+            OrderDetails: []
         },
         mounted: function () {
-            this.ProductOption = $Page.ProductData;
-        },
-        computed: {
-            Total: function () {
-                var _total = 0;
-                this.OrderDetails.forEach(item => {
-                    if (item.ProductUnit && item.ProductId) {
-                        _total += Number(item.ProductUnit) * Number(this.getProductPrice(item.ProductId))
-                    }
-                })
-
-                return isNaN(_total) ? 0 : _total;
+            if ($Page.Order) {
+                this.OrderId = $Page.Order.Id
+                this.Number = $Page.Order.Number
+                this.DeliveryDate = $Page.Order.DeliveryDate
+                this.FinishDate = $Page.Order.FinishDate
+                this.Address = $Page.Order.Address
+                this.Remarks = $Page.Order.Remarks
+                this.SignName = $Page.Order.SignName
+                this.Total = $Page.Order.Total
+            }
+            if ($Page.OrderDetails) {
+                this.OrderDetails = $Page.OrderDetails
             }
         },
         methods: {
-            getProductPrice(Id) {
-                const target = this.ProductOption.find(x =>
-                    Number(x.Id) === Number(Id))
-                if (target) {
-                    return target.Price
-                } else {
-                    return 0
-                }
-            },
             createRow() {
                 this.OrderDetails.push({});
             },
             deleteRow(index) {
                 this.OrderDetails.splice(index, 1);
             },
-            createOrder() {
+            updateOrder() {
                 if (this.IsSending === false) {
                     this.IsSending = true
                     $.ajax({
                         type: 'POST',
                         context: this,
-                        url: '/Order/ShipmentOrderCreate',
+                        url: '/Order/ShipmentOrderUpdate',
                         contentType: 'application/x-www-form-urlencoded',
                         headers: {
                             "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                         },
                         data: {
                             Order: {
+                                Id: this.OrderId,
                                 Number: this.Number,
                                 Type: this.Type,
                                 DeliveryDate: this.DeliveryDate,
@@ -66,18 +59,15 @@
                                 Remarks: this.Remarks,
                                 Address: this.Address,
                                 SignName: this.SignName
-                            },
-                            OrderDetails: this.OrderDetails
+                            }
                         },
                         success: function (res) {
                             if (res.isSuccess) {
                                 this.Errors = {};
-                                alert('成功建立訂單!')
-                                location.href = "/Order/ShipmentOrder"
+                                alert('成功更新訂單!')
                             } else {
                                 this.Errors = res.error;
-                                alert('訂單建立失敗，請查看錯誤')
-
+                                alert('訂單更新失敗，請查看錯誤')
                             }
                         },
                         complete: function (data) {
