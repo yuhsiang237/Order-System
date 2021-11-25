@@ -34,7 +34,7 @@ namespace OrderSystem.Controllers
      int? pageNumber)
         {
             // 1.search logic
-            var query = from a in _context.Orders
+            var query = from a in _context.ShipmentOrders
                         where a.Type == OrderType.Shipment
                         where a.IsDeleted != true
                         select new ShipmentOrderViewModel { 
@@ -108,7 +108,7 @@ namespace OrderSystem.Controllers
             {
                 return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
             }
-            var Order = _context.Orders.FirstOrDefault(x=>x.Id == m.Order.Id);
+            var Order = _context.ShipmentOrders.FirstOrDefault(x=>x.Id == m.Order.Id);
             Order.FinishDate = m.Order.FinishDate;
             Order.DeliveryDate = m.Order.DeliveryDate;
             Order.Address = m.Order.Address;
@@ -141,7 +141,7 @@ namespace OrderSystem.Controllers
                         return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
                     }
                     // add order & order details
-                    Order o = new Order();
+                    ShipmentOrder o = new ShipmentOrder();
                     o.Number = OrderNumberTool.GenerateNumber(OrderNumberTool.Type.Shipment);
                     o.Type = OrderType.Shipment;
                     o.DeliveryDate = m.Order.DeliveryDate;
@@ -149,7 +149,7 @@ namespace OrderSystem.Controllers
                     o.Remarks = m.Order.Remarks;
                     o.Address = m.Order.Address;
                     o.SignName = m.Order.SignName;
-                    _context.Orders.Add(o);
+                    _context.ShipmentOrders.Add(o);
                     _context.SaveChanges();
 
                     decimal calcTotal = 0;
@@ -162,7 +162,7 @@ namespace OrderSystem.Controllers
                         item.ProductNumber = product.Number;
                         item.ProductPrice = product.Price;
                         calcTotal += item.ProductPrice.Value * item.ProductUnit.Value;
-                        _context.OrderDetails.Add(item);
+                        _context.ShipmentOrderDetails.Add(item);
                         _context.SaveChanges();
                         // ProductInventory add change record
                         ProductInventory pi = new ProductInventory();
@@ -212,9 +212,9 @@ namespace OrderSystem.Controllers
         [HttpGet]
         public IActionResult ShipmentOrderEdit(int OrderId)
         {
-            ViewData["Order"] = JsonConvert.SerializeObject(_context.Orders.FirstOrDefault(x => x.Id == OrderId));
-            ViewData["OrderDetails"] = JsonConvert.SerializeObject((from a in _context.OrderDetails
-                                   where a.OrderId == OrderId
+            ViewData["Order"] = JsonConvert.SerializeObject(_context.ShipmentOrders.FirstOrDefault(x => x.Id == OrderId));
+            ViewData["OrderDetails"] = JsonConvert.SerializeObject((from a in _context.ShipmentOrderDetails
+                                                                    where a.OrderId == OrderId
                                    select a).ToList());
             return View();
         }

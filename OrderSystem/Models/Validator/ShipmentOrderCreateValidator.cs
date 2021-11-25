@@ -16,7 +16,7 @@ namespace OrderSystem.Models.Validator
             RuleFor(x => x.OrderDetails).NotNull().WithMessage("請增加明細表內容");
             RuleForEach(x => x.OrderDetails).SetValidator(new OrderDetailsValidator(context));
         }
-        public class OrderDetailsValidator : AbstractValidator<OrderDetail>
+        public class OrderDetailsValidator : AbstractValidator<ShipmentOrderDetail>
         {
             public OrderDetailsValidator(OrderSystemContext context)
             {

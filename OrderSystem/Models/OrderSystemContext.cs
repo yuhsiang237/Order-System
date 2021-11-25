@@ -17,8 +17,8 @@ namespace OrderSystem.Models
         {
         }
 
-        public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<ShipmentOrder> ShipmentOrders { get; set; }
+        public virtual DbSet<ShipmentOrderDetail> ShipmentOrderDetails { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductCategory> ProductCategories { get; set; }
@@ -40,7 +40,7 @@ namespace OrderSystem.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Chinese_Taiwan_Stroke_CI_AS");
 
-            modelBuilder.Entity<Order>(entity =>
+            modelBuilder.Entity<ShipmentOrder>(entity =>
             {
                 entity.Property(e => e.Address)
                     .HasMaxLength(500)
@@ -66,7 +66,7 @@ namespace OrderSystem.Models
                 entity.Property(e => e.UpdateAt).HasDefaultValueSql("(getdate())");
             });
 
-            modelBuilder.Entity<OrderDetail>(entity =>
+            modelBuilder.Entity<ShipmentOrderDetail>(entity =>
             {
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
 
