@@ -265,7 +265,76 @@ namespace OrderSystem.Controllers
             }
 
         }
+        [HttpPost]
+        public IActionResult ReturnShipmentOrderUpdate(ReturnShipmentOrderCreateViewModel m)
+        {
+            using (var tr = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    // vaildate data
+                    ReturnShipmentOrderUpdateValidator validator = new ReturnShipmentOrderUpdateValidator(_context);
+                    ValidationResult result = validator.Validate(m);
+                    if (!result.IsValid)
+                    {
+                        return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
+                    }
+                    // add return order & return order details
+                    var rso = _context.ReturnShipmentOrders.FirstOrDefault(x => x.Id == m.ReturnShipmentOrder.Id);
+                    rso.ReturnDate = m.ReturnShipmentOrder.ReturnDate;
+                    rso.Remarks = m.ReturnShipmentOrder.Remarks;
+                    _context.Update(rso);
+                    _context.SaveChanges();
+                    var rsod = (from a in _context.ReturnShipmentOrderDetails
+                               where a.ReturnShipmentOrderId == rso.Id
+                               select a).ToList();
 
+                    decimal _total = 0;
+                    foreach (var item in rsod)
+                    {
+                        // new detail val
+                        var newRsodVal = m.ReturnShipmentOrderDetails.FirstOrDefault(x => x.Id == item.Id); 
+
+                        item.Remarks = newRsodVal.Remarks;
+                        decimal? _OldUnit = item.Unit;
+                        item.Unit = newRsodVal.Unit.HasValue ? newRsodVal.Unit : 0;
+
+                        // calc total
+                        var shipmentOrderDetail = _context.ShipmentOrderDetails.FirstOrDefault(x => x.Id == item.ShipmentOrderDetailId);
+                        _total += shipmentOrderDetail.ProductPrice.Value * item.Unit.Value;
+                        _context.Update(item);
+
+                        // ProductInventory add change record
+                        ProductInventory pi = new ProductInventory();
+                        pi.ProductId = shipmentOrderDetail.ProductId;
+                        pi.Unit = _OldUnit - newRsodVal.Unit;
+                        if (pi.Unit != 0)
+                        {
+                            pi.Description = ProductInventoryChangeCode.ReturnShipmentOrderUpdate + ":" + rso.Number + "。" +"退貨數量調整"+ _OldUnit+ "調整為"+ (newRsodVal.Unit.Value).ToString("#0.0000");
+
+
+                            pi.CreatedAt = DateTime.Now;
+                            // product update CurrentUnit
+                            var product = _context.Products.FirstOrDefault(x => x.Id == shipmentOrderDetail.ProductId);
+                            product.CurrentUnit = product.CurrentUnit + pi.Unit;
+                            _context.Update(product);
+                            _context.ProductInventories.Add(pi);
+                            _context.SaveChanges();
+                        }
+                    }
+                    rso.Total = _total;
+                    _context.Update(rso);
+                    _context.SaveChanges();
+                    tr.Commit();
+                    return Ok(ResponseModel.Success(""));
+                }
+                catch (Exception ex)
+                {
+                    return Ok(ResponseModel.Fail("建立失敗", null, 0, ""));
+                }
+            }
+
+        }
         [HttpPost]
         public IActionResult ShipmentOrderCreate(ShipmentOrderCreateViewModel m)
         {
@@ -388,6 +457,46 @@ namespace OrderSystem.Controllers
         [HttpGet]
         public IActionResult ReturnShipmentOrderCreate()
         {                                       
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ReturnShipmentOrderEdit(int ReturnShipmentOrderId)
+        {
+            ViewData["ReturnShipmentOrder"] = JsonConvert.SerializeObject(
+                (from a in _context.ReturnShipmentOrders
+                 where a.Id == ReturnShipmentOrderId
+                 join b in _context.ShipmentOrders
+                 on a.ShipmentOrderId equals b.Id
+                 select new
+                 {
+                    Id = a.Id,
+                    Number = a.Number,
+                    ShipmentOrderId = a.ShipmentOrderId,
+                    Total =a.Total,
+                    Price =a.Price,
+                    ReturnDate = a.ReturnDate,
+                    Remarks = a.Remarks,
+                    ShipmentOrderNumber = b.Number
+                    }).FirstOrDefault()
+               );
+
+            ViewData["ReturnShipmentOrderDetails"] = JsonConvert.SerializeObject((
+                from a in _context.ReturnShipmentOrderDetails
+                where a.ReturnShipmentOrderId == ReturnShipmentOrderId
+                join b in _context.ShipmentOrderDetails
+                on a.ShipmentOrderDetailId equals b.Id
+                select new {
+                    Id = a.Id,
+                    Remarks = a.Remarks,
+                    ReturnShipmentOrderId = a.ReturnShipmentOrderId,
+                    ShipmentOrderDetailId = a.ShipmentOrderDetailId,
+                    Unit = a.Unit,
+                    ProductName = b.ProductName,
+                    ProductNumber = b.ProductNumber,
+                    ProductUnit = b.ProductUnit,
+                    ProductPrice = b.ProductPrice,
+                    ProductId = b.ProductId,
+                }).ToList());
             return View();
         }
         [HttpGet]

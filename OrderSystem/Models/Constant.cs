@@ -11,6 +11,7 @@
             public static string ManualModify= "手動異動商品數量";
             public static string ShipmentOrder = "出貨訂單";
             public static string ReturnShipmentOrder = "退貨訂單";
+            public static string ReturnShipmentOrderUpdate = "退貨訂單更新";
         }
 
         /// <summary>
