@@ -49,7 +49,7 @@
                             "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                         },
                         data: {
-                            Order: {
+                            ShipmentOrder: {
                                 Id: this.OrderId,
                                 Number: this.Number,
                                 Type: this.Type,
@@ -62,11 +62,11 @@
                             }
                         },
                         success: function (res) {
-                            if (res.isSuccess) {
+                            if (res.IsSuccess) {
                                 this.Errors = {};
                                 alert('成功更新訂單!')
                             } else {
-                                this.Errors = res.error;
+                                this.Errors = res.Error;
                                 alert('訂單更新失敗，請查看錯誤')
                             }
                         },

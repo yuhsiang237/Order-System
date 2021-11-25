@@ -50,11 +50,15 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="ShipmentOrder">
                                         出貨單管理
                                     </a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="ReturnShipmentOrder">
+                                        退貨單管理
+                                    </a>
                                 </div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="@Url.Action("Logout","User")">登出</a>
                             </li>
+
                         }
                         @if (!(await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { "Default_Login" }))).Succeeded)
                         {

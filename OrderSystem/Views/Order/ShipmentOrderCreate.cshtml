@@ -11,11 +11,11 @@
         <label>出貨日</label>
         <input class="form-control" placeholder="選擇出貨日" type="text" id="DeliveryDate" v-model="DeliveryDate" />
         <div>
-            <error-message :errors="Errors['Order.DeliveryDate']"></error-message>
+            <error-message :errors="Errors['ShipmentOrder.DeliveryDate']"></error-message>
         </div>
         <label>出貨地址</label>
         <input class="form-control" placeholder="地址" type="text" v-model="Address" />
-        <error-message :errors="Errors['Order.Address']"></error-message>
+        <error-message :errors="Errors['ShipmentOrder.Address']"></error-message>
         <label>完成日</label>
         <input class="form-control" placeholder="選擇完成日" type="text" id="FinishDate" v-model="FinishDate" />
         <label>總金額(自動計算)</label>
@@ -73,7 +73,7 @@
                         </td>
                         <td>
                             <input v-model="item.ProductUnit" type="text" class="form-control" />
-                            <error-message :errors="Errors['OrderDetails['+index +'].ProductUnit']"></error-message>
+                            <error-message :errors="Errors['ShipmentOrderDetails['+index +'].ProductUnit']"></error-message>
                         </td>
                         <td>
                             <input v-model="item.ProductRemarks" type="text" class="form-control" />

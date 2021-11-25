@@ -11,8 +11,8 @@ namespace OrderSystem.Models.Validator
     {
         public ShipmentOrderUpdateValidator(OrderSystemContext context)
         {
-            RuleFor(x => x.Order.DeliveryDate).NotNull().WithMessage("出貨日期不可為空");
-            RuleFor(x => x.Order.Address).NotNull().WithMessage("地址不可為空");
+            RuleFor(x => x.ShipmentOrder.DeliveryDate).NotNull().WithMessage("出貨日期不可為空");
+            RuleFor(x => x.ShipmentOrder.Address).NotNull().WithMessage("地址不可為空");
 
         }
     }

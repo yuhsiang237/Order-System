@@ -57,7 +57,7 @@
                             "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                         },
                         data: {
-                            Order: {
+                            ShipmentOrder: {
                                 Number: this.Number,
                                 Type: this.Type,
                                 DeliveryDate: this.DeliveryDate,
@@ -67,15 +67,15 @@
                                 Address: this.Address,
                                 SignName: this.SignName
                             },
-                            OrderDetails: this.OrderDetails
+                            ShipmentOrderDetails: this.OrderDetails
                         },
                         success: function (res) {
-                            if (res.isSuccess) {
+                            if (res.IsSuccess) {
                                 this.Errors = {};
                                 alert('成功建立訂單!')
                                 location.href = "/Order/ShipmentOrder"
                             } else {
-                                this.Errors = res.error;
+                                this.Errors = res.Error;
                                 alert('訂單建立失敗，請查看錯誤')
 
                             }

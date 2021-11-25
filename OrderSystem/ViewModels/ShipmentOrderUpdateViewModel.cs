@@ -8,7 +8,7 @@ namespace OrderSystem.ViewModels
 {
     public class ShipmentOrderUpdateViewModel
     {
-        public ShipmentOrder Order { get; set; }
-        public List<ShipmentOrderDetail> OrderDetails { get; set; }
+        public ShipmentOrder ShipmentOrder { get; set; }
+        public List<ShipmentOrderDetail> ShipmentOrderDetails { get; set; }
     }
 }

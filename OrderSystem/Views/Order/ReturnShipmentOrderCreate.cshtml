@@ -1,30 +1,25 @@
 ﻿@Html.AntiForgeryToken()
-<script>
-    var $Page = {
-        Order: @Html.Raw(@ViewData["Order"]),
-        OrderDetails : @Html.Raw(@ViewData["OrderDetails"])
-    }
-</script>
 <div id="Form">
     <div class="form-group">
+
+
+        <label>退貨單編號</label>
+        <input disabled value="系統自動產生" type="text" class="form-control">
         <label>出貨單編號</label>
-        <input disabled v-model="Number" type="text" class="form-control">
-        <label>出貨日</label>
-        <input class="form-control" placeholder="選擇出貨日" type="text" id="DeliveryDate" v-model="DeliveryDate" />
-        <error-message :errors="Errors['ShipmentOrder.DeliveryDate']"></error-message>
-        <label>出貨地址</label>
-        <input class="form-control" placeholder="地址" type="text" v-model="Address" />
-        <error-message :errors="Errors['ShipmentOrder.Address']"></error-message>
-        <label>完成日</label>
-        <input class="form-control" placeholder="選擇完成日" type="text" id="FinishDate" v-model="FinishDate" />
-        <label>總金額(自動計算)</label>
-        <input disabled v-model="Total" type="text" class="form-control">
-        <label>簽收者</label>
-        <input v-model="SignName" type="text" class="form-control">
+        <select class="custom-select" v-model="ShipmentOrderId">
+            <option value="">請選擇</option>
+            <option v-for="(item, index) in AllShipmentOrderNumber" :value="item.Id" :key="item.Id">
+                {{item.Number}}
+            </option>
+        </select>
+        <error-message :errors="Errors['ReturnShipmentOrder.ShipmentOrderId']"></error-message>
+        <label>退貨日</label>
+        <input id="ReturnDate" v-model="ReturnDate" type="text" class="form-control">
+        <error-message :errors="Errors['ReturnShipmentOrder.ReturnDate']"></error-message>
+
         <label>備註</label>
         <textarea class="form-control" v-model="Remarks"></textarea>
         <br />
-        <error-message :errors="Errors['OrderDetails']"></error-message>
         <div>
             <table class="table table-bordered">
                 <thead>
@@ -39,7 +34,10 @@
                             價格
                         </th>
                         <th>
-                            數量
+                            出貨數量
+                        </th>
+                        <th>
+                            退貨數量
                         </th>
                         <th>
                             備註
@@ -47,13 +45,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in OrderDetails">
+                    <tr v-for="(item, index) in ReturnShipmentOrderDetails">
                         <td>
-                            <span v-text="index+1"></span>
+                            {{index+1}}
                         </td>
                         <td>
                             (<span v-text="item.ProductNumber"></span>)
                             <span v-text="item.ProductName"></span>
+
                         </td>
                         <td>
                             <span v-text="item.ProductPrice"></span>
@@ -62,7 +61,11 @@
                             <span v-text="item.ProductUnit"></span>
                         </td>
                         <td>
-                            <span v-text="item.ProductRemarks"></span>
+                            <input v-model="item.Unit" type="text" class="form-control" />
+                            <error-message :errors="Errors['ReturnShipmentOrderDetails['+index +'].ProductUnit']"></error-message>
+                        </td>
+                        <td>
+                            <input v-model="item.Remarks" type="text" class="form-control" />
                         </td>
                     </tr>
                 </tbody>
@@ -73,12 +76,12 @@
         <button onclick="window.history.back();" type="button" class="btn btn-primary">
             取消
         </button>
-        <button v-on:click="updateOrder()" type="button" class="btn btn-primary">
-            更新訂單
+        <button v-on:click="createOrder()" type="button" class="btn btn-primary">
+            新建退貨單
         </button>
     </div>
 </div>
 
 @section Scripts {
-    <script src="~/js/Pages/Order/ShipmentOrderEdit.js"></script>
+    <script src="~/js/Pages/Order/ReturnShipmentOrderCreate.js"></script>
 }

@@ -17,14 +17,16 @@ namespace OrderSystem.Models
         {
         }
 
-        public virtual DbSet<ShipmentOrder> ShipmentOrders { get; set; }
-        public virtual DbSet<ShipmentOrderDetail> ShipmentOrderDetails { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductCategory> ProductCategories { get; set; }
         public virtual DbSet<ProductInventory> ProductInventories { get; set; }
         public virtual DbSet<ProductProductCategoryRelationship> ProductProductCategoryRelationships { get; set; }
+        public virtual DbSet<ReturnShipmentOrder> ReturnShipmentOrders { get; set; }
+        public virtual DbSet<ReturnShipmentOrderDetail> ReturnShipmentOrderDetails { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<ShipmentOrder> ShipmentOrders { get; set; }
+        public virtual DbSet<ShipmentOrderDetail> ShipmentOrderDetails { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,49 +41,6 @@ namespace OrderSystem.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Chinese_Taiwan_Stroke_CI_AS");
-
-            modelBuilder.Entity<ShipmentOrder>(entity =>
-            {
-                entity.Property(e => e.Address)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CreateAt).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Number)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Remarks)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.SignName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Total).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.UpdateAt).HasDefaultValueSql("(getdate())");
-            });
-
-            modelBuilder.Entity<ShipmentOrderDetail>(entity =>
-            {
-                entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.ProductName).HasMaxLength(100);
-
-                entity.Property(e => e.ProductNumber).HasMaxLength(100);
-
-                entity.Property(e => e.ProductPrice).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.ProductUnit).HasColumnType("decimal(18, 4)");
-
-                entity.Property(e => e.Remarks).HasMaxLength(500);
-
-                entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
-            });
 
             modelBuilder.Entity<Permission>(entity =>
             {
@@ -142,9 +101,64 @@ namespace OrderSystem.Models
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
+            modelBuilder.Entity<ReturnShipmentOrder>(entity =>
+            {
+                entity.Property(e => e.Price).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.Remarks).HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<ReturnShipmentOrderDetail>(entity =>
+            {
+                entity.Property(e => e.Unit).HasColumnType("decimal(18, 4)");
+            });
+
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
+            });
+
+            modelBuilder.Entity<ShipmentOrder>(entity =>
+            {
+                entity.Property(e => e.Address)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Number)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Remarks)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SignName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Total).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.UpdateAt).HasDefaultValueSql("(getdate())");
+            });
+
+            modelBuilder.Entity<ShipmentOrderDetail>(entity =>
+            {
+                entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.ProductName).HasMaxLength(100);
+
+                entity.Property(e => e.ProductNumber).HasMaxLength(100);
+
+                entity.Property(e => e.ProductPrice).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.ProductUnit).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.Remarks).HasMaxLength(500);
 
                 entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
             });

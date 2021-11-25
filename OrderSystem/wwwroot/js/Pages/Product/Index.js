@@ -46,7 +46,7 @@
                     "Description": $('#uDescription').val()
                 },
                 success: function (res) {
-                    if (res.isSuccess) {
+                    if (res.IsSuccess) {
                         $('#btn_productUnitChangeModal').modal('hide');
                         alert('更新成功!')
                         location.reload();
@@ -90,23 +90,23 @@
                     "description": $('#update_product_description').val()
                 },
                 success: function (res) {
-                    if (res.isSuccess) {
+                    if (res.IsSuccess) {
                         $('#productUpdateModal').modal('hide');
                         alert('更新成功!')
                         location.reload();
                     } else {
-                        if (res.error.Name) {
-                            $('#update_errorName').html(...res.error.Name);
+                        if (res.Error.Name) {
+                            $('#update_errorName').html(...res.Error.Name);
                         } else {
                             $('#update_errorName').html("");
                         }
-                        if (res.error.Price) {
-                            $('#update_errorPrice').html(...res.error.Price);
+                        if (res.Error.Price) {
+                            $('#update_errorPrice').html(...res.Error.Price);
                         } else {
                             $('#update_errorPrice').html("");
                         }
-                        if (res.error.Number) {
-                            $('#update_errorNumber').html(...res.error.Number);
+                        if (res.Error.Number) {
+                            $('#update_errorNumber').html(...res.Error.Number);
                         } else {
                             $('#update_errorNumber').html("");
                         }
@@ -132,28 +132,28 @@
                     "description": $('#product_description').val()
                 },
                 success: function (res) {
-                    if (res.isSuccess) {
+                    if (res.IsSuccess) {
                         $('#productCreateModal').modal('hide');
                         alert('新增成功!')
                         clearSearch()
                     } else {
-                        if (res.error.Name) {
-                            $('#errorName').html(...res.error.Name);
+                        if (res.Error.Name) {
+                            $('#errorName').html(...res.Error.Name);
                         } else {
                             $('#errorName').html("");
                         }
-                        if (res.error.Price) {
-                            $('#errorPrice').html(...res.error.Price);
+                        if (res.Error.Price) {
+                            $('#errorPrice').html(...res.Error.Price);
                         } else {
                             $('#errorPrice').html("");
                         }
-                        if (res.error.Number) {
-                            $('#errorNumber').html(...res.error.Number);
+                        if (res.Error.Number) {
+                            $('#errorNumber').html(...res.Error.Number);
                         } else {
                             $('#errorNumber').html("");
                         }
-                        if (res.error.CurrentUnit) {
-                            $('#errorCurrentUnit').html(...res.error.CurrentUnit);
+                        if (res.Error.CurrentUnit) {
+                            $('#errorCurrentUnit').html(...res.Error.CurrentUnit);
                         } else {
                             $('#errorCurrentUnit').html("");
                         }
@@ -176,7 +176,7 @@
                 "Id":Id,
             },
             success: function (res) {
-                if (res.isSuccess) {
+                if (res.IsSuccess) {
                     alert('刪除成功!')
                     location.reload();
                 } 
