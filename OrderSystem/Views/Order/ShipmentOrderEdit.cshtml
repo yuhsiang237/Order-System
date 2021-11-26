@@ -8,7 +8,7 @@
 <div id="Form">
     <div class="form-group">
         <label>出貨單編號</label>
-        <input disabled v-model="ReturnShipmentOrder.Number" type="text" class="form-control">
+        <input disabled v-model="Number" type="text" class="form-control">
         <label>出貨日</label>
         <input class="form-control" placeholder="選擇出貨日" type="text" id="DeliveryDate" v-model="DeliveryDate" />
         <error-message :errors="Errors['ShipmentOrder.DeliveryDate']"></error-message>
