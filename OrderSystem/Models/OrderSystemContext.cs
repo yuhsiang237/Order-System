@@ -68,7 +68,6 @@ namespace OrderSystem.Models
 
             modelBuilder.Entity<ProductCategory>(entity =>
             {
-                entity.HasNoKey();
 
                 entity.ToTable("ProductCategory");
 
