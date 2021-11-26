@@ -15,7 +15,6 @@
             if (t.attr('name') == "btn_deleteProduct") {
                 if (confirm('確定要刪除[' + t.attr('data-Number') + "]" + t.attr('data-Name') + '?')) {
                     deleteProduct(t.attr("data-Id"))
-
                 }
             }
         })

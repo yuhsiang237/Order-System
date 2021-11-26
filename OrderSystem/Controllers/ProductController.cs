@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrderSystem.Commons;
 using OrderSystem.Models;
+using OrderSystem.Models.Validator;
 using OrderSystem.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,8 +13,80 @@ using System.Threading.Tasks;
 namespace OrderSystem.Controllers
 {
 
+
     public class ProductController : Controller
     {
+    
+            public async Task<IActionResult> ProductCategory(
+    string sortOrder,
+    string currentFilterName,
+    string searchStringName,
+    int? goToPageNumber,
+    int pageSize,
+    int? pageNumber)
+        {
+            // 1.search logic
+            var query = from a in _context.ProductCategories
+                        where a.IsDeleted != true
+                        select new ProductCategoryViewModel
+                        {
+                            Id = a.Id,
+                            Name = a.Name,
+                            Description = a.Description
+                        };
+
+            // 2.condition filter
+            if (searchStringName != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchStringName = currentFilterName;
+            }
+
+            ViewData["CurrentFilterName"] = searchStringName;
+
+            if (!String.IsNullOrEmpty(searchStringName))
+            {
+                query = query.Where(s => s.Name.Contains(searchStringName));
+            }
+            // 3.sort data
+            ViewData["CurrentSort"] = sortOrder;
+
+            switch (sortOrder)
+            {
+                case "0":
+                    query = query.OrderByDescending(s => s.Id);
+                    break;
+                case "1":
+                    query = query.OrderByDescending(s => s.Name);
+                    break;
+                case "2":
+                    query = query.OrderBy(s => s.Name);
+                    break;
+                default:
+                    query = query.OrderByDescending(s => s.Id);
+                    break;
+            }
+
+            // 4.go page
+            if (goToPageNumber != null)
+            {
+                pageNumber = goToPageNumber;
+            }
+
+            // 5.per page count
+            if (pageSize == 0)
+            {
+                pageSize = 10;
+            }
+            ViewData["pageSize"] = pageSize;
+
+            // 6.result
+            return View(await PaginatedList<ProductCategoryViewModel>.CreateAsync(query.AsNoTracking(), pageNumber ?? 1, pageSize));
+        }
+
         public async Task<IActionResult> Index(
        string sortOrder,
        string currentFilterNumber,
@@ -118,6 +192,45 @@ namespace OrderSystem.Controllers
             _context = context;
         }
 
+
+        [HttpPost]
+        public IActionResult ProductCategoryCreate(ProductCategory m)
+        {
+            // vaildate data
+            ProductCategoryCreateValidator validator = new ProductCategoryCreateValidator(_context);
+            ValidationResult result = validator.Validate(m);
+            if (!result.IsValid)
+            {
+                return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
+            }
+            // add data
+            ProductCategory pc = new ProductCategory();
+            pc.Name = m.Name;
+            pc.Description = m.Description;
+            _context.ProductCategories.Add(pc);
+            _context.SaveChanges();
+            return Ok(ResponseModel.Success(""));
+        }
+        [HttpPost]
+        public IActionResult ProductCategoryUpdate(ProductCategory m)
+        {
+            // vaildate data
+            ProductCategoryUpdateValidator validator = new ProductCategoryUpdateValidator(_context);
+            ValidationResult result = validator.Validate(m);
+            if (!result.IsValid)
+            {
+                return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
+            }
+            // update data            
+            ProductCategory pc = _context.ProductCategories.FirstOrDefault(x => x.Id == m.Id);
+            pc.Name = m.Name;
+            pc.Description = m.Description;
+            _context.Update(pc);
+            _context.SaveChanges();
+            return Ok(ResponseModel.Success(""));
+        }
+
+
         [HttpPost]
         public IActionResult DeleteProduct(Product model)
         {
@@ -127,9 +240,18 @@ namespace OrderSystem.Controllers
             _context.SaveChanges();
             return Ok(ResponseModel.Success(""));
         }
+        [HttpPost]
+        public IActionResult DeleteProductCategory(Product model)
+        {
+            var p = _context.ProductCategories.FirstOrDefault(x => x.Id == model.Id);
+            p.IsDeleted = true;
+            _context.Update(p);
+            _context.SaveChanges();
+            return Ok(ResponseModel.Success(""));
+        }
 
 
-            [HttpPost]
+        [HttpPost]
 
         public IActionResult UpdateProductUnit(Product model)
         {
