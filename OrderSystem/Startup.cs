@@ -33,7 +33,7 @@ namespace OrderSystem
             // MVC service
             services.AddControllersWithViews(options => {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            });
+            }).AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null); //json response setting service
 
             // EnityFrameworkCore service
             string connection = Configuration.GetValue<string>("DBConnectionString");

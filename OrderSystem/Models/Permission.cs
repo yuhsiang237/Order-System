@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
 
 namespace OrderSystem.Models
 {
@@ -9,6 +10,5 @@ namespace OrderSystem.Models
         public int Id { get; set; }
         public int? RoleId { get; set; }
         public string Code { get; set; }
-        public DateTime? CreatedAt { get; set; }
     }
 }
