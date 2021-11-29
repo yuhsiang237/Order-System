@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OrderSystem.Authorization;
+using OrderSystem.Commons;
 using OrderSystem.Models;
 using OrderSystem.Tools;
 using OrderSystem.ViewModels;
@@ -23,10 +25,77 @@ namespace OrderSystem.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(
+     string sortOrder,
+     string currentFilterName,
+     string searchStringName,
+     int? goToPageNumber,
+     int pageSize,
+     int? pageNumber)
         {
-            return View();
+            // 1.search logic
+            var query = from a in _context.Users
+                        where a.IsDeleted != true
+                        select new UserIndexViewModel
+                        {
+                            Id = a.Id,
+                            Account = a.Account,
+                            Name = a.Name,
+                            Email = a.Email
+                        };
+
+            // 2.condition filter
+            if (searchStringName != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchStringName = currentFilterName;
+            }
+
+            ViewData["CurrentFilterName"] = searchStringName;
+
+            if (!String.IsNullOrEmpty(searchStringName))
+            {
+                query = query.Where(s => s.Name.Contains(searchStringName));
+            }
+            // 3.sort data
+            ViewData["CurrentSort"] = sortOrder;
+
+            switch (sortOrder)
+            {
+                case "0":
+                    query = query.OrderByDescending(s => s.Id);
+                    break;
+                case "1":
+                    query = query.OrderByDescending(s => s.Account);
+                    break;
+                case "2":
+                    query = query.OrderBy(s => s.Account);
+                    break;
+                default:
+                    query = query.OrderByDescending(s => s.Id);
+                    break;
+            }
+
+            // 4.go page
+            if (goToPageNumber != null)
+            {
+                pageNumber = goToPageNumber;
+            }
+
+            // 5.per page count
+            if (pageSize == 0)
+            {
+                pageSize = 10;
+            }
+            ViewData["pageSize"] = pageSize;
+
+            // 6.result
+            return View(await PaginatedList<UserIndexViewModel>.CreateAsync(query.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+
 
         public IActionResult SignUp()
         {
