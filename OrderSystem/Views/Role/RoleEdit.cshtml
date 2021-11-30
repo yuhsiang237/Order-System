@@ -1,0 +1,33 @@
+﻿@Html.AntiForgeryToken()
+@using OrderSystem.Authorization;
+<script>
+    var $Page = {
+        Role: @Html.Raw(@ViewData["Role"]),
+        Permissions : @Html.Raw(@ViewData["Permissions"])
+    }
+</script>
+<div id="Form">
+    <div class="form-group">
+        <input v-model="Role.Name" type="text" class="form-control">
+        <error-message :errors="Errors['Role.Name']"></error-message>
+        <input type="checkbox" id="@Permissions.Basic_UserManagement_Delete" value="@Permissions.Basic_UserManagement_Delete" v-model="Permissions">
+        <label for="@Permissions.Basic_UserManagement_Delete">基本資料管理-刪除</label>
+        <input type="checkbox" id="@Permissions.Basic_UserManagement_Create" value="@Permissions.Basic_UserManagement_Create" v-model="Permissions">
+        <label for="@Permissions.Basic_UserManagement_Create">基本資料管理-新建</label>
+        <input type="checkbox" id="@Permissions.Basic_UserManagement_Modify" value="@Permissions.Basic_UserManagement_Modify" v-model="Permissions">
+        <label for="@Permissions.Basic_UserManagement_Modify">基本資料管理-編輯</label>
+        <input type="checkbox" id="@Permissions.Basic_UserManagement_View" value="@Permissions.Basic_UserManagement_View" v-model="Permissions">
+        <label for="@Permissions.Basic_UserManagement_View">基本資料管理-編輯</label>
+        <div class="text-right">
+            <button onclick="window.history.back();" type="button" class="btn btn-primary">
+                取消
+            </button>
+            <button v-on:click="create()" type="button" class="btn btn-primary">
+                更新權限角色
+            </button>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/Pages/Role/RoleUpdate.js"></script>
+}
