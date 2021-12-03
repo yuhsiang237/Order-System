@@ -13,6 +13,12 @@
         public const string Basic_UserManagement_Create = "Basic_UserManagement_Create";
         public const string Basic_UserManagement_Modify = "Basic_UserManagement_Modify";
         public const string Basic_UserManagement_Delete = "Basic_UserManagement_Delete";
-      
+
+        // Basic Permission
+        public const string Basic_Permission_View = "Basic_Permission_View";
+        public const string Basic_Permission_Create = "Basic_Permission_Create";
+        public const string Basic_Permission_Modify = "Basic_Permission_Modify";
+        public const string Basic_Permission_Delete = "Basic_Permission_Delete";
+
     }
 }
