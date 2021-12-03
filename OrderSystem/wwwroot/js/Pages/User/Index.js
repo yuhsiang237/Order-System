@@ -12,8 +12,8 @@
             if (t.attr('name') == "btn_updateProductModal") {
                 updateProductModal(t.attr("data-Id"), t.attr("data-Name"), t.attr("data-Number"), t.attr("data-Price"), t.attr("data-CurrentUnit"), t.attr("data-Description"))
             }
-            if (t.attr('name') == "btn_deleteProduct") {
-                if (confirm('確定要刪除[' + t.attr('data-Number') + "]" + t.attr('data-Name') + '?')) {
+            if (t.attr('name') == "btn_deleteUser") {
+                if (confirm('確定要刪除'+ t.attr('data-Name') + '?')) {
                     deleteProduct(t.attr("data-Id"))
                 }
             }
@@ -166,7 +166,7 @@
     function deleteProduct(Id) {
         $.ajax({
             type: 'POST',
-            url: '/Product/DeleteProduct',
+            url: '/User/DeleteUser',
             contentType: 'application/x-www-form-urlencoded',
             headers: {
                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
