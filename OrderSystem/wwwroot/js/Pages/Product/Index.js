@@ -3,6 +3,30 @@
     *  Todo Bind UI Hadnler when the page ready.
     */
     $(document).ready(function () {
+        // select2 init
+        $.ajax({
+            type: 'GET',
+            url: '/Product/GetAllProductCategory',
+            contentType: 'application/x-www-form-urlencoded',
+            headers: {
+                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+            },
+            success: function (res) {
+               
+                if (res.IsSuccess) {
+                    $('.ProductCategorySelect').select2({
+                        dropdownAutoWidth: true,
+                        data: res.Data.map(it => ({ id: it.Id, text: it.Name })),
+                        width: '100%',
+                        tags: true
+                    });
+                }
+            },
+            error: function () { alert('A error'); }
+        })
+        
+
+
         // productTable
         $('#productTable').bind('click', function (e) {
             var t = $(e.target)
@@ -127,6 +151,7 @@
                     "Name": $('#product_name').val(),
                     "price": $('#product_price').val(),
                     "number": $('#product_number').val(),
+                    "productCategory": $("#product_catrgory_select").select2("val"),
                     "currentUnit": $('#product_currentUnit').val(),
                     "description": $('#product_description').val()
                 },

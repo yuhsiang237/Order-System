@@ -367,6 +367,20 @@ namespace OrderSystem.Controllers
             }
         }
 
+
+        [HttpGet]
+        public IActionResult GetAllProductCategory()
+        {
+            var result = (from a in _context.ProductCategories
+                               where a.IsDeleted != true
+                               select new
+                               {
+                                   Id = a.Id,
+                                   Name = a.Name
+                               }).ToList();
+            return Ok(ResponseModel.Success("", result));
+        }
+
         [HttpPost]
 
         public IActionResult UpdateProduct(Product model)
