@@ -26,6 +26,8 @@ namespace OrderSystem.ViewModels
         [Display(Name = "商品價格")]
 
         public decimal? Price { get; set; }
+        [Display(Name = "分類名稱")]
+        public string CategoryName { get; set; }
         [Display(Name = "目前庫存量")]
 
         public decimal? CurrentUnit { get; set; }

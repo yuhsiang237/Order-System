@@ -18,7 +18,7 @@
                         dropdownAutoWidth: true,
                         data: res.Data.map(it => ({ id: it.Id, text: it.Name })),
                         width: '100%',
-                        tags: true
+                        tags: false
                     });
                 }
             },
@@ -89,11 +89,12 @@
 
         $('#btn_productModal').bind("click", function () {
             // clean
-            $('#product_name').val(""),
-                $('#product_price').val(""),
-                $('#product_number').val(""),
-                $('#product_currentUnit').val(""),
-                $('#product_description').val("")
+            $('#product_name').val("")
+            $("#product_catrgory_select").val("[]").trigger('change')
+            $('#product_price').val("")
+            $('#product_number').val(""),
+            $('#product_currentUnit').val("")
+            $('#product_description').val("")
             // show modal
             $('#productCreateModal').modal('show');
         })
@@ -151,7 +152,9 @@
                     "Name": $('#product_name').val(),
                     "price": $('#product_price').val(),
                     "number": $('#product_number').val(),
-                    "productCategory": $("#product_catrgory_select").select2("val"),
+                    "ProductCategory": $("#product_catrgory_select").select2("val").map(it => ({
+                        Id: it
+                    })),
                     "currentUnit": $('#product_currentUnit').val(),
                     "description": $('#product_description').val()
                 },
