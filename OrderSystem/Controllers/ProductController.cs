@@ -97,6 +97,10 @@ namespace OrderSystem.Controllers
        int pageSize,
        int? pageNumber)
         {
+
+            var category = _context.ProductCategories.Where(x => x.IsDeleted != true)
+                .Select(x => new { Id = x.Id,Name = x.Name });
+
             // 1.search logic
             var query = from a in _context.Products
                         where a.IsDeleted != true
@@ -107,7 +111,16 @@ namespace OrderSystem.Controllers
                             Name = a.Name,
                             CurrentUnit = a.CurrentUnit,
                             Price = a.Price,
-                            Description = a.Description
+                            Description = a.Description,
+                            Category = (from b in _context.ProductProductCategoryRelationships
+                                            join c in category
+                                            on b.ProductCategoryId equals c.Id
+                                            where b.ProductId == a.Id
+                                            select new ProductCategory
+                                            { 
+                                                Id = c.Id,
+                                                Name = c.Name
+                                            }).ToList()
                         };
 
             // 2.condition filter
@@ -145,7 +158,6 @@ namespace OrderSystem.Controllers
                     break;
                 case "2":
                     query = query.OrderBy(s => s.Name);
-
                     break;
                 case "3":
                     query = query.OrderByDescending(s => s.CurrentUnit);
@@ -366,27 +378,15 @@ namespace OrderSystem.Controllers
 
         [HttpPost]
 
-        public IActionResult UpdateProduct(Product model)
+        public IActionResult UpdateProduct(UpdateProductViewModel model)
         {
 
             // vaildate data
-            Dictionary<string, string[]> Errors = new Dictionary<string, string[]>();
-            if (model.Name == null || model.Name == "")
+            UpdateProductValidator validator = new UpdateProductValidator(_context);
+            ValidationResult result = validator.Validate(model);
+            if (!result.IsValid)
             {
-                Errors.Add("Name", new string[] { "請輸入名稱" });
-            }
-       
-            if (model.Price == null)
-            {
-                Errors.Add("Price", new string[] { "請輸入價錢" });
-            }
-            if (model.Price < 0)
-            {
-                Errors.Add("Price", new string[] { "價錢不可為負" });
-            }
-            if (Errors.Count() > 0)
-            {
-                return Ok(ResponseModel.Fail(null, null, 0, Errors));
+                return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
             }
             // update product basic info
             var p = _context.Products.FirstOrDefault(x => x.Id == model.Id);

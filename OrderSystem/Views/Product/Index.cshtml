@@ -84,13 +84,17 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @if (item.Category != "" && item.Category != null)
-                            {
-                                @Html.DisplayFor(modelItem => item.Category)
-                            }
-                            else
+                            @if (item.Category.Count == 0)
                             {
                                 <span>-</span>
+                            }
+                            @foreach (var category in item.Category.Select((value, index) => new { value, index }))
+                            {
+                                @if (category.index != 0) // split 、
+                                {
+                                    <span>、</span>
+                                }
+                                <span data-Id="@category.value.Id">@category.value.Name</span>
                             }
                         </td>
                         <td>
