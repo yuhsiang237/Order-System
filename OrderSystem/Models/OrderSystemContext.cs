@@ -93,12 +93,7 @@ namespace OrderSystem.Models
                 entity.Property(e => e.Unit).HasColumnType("decimal(18, 4)");
             });
 
-            modelBuilder.Entity<ProductProductCategoryRelationship>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            });
+          
 
             modelBuilder.Entity<ReturnShipmentOrder>(entity =>
             {

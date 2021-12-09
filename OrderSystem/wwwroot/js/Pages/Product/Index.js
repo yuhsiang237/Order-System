@@ -3,6 +3,30 @@
     *  Todo Bind UI Hadnler when the page ready.
     */
     $(document).ready(function () {
+        // select2 init
+        $.ajax({
+            type: 'GET',
+            url: '/Product/GetAllProductCategory',
+            contentType: 'application/x-www-form-urlencoded',
+            headers: {
+                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+            },
+            success: function (res) {
+               
+                if (res.IsSuccess) {
+                    $('.ProductCategorySelect').select2({
+                        dropdownAutoWidth: true,
+                        data: res.Data.map(it => ({ id: it.Id, text: it.Name })),
+                        width: '100%',
+                        tags: false
+                    });
+                }
+            },
+            error: function () { alert('A error'); }
+        })
+        
+
+
         // productTable
         $('#productTable').bind('click', function (e) {
             var t = $(e.target)
@@ -65,11 +89,12 @@
 
         $('#btn_productModal').bind("click", function () {
             // clean
-            $('#product_name').val(""),
-                $('#product_price').val(""),
-                $('#product_number').val(""),
-                $('#product_currentUnit').val(""),
-                $('#product_description').val("")
+            $('#product_name').val("")
+            $("#product_catrgory_select").val("[]").trigger('change')
+            $('#product_price').val("")
+            $('#product_number').val(""),
+            $('#product_currentUnit').val("")
+            $('#product_description').val("")
             // show modal
             $('#productCreateModal').modal('show');
         })
@@ -84,6 +109,9 @@
                 },
                 data: {
                     "Id": $('#update_product_Id').val(),
+                    "ProductCategory": $("#update_product_catrgory_select").select2("val").map(it => ({
+                        Id: it
+                    })),
                     "Name": $('#update_product_name').val(),
                     "price": $('#update_product_price').val(),
                     "description": $('#update_product_description').val()
@@ -127,6 +155,9 @@
                     "Name": $('#product_name').val(),
                     "price": $('#product_price').val(),
                     "number": $('#product_number').val(),
+                    "ProductCategory": $("#product_catrgory_select").select2("val").map(it => ({
+                        Id: it
+                    })),
                     "currentUnit": $('#product_currentUnit').val(),
                     "description": $('#product_description').val()
                 },
@@ -183,7 +214,10 @@
             error: function () { alert('A error'); }
         })
     }
-    function updateProductModal(Id, Name, Number, Price,CurrentUnit,Description) {
+    function updateProductModal(Id, Name, Number, Price, CurrentUnit, Description) {
+        var selectedCategory = $('.CategoryProduct_' + Id).map((index, it) => it.getAttribute("data-id")).get()
+        $('#update_product_catrgory_select').val(selectedCategory).change();
+
         $('#update_product_Id').val(Id)
         $('#update_product_name').val(Name)
         $('#update_product_number').val(Number)

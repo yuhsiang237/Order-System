@@ -97,6 +97,10 @@ namespace OrderSystem.Controllers
        int pageSize,
        int? pageNumber)
         {
+
+            var category = _context.ProductCategories.Where(x => x.IsDeleted != true)
+                .Select(x => new { Id = x.Id,Name = x.Name });
+
             // 1.search logic
             var query = from a in _context.Products
                         where a.IsDeleted != true
@@ -107,7 +111,16 @@ namespace OrderSystem.Controllers
                             Name = a.Name,
                             CurrentUnit = a.CurrentUnit,
                             Price = a.Price,
-                            Description = a.Description
+                            Description = a.Description,
+                            Category = (from b in _context.ProductProductCategoryRelationships
+                                            join c in category
+                                            on b.ProductCategoryId equals c.Id
+                                            where b.ProductId == a.Id
+                                            select new ProductCategory
+                                            { 
+                                                Id = c.Id,
+                                                Name = c.Name
+                                            }).ToList()
                         };
 
             // 2.condition filter
@@ -145,7 +158,6 @@ namespace OrderSystem.Controllers
                     break;
                 case "2":
                     query = query.OrderBy(s => s.Name);
-
                     break;
                 case "3":
                     query = query.OrderByDescending(s => s.CurrentUnit);
@@ -294,51 +306,22 @@ namespace OrderSystem.Controllers
 
         [HttpPost]
 
-        public IActionResult CreateProduct(Product model)
+        public IActionResult CreateProduct(CreateProductViewModel model)
         {
 
             // vaildate data
-            Dictionary<string, string[]> Errors = new Dictionary<string, string[]>();
-            if (model.Name == null || model.Name == "")
+            CreateProductValidator validator = new CreateProductValidator(_context);
+            ValidationResult result = validator.Validate(model);
+            if (!result.IsValid)
             {
-                Errors.Add("Name", new string[] { "請輸入名稱" });
-            }
-            if (model.Number == null || model.Number == "")
-            {
-                Errors.Add("Number", new string[] { "請輸入編號" });
-            }
-            var isExistNumber = _context.Products.FirstOrDefault(x =>
-                x.Number == model.Number
-            );
-            if (isExistNumber != null)
-            {
-                Errors.Add("Number", new string[] { "編號已存在，請更換名稱" });
-            }
-            if (model.Price == null)
-            {
-                Errors.Add("Price", new string[] { "請輸入價錢" });
-            }
-            if (model.Price < 0)
-            {
-                Errors.Add("Price", new string[] { "價錢不可為負" });
-            }
-            if (model.CurrentUnit == null)
-            {
-                Errors.Add("CurrentUnit", new string[] { "請輸入數量" });
-            }
-            if (model.CurrentUnit < 0)
-            {
-                Errors.Add("CurrentUnit", new string[] { "數量不可為負" });
-            }
-            if (Errors.Count() > 0)
-            {
-                return Ok(ResponseModel.Fail(null, null, 0, Errors));
+                return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
             }
             // data add
-            using(var tr = _context.Database.BeginTransaction())
+            using (var tr = _context.Database.BeginTransaction())
             {
                 try
                 {
+
                     // create product
                     Product p = new Product();
                     p.Name = model.Name;
@@ -348,6 +331,18 @@ namespace OrderSystem.Controllers
                     p.Price = model.Price;
                     _context.Products.Add(p);
                     _context.SaveChanges();
+                    if (model.ProductCategory != null)
+                    {
+                        // add product category relationship
+                        foreach (var item in model.ProductCategory)
+                        {
+                            ProductProductCategoryRelationship relationship = new ProductProductCategoryRelationship();
+                            relationship.ProductCategoryId = item.Id;
+                            relationship.ProductId = p.Id;
+                            _context.ProductProductCategoryRelationships.Add(relationship);
+                            _context.SaveChanges();
+                        }
+                    }
                     // create product inventory
                     ProductInventory pi = new ProductInventory();
                     pi.ProductId = p.Id;
@@ -367,39 +362,76 @@ namespace OrderSystem.Controllers
             }
         }
 
+
+        [HttpGet]
+        public IActionResult GetAllProductCategory()
+        {
+            var result = (from a in _context.ProductCategories
+                               where a.IsDeleted != true
+                               select new
+                               {
+                                   Id = a.Id,
+                                   Name = a.Name
+                               }).ToList();
+            return Ok(ResponseModel.Success("", result));
+        }
+
         [HttpPost]
 
-        public IActionResult UpdateProduct(Product model)
+        public IActionResult UpdateProduct(UpdateProductViewModel model)
         {
 
             // vaildate data
-            Dictionary<string, string[]> Errors = new Dictionary<string, string[]>();
-            if (model.Name == null || model.Name == "")
+            UpdateProductValidator validator = new UpdateProductValidator(_context);
+            ValidationResult result = validator.Validate(model);
+            if (!result.IsValid)
             {
-                Errors.Add("Name", new string[] { "請輸入名稱" });
+                return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
             }
-       
-            if (model.Price == null)
+            using (var tr = _context.Database.BeginTransaction())
             {
-                Errors.Add("Price", new string[] { "請輸入價錢" });
-            }
-            if (model.Price < 0)
-            {
-                Errors.Add("Price", new string[] { "價錢不可為負" });
-            }
-            if (Errors.Count() > 0)
-            {
-                return Ok(ResponseModel.Fail(null, null, 0, Errors));
-            }
-            // update product basic info
-            var p = _context.Products.FirstOrDefault(x => x.Id == model.Id);
-            p.Name = model.Name;
-            p.Description = model.Description;
-            p.Price = model.Price;
-            _context.Update(p);
-            _context.SaveChanges();
+                try
+                {
+                    // update product basic info
+                    var p = _context.Products.FirstOrDefault(x => x.Id == model.Id);
+                    p.Name = model.Name;
+                    p.Description = model.Description;
+                    p.Price = model.Price;
+                    _context.Update(p);
+                    _context.SaveChanges();
+                    // delete old product category
+                    var oldCategory = from a in _context.ProductProductCategoryRelationships
+                                      where a.ProductId == p.Id
+                                      select a;
+                    foreach (var item in oldCategory)
+                    {
+                        _context.ProductProductCategoryRelationships.Remove(item);
+                    }
+                    _context.SaveChanges();
+                    // add new product category
+                    if (model.ProductCategory != null)
+                    {
+                        // add product category relationship
+                        foreach (var item in model.ProductCategory)
+                        {
+                            ProductProductCategoryRelationship relationship = new ProductProductCategoryRelationship();
+                            relationship.ProductCategoryId = item.Id;
+                            relationship.ProductId = p.Id;
+                            _context.ProductProductCategoryRelationships.Add(relationship);
+                            _context.SaveChanges();
+                        }
+                    }
+                    tr.Commit();
+                    return Ok(ResponseModel.Success("", p));
 
-            return Ok(ResponseModel.Success("", p));
+                }
+                catch (Exception ex)
+                {
+                    return Ok(ResponseModel.Fail("建立失敗", null, 0, ""));
+                }
+            }
+                  
+
         }
     }
 }

@@ -84,13 +84,17 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @if (item.Category != "" && item.Category != null)
-                            {
-                                @Html.DisplayFor(modelItem => item.Category)
-                            }
-                            else
+                            @if (item.Category.Count == 0)
                             {
                                 <span>-</span>
+                            }
+                            @foreach (var category in item.Category.Select((value, index) => new { value, index }))
+                            {
+                                @if (category.index != 0) // split 、
+                                {
+                                    <span>、</span>
+                                }
+                                <span class="CategoryProduct_@item.Id" data-Id="@category.value.Id">@category.value.Name</span>
                             }
                         </td>
                         <td>
@@ -206,6 +210,13 @@
                         <div id="update_errorNumber"></div>
                     </div>
                     <div class="form-group">
+                        <label>商品分類</label>
+                        <select id="update_product_catrgory_select" class="ProductCategorySelect form-control" name="states[]" multiple="multiple">
+                        
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="exampleInputPassword1">商品價錢</label>
                         <input id="update_product_price" type="number" class="form-control" placeholder="0.00">
                         <div id="update_errorPrice"></div>
@@ -253,6 +264,13 @@
                         <input id="product_number" type="text" class="form-control" placeholder="請輸入商品編號">
                         <div id="errorNumber"></div>
                     </div>
+                    <div class="form-group">
+                        <label>商品分類</label>
+                        <select id="product_catrgory_select" class="ProductCategorySelect form-control" name="states[]" multiple="multiple">
+                      
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label for="exampleInputPassword1">商品價錢</label>
                         <input id="product_price" type="number" class="form-control" placeholder="0.00">
