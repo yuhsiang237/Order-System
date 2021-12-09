@@ -109,6 +109,9 @@
                 },
                 data: {
                     "Id": $('#update_product_Id').val(),
+                    "ProductCategory": $("#update_product_catrgory_select").select2("val").map(it => ({
+                        Id: it
+                    })),
                     "Name": $('#update_product_name').val(),
                     "price": $('#update_product_price').val(),
                     "description": $('#update_product_description').val()
@@ -211,7 +214,10 @@
             error: function () { alert('A error'); }
         })
     }
-    function updateProductModal(Id, Name, Number, Price,CurrentUnit,Description) {
+    function updateProductModal(Id, Name, Number, Price, CurrentUnit, Description) {
+        var selectedCategory = $('.CategoryProduct_' + Id).map((index, it) => it.getAttribute("data-id")).get()
+        $('#update_product_catrgory_select').val(selectedCategory).change();
+
         $('#update_product_Id').val(Id)
         $('#update_product_name').val(Name)
         $('#update_product_number').val(Number)

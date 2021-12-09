@@ -388,15 +388,50 @@ namespace OrderSystem.Controllers
             {
                 return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
             }
-            // update product basic info
-            var p = _context.Products.FirstOrDefault(x => x.Id == model.Id);
-            p.Name = model.Name;
-            p.Description = model.Description;
-            p.Price = model.Price;
-            _context.Update(p);
-            _context.SaveChanges();
+            using (var tr = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    // update product basic info
+                    var p = _context.Products.FirstOrDefault(x => x.Id == model.Id);
+                    p.Name = model.Name;
+                    p.Description = model.Description;
+                    p.Price = model.Price;
+                    _context.Update(p);
+                    _context.SaveChanges();
+                    // delete old product category
+                    var oldCategory = from a in _context.ProductProductCategoryRelationships
+                                      where a.ProductId == p.Id
+                                      select a;
+                    foreach (var item in oldCategory)
+                    {
+                        _context.ProductProductCategoryRelationships.Remove(item);
+                    }
+                    _context.SaveChanges();
+                    // add new product category
+                    if (model.ProductCategory != null)
+                    {
+                        // add product category relationship
+                        foreach (var item in model.ProductCategory)
+                        {
+                            ProductProductCategoryRelationship relationship = new ProductProductCategoryRelationship();
+                            relationship.ProductCategoryId = item.Id;
+                            relationship.ProductId = p.Id;
+                            _context.ProductProductCategoryRelationships.Add(relationship);
+                            _context.SaveChanges();
+                        }
+                    }
+                    tr.Commit();
+                    return Ok(ResponseModel.Success("", p));
 
-            return Ok(ResponseModel.Success("", p));
+                }
+                catch (Exception ex)
+                {
+                    return Ok(ResponseModel.Fail("建立失敗", null, 0, ""));
+                }
+            }
+                  
+
         }
     }
 }
