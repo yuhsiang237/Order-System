@@ -113,14 +113,15 @@ namespace OrderSystem.Controllers
                     _context.Update(role);
                     _context.SaveChanges();
                     // remove old permission
-                    var removeOldPermission = (from a in _context.Permissions
-                                                where a.RoleId == role.Id
-                                                select a).FirstOrDefault();
-                    if(removeOldPermission != null)
+                    // delete old product category
+                    var removeOldPermission = from a in _context.Permissions
+                                      where a.RoleId == role.Id
+                                      select a;
+                    foreach (var item in removeOldPermission)
                     {
-                        _context.Permissions.Remove(removeOldPermission);
-                        _context.SaveChanges();
+                        _context.Permissions.Remove(item);
                     }
+                    _context.SaveChanges();
                     // add new permission
                     if (m.Permissions != null)
                     {

@@ -12,6 +12,7 @@
         mounted: function () {
             this.Role = $Page.Role
             this.Permissions = $Page.Permissions.map(it => it.Code)
+            console.log(this.Permissions)
         },
         methods: {
             create() {
@@ -27,7 +28,7 @@
                         },
                         data: {
                             Role: this.Role,
-                            Permissions: this.Permissions.map(it => ({
+                            Permissions: [...new Set(this.Permissions)].map(it => ({
                                 code: it
                             }))
                         },
