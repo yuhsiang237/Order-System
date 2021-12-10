@@ -1,6 +1,9 @@
 ﻿@model OrderSystem.Commons.PaginatedList<OrderSystem.ViewModels.ReturnShipmentOrderViewModel>
 
 @Html.AntiForgeryToken()
+@using Microsoft.AspNetCore.Authorization
+@using OrderSystem.Authorization
+@inject IAuthorizationService AuthorizationService
 
 <h1>退貨單列表</h1>
 
@@ -32,10 +35,13 @@
         </div>
     </div>
     <div class="text-right mb-3">
-        <a href="/Order/ReturnShipmentOrderCreate" type="button" class="btn btn-primary">
-            新增退貨單
-        </a>
-    </div>
+        @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_ReturnShipment_Create }))).Succeeded)
+        {
+            <a href="/Order/ReturnShipmentOrderCreate" type="button" class="btn btn-primary">
+                新增退貨單
+            </a>
+         }
+        </div>
     <div class="table-responsive" id="OrderTable">
         <table class="table table-bordered">
             <thead>
@@ -60,33 +66,33 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Number)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ShipmentOrderNumber)
-                    </td>
-                    <td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Number)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShipmentOrderNumber)
+                        </td>
+                        <td>
 
-                        @if (@item.ReturnDate != null)
-                        {
-                            @item.ReturnDate.Value.ToString("yyyy/MM/dd")
-                        }
-                        else
-                        {
-                            <span>-</span>
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Total)
-                    </td>
-                    <td>
-                        <a href="/Order/ReturnShipmentOrderEdit?ReturnShipmentOrderId=@item.Id" type="button" class="btn btn-primary">
-                            管理
-                        </a>
-                    </td>
-                </tr>
+                            @if (@item.ReturnDate != null)
+                            {
+                                @item.ReturnDate.Value.ToString("yyyy/MM/dd")
+                            }
+                            else
+                            {
+                                <span>-</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                        <td>
+                            <a href="/Order/ReturnShipmentOrderEdit?ReturnShipmentOrderId=@item.Id" type="button" class="btn btn-primary">
+                                管理
+                            </a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

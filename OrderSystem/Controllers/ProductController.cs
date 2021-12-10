@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OrderSystem.Authorization;
 using OrderSystem.Commons;
 using OrderSystem.Models;
 using OrderSystem.Models.Validator;
@@ -16,8 +17,9 @@ namespace OrderSystem.Controllers
 
     public class ProductController : Controller
     {
-    
-            public async Task<IActionResult> ProductCategory(
+        [PermissionFilter(Permissions.ProductCategory_View)]
+
+        public async Task<IActionResult> ProductCategory(
     string sortOrder,
     string currentFilterName,
     string searchStringName,
@@ -86,6 +88,7 @@ namespace OrderSystem.Controllers
             // 6.result
             return View(await PaginatedList<ProductCategoryViewModel>.CreateAsync(query.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+        [PermissionFilter(Permissions.Product_View)]
 
         public async Task<IActionResult> Index(
        string sortOrder,
@@ -206,6 +209,8 @@ namespace OrderSystem.Controllers
 
 
         [HttpPost]
+        [PermissionFilter(Permissions.Product_Create)]
+
         public IActionResult ProductCategoryCreate(ProductCategory m)
         {
             // vaildate data
@@ -224,6 +229,8 @@ namespace OrderSystem.Controllers
             return Ok(ResponseModel.Success(""));
         }
         [HttpPost]
+        [PermissionFilter(Permissions.Product_Modify)]
+
         public IActionResult ProductCategoryUpdate(ProductCategory m)
         {
             // vaildate data
@@ -244,6 +251,8 @@ namespace OrderSystem.Controllers
 
 
         [HttpPost]
+        [PermissionFilter(Permissions.Product_Delete)]
+
         public IActionResult DeleteProduct(Product model)
         {
             var p = _context.Products.FirstOrDefault(x => x.Id == model.Id);
@@ -264,6 +273,7 @@ namespace OrderSystem.Controllers
 
 
         [HttpPost]
+        [PermissionFilter(Permissions.Product_Modify)]
 
         public IActionResult UpdateProductUnit(Product model)
         {
@@ -305,6 +315,7 @@ namespace OrderSystem.Controllers
         }
 
         [HttpPost]
+        [PermissionFilter(Permissions.Product_Create)]
 
         public IActionResult CreateProduct(CreateProductViewModel model)
         {
@@ -377,6 +388,7 @@ namespace OrderSystem.Controllers
         }
 
         [HttpPost]
+        [PermissionFilter(Permissions.Product_Modify)]
 
         public IActionResult UpdateProduct(UpdateProductViewModel model)
         {
@@ -430,8 +442,6 @@ namespace OrderSystem.Controllers
                     return Ok(ResponseModel.Fail("建立失敗", null, 0, ""));
                 }
             }
-                  
-
         }
     }
 }

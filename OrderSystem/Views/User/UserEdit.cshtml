@@ -33,13 +33,16 @@
         {
             <div v-text="RoleName"></div>
         }
-        <div class="text-right">
-            <button onclick="window.history.back();" type="button" class="btn btn-primary">
-                取消
-            </button>
+    <div class="text-right my-3">
+        <button onclick="window.history.back();" type="button" class="btn btn-primary">
+            取消
+        </button>
+        @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Basic_UserManagement_Modify }))).Succeeded)
+        {
             <button v-on:click="create()" type="button" class="btn btn-primary">
                 更新基本資料
             </button>
+        }
         </div>
     </div>
 
