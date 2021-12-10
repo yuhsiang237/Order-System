@@ -1,7 +1,9 @@
 ﻿@model OrderSystem.Commons.PaginatedList<OrderSystem.ViewModels.InventoryIndexViewModel>
 
 @Html.AntiForgeryToken()
-
+@using Microsoft.AspNetCore.Authorization
+@using OrderSystem.Authorization
+@inject IAuthorizationService AuthorizationService
 <h1>商品庫存列表</h1>
 
 <form asp-action="Index" class="mt-3" id="form_search">
@@ -95,9 +97,12 @@
                             @Html.DisplayFor(modelItem => item.CurrentUnit)
                         </td>
                         <td>
-                            <a href="/Inventory/InventoryHistory?productId=@item.Id" class="btn btn-primary">
-                                管理庫存
-                            </a>
+                            @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Inventory_Modify }))).Succeeded)
+                            {
+                                <a href="/Inventory/InventoryHistory?productId=@item.Id" class="btn btn-primary">
+                                    管理庫存
+                                </a>
+                            }
                         </td>
                     </tr>
                 }

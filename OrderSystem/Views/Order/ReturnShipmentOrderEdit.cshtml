@@ -1,4 +1,7 @@
 ﻿@Html.AntiForgeryToken()
+@using Microsoft.AspNetCore.Authorization
+@using OrderSystem.Authorization
+@inject IAuthorizationService AuthorizationService
 <script>
     var $Page = {
         ReturnShipmentOrder: @Html.Raw(@ViewData["ReturnShipmentOrder"]),
@@ -75,10 +78,13 @@
         <button onclick="window.history.back();" type="button" class="btn btn-primary">
             取消
         </button>
-        <button v-on:click="createOrder()" type="button" class="btn btn-primary">
-            更新退貨單
-        </button>
-    </div>
+        @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_ReturnShipment_Modify }))).Succeeded)
+        {
+            <button v-on:click="createOrder()" type="button" class="btn btn-primary">
+                更新退貨單
+            </button>
+        }
+        </div>
 </div>
 
 @section Scripts {

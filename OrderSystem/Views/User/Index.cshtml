@@ -69,10 +69,9 @@
                         </td>
                         <td>
                             <a href="/User/UserEdit?UserId=@item.Id" type="button" class="btn btn-primary">
-                                編輯
+                                管理
                             </a>
-
-                            @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { "Basic_UserManagement_Delete" }))).Succeeded)
+                            @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Basic_UserManagement_Delete }))).Succeeded)
                             {
                                 <button name="btn_deleteUser" data-Id="@item.Id" data-Name="@item.Name" type="button" class="btn btn-primary">
                                     刪除
