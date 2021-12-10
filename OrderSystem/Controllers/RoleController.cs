@@ -34,6 +34,8 @@ namespace OrderSystem.Controllers
         }
 
         [HttpPost]
+        [PermissionFilter(Permissions.Basic_Permission_Create)]
+
         public IActionResult RoleCreate(RoleCreateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())
@@ -74,6 +76,8 @@ namespace OrderSystem.Controllers
 
         }
         [HttpPost]
+        [PermissionFilter(Permissions.Basic_Permission_Delete)]
+
         public IActionResult DeleteRole(Role model)
         {
             var p = _context.Roles.FirstOrDefault(x => x.Id == model.Id);
@@ -83,6 +87,7 @@ namespace OrderSystem.Controllers
             return Ok(ResponseModel.Success(""));
         }
         [HttpGet]
+
         public IActionResult RoleEdit(int RoleId)
         {
             ViewData["Role"] = JsonConvert.SerializeObject((from a in _context.Roles
@@ -94,6 +99,8 @@ namespace OrderSystem.Controllers
             return View();
         }
         [HttpPost]
+        [PermissionFilter(Permissions.Basic_Permission_Modify)]
+
         public IActionResult RoleUpdate(RoleUpdateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())
@@ -143,6 +150,8 @@ namespace OrderSystem.Controllers
             }
 
         }
+        [PermissionFilter(Permissions.Basic_Permission_View)]
+
         public async Task<IActionResult> Index(
      string sortOrder,
      string currentFilterName,

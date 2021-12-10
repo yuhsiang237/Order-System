@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OrderSystem.Authorization;
 using OrderSystem.Commons;
 using OrderSystem.Models;
 using OrderSystem.ViewModels;
@@ -53,6 +54,8 @@ namespace OrderSystem.Controllers
 
             return View(query);
         }
+        [PermissionFilter(Permissions.Inventory_View)]
+
         public async Task<IActionResult> Index(
         string sortOrder,
         string currentFilterNumber,

@@ -28,6 +28,8 @@ namespace OrderSystem.Controllers
             _context = context;
         }
 
+        [PermissionFilter(Permissions.Basic_UserManagement_View)]
+
         public async Task<IActionResult> Index(
      string sortOrder,
      string currentFilterName,
@@ -98,7 +100,9 @@ namespace OrderSystem.Controllers
             // 6.result
             return View(await PaginatedList<UserIndexViewModel>.CreateAsync(query.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+
         [HttpGet]
+
         public IActionResult UserEdit(int UserId)
         {
             ViewData["User"] = JsonConvert.SerializeObject((from a in _context.Users
@@ -148,7 +152,7 @@ namespace OrderSystem.Controllers
         }
 
         [HttpPost]
-        [PermissionFilter("Basic_UserManagement_Delete")]
+        [PermissionFilter(Permissions.Basic_UserManagement_Delete)]
         public IActionResult DeleteUser(Product model)
         {
             var p = _context.Users.FirstOrDefault(x => x.Id == model.Id);
@@ -161,7 +165,9 @@ namespace OrderSystem.Controllers
         {
             return View();
         }
+
         [HttpPost]
+        [PermissionFilter(Permissions.Basic_UserManagement_Modify)]
         public IActionResult UserUpdate(UserUpdateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())

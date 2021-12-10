@@ -3,6 +3,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using OrderSystem.Authorization;
 using OrderSystem.Commons;
 using OrderSystem.Models;
 using OrderSystem.Models.Validator;
@@ -24,6 +25,8 @@ namespace OrderSystem.Controllers
         {
             _context = context;
         }
+        [PermissionFilter(Permissions.Order_Shipment_View)]
+
         public async Task<IActionResult> ShipmentOrder(
      string sortOrder,
      string currentFilterNumber,
@@ -99,6 +102,8 @@ namespace OrderSystem.Controllers
             // 6.result
             return View(await PaginatedList<ShipmentOrderViewModel>.CreateAsync(query.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+        [PermissionFilter(Permissions.Order_ReturnShipment_View)]
+
         public async Task<IActionResult> ReturnShipmentOrder(
    string sortOrder,
    string currentFilterNumber,
@@ -175,6 +180,8 @@ namespace OrderSystem.Controllers
             return View(await PaginatedList<ReturnShipmentOrderViewModel>.CreateAsync(query.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
         [HttpPost]
+        [PermissionFilter(Permissions.Order_Shipment_Modify)]
+
         public IActionResult ShipmentOrderUpdate(ShipmentOrderUpdateViewModel m)
         {
             ShipmentOrderUpdateValidator validator = new ShipmentOrderUpdateValidator(_context);
@@ -203,6 +210,8 @@ namespace OrderSystem.Controllers
         }
 
         [HttpPost]
+        [PermissionFilter(Permissions.Order_ReturnShipment_Create)]
+
         public IActionResult ReturnShipmentOrderCreate(ReturnShipmentOrderCreateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())
@@ -266,6 +275,8 @@ namespace OrderSystem.Controllers
 
         }
         [HttpPost]
+        [PermissionFilter(Permissions.Order_ReturnShipment_Modify)]
+
         public IActionResult ReturnShipmentOrderUpdate(ReturnShipmentOrderCreateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())
@@ -336,6 +347,8 @@ namespace OrderSystem.Controllers
 
         }
         [HttpPost]
+        [PermissionFilter(Permissions.Order_Shipment_Create)]
+
         public IActionResult ShipmentOrderCreate(ShipmentOrderCreateViewModel m)
         {
           
@@ -415,6 +428,7 @@ namespace OrderSystem.Controllers
         }
 
         [HttpGet]
+
         public IActionResult ShipmentOrderCreate()
         {
             ViewData["ProductData"] = JsonConvert.SerializeObject((from a in _context.Products
