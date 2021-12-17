@@ -1,0 +1,249 @@
+// Variables
+//
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+
+//預設文字顏色
+$text-color: #2e2e2e;
+
+// ====== 客制範圍 SR ======
+// 主色系變數
+$main-color01: #3d6273; //主色
+$main-color02: #15a9e8; //輔助色
+$main-color03: #1d688f; //輔助色
+$main-color04: #f67322; //強調色
+$main-color05: #ffffff; //基色
+
+$main-color01-light: #edf3f5;
+
+.main-color01 {
+  color: $main-color01 !important;
+}
+.main-color02 {
+  color: $main-color02;
+}
+.main-color03 {
+  color: $main-color03;
+}
+.main-color04 {
+  color: $main-color04;
+}
+
+.bg-color01 {
+  background-color: $main-color01;
+  color: #fff;
+}
+.bg-color01-light {
+  background-color: $main-color01-light;
+}
+.bg-color03 {
+  background-color: $main-color03;
+  color: #fff;
+}
+
+.btn-color01 {
+  color: #fff;
+  background-color: $main-color01;
+  border-color: $main-color01;
+  &:hover {
+    color: #fff;
+    background-color: darken($main-color01, 5%);
+    border-color: darken($main-color01, 8%);
+  }
+  &.outline-btn {
+    color: $main-color01;
+    background-color: transparent;
+    &:hover {
+      color: #fff;
+      background-color: $main-color01;
+      border-color: $main-color01;
+      i{
+        color: #fff;
+
+      }
+    }
+  }
+}
+
+.bg-gray-light {
+  background-color: #e9ecef !important;
+}
+
+
+.btn-orange {
+  color: #fff;
+  background-color: #f67322;
+  border-color: #f67322;
+  &:hover {
+    color: #fff;
+    background-color: darken(#f67322, 5%);
+    border-color: darken(#f67322, 8%);
+  }
+  &.outline-btn {
+    color: #f67322 !important;
+    background-color: transparent;
+    &:hover {
+      color: #fff;
+      background-color: #f67322;
+      border-color: #f67322;
+      i{
+        color: #fff;
+
+      }
+    }
+  }
+}
+
+
+.btn-red {
+  color: #fff;
+  background-color:#CF2143 ;
+  border-color: #CF2143;
+  &:hover {
+    color: #fff;
+    background-color: darken(#CF2143, 5%);
+    border-color: darken(#CF2143, 8%);
+  }
+  &.outline-btn {
+    color: #CF2143 !important;
+    background-color: transparent;
+    &:hover {
+      color: #fff;
+      background-color: #CF2143;
+      border-color: #CF2143;
+      i{
+        color: #fff;
+
+      }
+    }
+  }
+}
+
+
+.btn-blue {
+  color: #fff;
+  background-color: #008ECC;
+  border-color: #008ECC;
+  &:hover {
+    color: #fff;
+    background-color: darken(#008ECC, 5%);
+    border-color: darken(#008ECC, 8%);
+  }
+  &.outline-btn {
+    color: #008ECC;
+    background-color: transparent;
+    &:hover {
+      color: #fff;
+      background-color: #008ECC;
+      border-color: #008ECC;
+      i{
+        color: #fff;
+      }
+    }
+  }
+}
+// 客制變數
+$custom-box-shadow: -10px 10px 20px 0px rgba(30, 30, 30, 0.05);
+$custom-border-radius: 5px;
+.link-color {
+  color: $main-color03;
+}
+
+// ====== 客制範圍 END ======
+
+// stylelint-disable
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$grays: () !default;
+$grays: map-merge(
+  (
+    "100": $gray-100,
+    "200": $gray-200,
+    "300": $gray-300,
+    "400": $gray-400,
+    "500": $gray-500,
+    "600": $gray-600,
+    "700": $gray-700,
+    "800": $gray-800,
+    "900": $gray-900,
+  ),
+  $grays
+);
+
+$blue: #007bff !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #dc3545 !default;
+$orange: #fd7e14 !default;
+$yellow: #ffc107 !default;
+$green: #28a745 !default;
+$teal: #20c997 !default;
+$cyan: #17a2b8 !default;
+
+$colors: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+//可設定變數名稱後加入預設顏色變數，類似bg-main01 text-main01 btn-main-01
+$colors: map-merge(
+  (
+    "blue": $blue,
+    "indigo": $indigo,
+    "purple": $purple,
+    "pink": $pink,
+    "red": $red,
+    "orange": $orange,
+    "yellow": $yellow,
+    "green": $green,
+    "teal": $teal,
+    "cyan": $cyan,
+    "white": $white,
+    "gray": $gray-600,
+    "main01": $main-color01,
+    "main02": $main-color02,
+    "main03": $main-color03,
+    "main04": $main-color04,
+    "main05": $main-color05,
+  ),
+  $colors
+);
+
+$primary: #17a2b8 !default;
+$secondary: $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $gray-800 !default;
+
+$theme-colors: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+//可設定變數名稱後加入預設顏色變數
+$theme-colors: map-merge(
+  (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+    "main01": $main-color01,
+    "main02": $main-color02,
+    "main03": $main-color03,
+    "main04": $main-color04,
+    "main05": $main-color05,
+  ),
+  $theme-colors
+);

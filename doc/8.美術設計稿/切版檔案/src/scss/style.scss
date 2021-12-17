@@ -1,0 +1,29 @@
+// 引入用
+@charset "UTF-8";
+
+// 自訂文字
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500,700&subset=chinese-traditional');
+
+// bootstrap 核心
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+// fontawesome icon
+@import "fontawesome-all";
+
+// 修改的變數
+@import "variables";
+@import "mixin";
+
+// 選單
+@import "nav";
+
+// 引入其他 css
+@import "bootstrap-select";
+@import "bootstrap-switch";
+@import "jstree";
+@import "bootstrap-datepicker3.min";
+
+
+// 客製化CSS
+@import "custom";
+
