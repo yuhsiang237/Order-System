@@ -256,3 +256,16 @@ main {
         }
     }
 }
+
+// 錯誤訊息
+.error-message {
+    color: red;
+}
+
+.page{
+    background-color: white;
+}
+.navbar-brand{
+    color:$main-color01 !important;
+    font-weight: bold;
+}
