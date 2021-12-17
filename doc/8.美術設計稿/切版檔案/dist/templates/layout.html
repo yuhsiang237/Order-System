@@ -1,0 +1,49 @@
+<!-- 共用模版 -->
+<!doctype html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title></title>
+    <!-- 主視覺 css -->
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body cz-shortcut-listen="true">
+
+    <!-- 選單 ST -->
+    
+
+    <!-- 主內容Start -->
+    <main role="main">
+        <!-- 內容切換 -->
+        
+    </main>
+    
+    <!-- js 載入 -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap-select.js"></script>
+    <script src="js/jstree.js" type="text/javascript"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="js/bootstrap-datepicker.zh-TW.min.js"></script>
+    <script>
+        $(function () {
+            $('.date-picker').datepicker({
+                language: 'zh-TW',
+                format: 'yyyy/mm/dd',
+                autoclose: true,
+                todayHighlight: true,
+                container:'main'
+            });
+        });
+    </script>
+    <!-- 各分頁引用js -->
+     
+    <!-- 我的 js -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

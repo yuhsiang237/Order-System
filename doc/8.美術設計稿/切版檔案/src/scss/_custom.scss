@@ -1,0 +1,258 @@
+body {
+    font-family: "Noto Sans TC", sans-serif;
+    background-color: #f3f3f3;
+    z-index: -2;
+    overflow-x: hidden;
+}
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1.12rem;
+}
+
+.custom-label {
+    font-weight: 500;
+}
+main {
+    padding-top: 95px;
+    @include media-breakpoint-down(sm) {
+        padding-top: 75px;
+    }
+    min-height: calc(100vh - 0px);
+}
+.extra-bg {
+    position: absolute;
+    .dot-4 {
+        position: absolute;
+        bottom: 0px;
+        width: 80px;
+        z-index: -1;
+        left: calc(36vw);
+    }
+    .dot-3 {
+        position: absolute;
+        bottom: 250px;
+        width: 160px;
+        z-index: -1;
+        left: calc(77vw);
+    }
+    .dot-2 {
+        position: absolute;
+        bottom: 70px;
+        width: 40px;
+        z-index: -1;
+        left: 10vw;
+    }
+    .dot-1 {
+        position: absolute;
+        bottom: 0;
+        width: 200px;
+        z-index: -1;
+        left: 15px;
+    }
+}
+//頁面標題
+.page-title {
+    color: $main-color01;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.fixed-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+// 標題圓圈
+.title-circle {
+    margin-top: -6.3px;
+}
+
+// 日期控制選項
+.datepicker {
+    z-index: 2000 !important;
+}
+// NAV TABS
+.custom-nav-tabs {
+    .nav-link {
+        border-radius: 0px;
+        background-color: $gray-300;
+        &.active {
+            background-color: $main-color01;
+        }
+    }
+    border-bottom: 0px;
+    a {
+        h6 {
+            color: $gray-600;
+        }
+        &.active {
+            h6 {
+                color: white;
+            }
+        }
+    }
+}
+//列表
+.list-area {
+    .table {
+        width: 100%;
+        display: table;
+        @include media-breakpoint-down(sm) {
+            border-top: 3px solid $main-color01;
+            padding-top: 0;
+        }
+        .row {
+            display: table-row;
+            @include media-breakpoint-down(sm) {
+                padding: 0.25rem 0;
+                display: block;
+                border-bottom: 1px solid #dee2e6;
+                &:last-child {
+                    border: none;
+                }
+            }
+            &.list-header {
+                font-weight: bold;
+                background-color: red;
+                @include media-breakpoint-down(sm) {
+                    display: none;
+                }
+            }
+            &.list-body:nth-child(odd) {
+                background-color: $gray-100;
+                @include media-breakpoint-down(sm) {
+                    margin: 0;
+                }
+                &:hover {
+                    background-color: $gray-200;
+                }
+            }
+
+            &.list-body:nth-child(even) {
+                background-color: white;
+                @include media-breakpoint-down(sm) {
+                    margin: 0;
+                }
+                &:hover {
+                    background-color: $gray-200;
+                }
+            }
+
+            .cell {
+                padding: 0.25rem 0.5rem;
+                display: table-cell;
+                vertical-align: middle;
+                border-bottom: 1px solid $gray-300;
+
+                @include media-breakpoint-down(sm) {
+                    padding: 0rem 0.5rem;
+                    display: block;
+                    border-bottom: none;
+                    &:before {
+                        content: attr(data-title);
+                        font-weight: bold;
+                        color: $main-color01;
+                        display: inline-block;
+                        width: 5rem;
+                    }
+                }
+            }
+        }
+    }
+}
+//編輯區塊
+.edit-area {
+    background-color: #fff;
+    .area-title {
+        padding: 0.75rem 1rem;
+        margin-bottom: 0;
+        color: $white;
+        background-color: $main-color01;
+        border-left: #51859d solid 6.3px;
+    }
+    .list-area {
+        @include media-breakpoint-down(sm) {
+            border-top: none;
+        }
+    }
+    .edit-list-btn {
+        border-bottom: 1.5px solid $gray-200;
+        padding-top: 0.375rem;
+        padding-bottom: 0.475rem;
+        margin-bottom: 0.2rem;
+        a,
+        button {
+            vertical-align: middle;
+        }
+    }
+}
+//資料維護區塊1
+.form-area1 {
+    background-color: #fff;
+    .form-group {
+        margin: 0;
+        > label {
+            background-color: #dee2e6;
+            border-left: 2px solid darken(#dee2e6, 50%);
+            padding-right: 0.5rem;
+            padding-left: 0.25rem;
+            text-align: right;
+        }
+        .custom-radio {
+            padding-top: 7.5px;
+        }
+    }
+}
+//資料維護區塊2
+.form-area2 {
+    background-color: white;
+    h6 {
+        font-weight: bold;
+        background-color: $main-color01;
+        color: #fff;
+        padding: 0.75rem 1rem;
+        border-left: #51859d solid 6.3px;
+    }
+    label {
+        padding-right: 0.05rem;
+        font-weight: bold;
+        @include media-breakpoint-up(md) {
+            text-align: right;
+        }
+    }
+    .custom-checkbox {
+        padding-top: 0.375rem;
+        padding-bottom: 0.375rem;
+    }
+}
+
+// 申請書_身分與產業確認.html
+.app-form-check {
+    .runtime-img {
+        text-align: right;
+        @include media-breakpoint-down(sm) {
+            text-align: center;
+        }
+        img {
+            height: 220px;
+            margin-top: -15px;
+            @include media-breakpoint-down(sm) {
+                height: 220px;
+            }
+        }
+    }
+    .consent-block {
+        background-color: #d6d6d6;
+        padding-top: 11.5px;
+        padding-bottom: 11.5px;
+    }
+    .consent-modal {
+        .content {
+            height: 50vh;
+            overflow-y: auto;
+        }
+    }
+}

@@ -1,0 +1,18 @@
+// 常用scss片段
+@charset "UTF-8";
+
+@mixin background-img() {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+
+//水平垂直置中
+@mixin ab_center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
