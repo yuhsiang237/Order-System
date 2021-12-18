@@ -50,14 +50,14 @@
         }
         .nav-current,
         .active {
-            font-weight: 500;
+           
             border-bottom: 3.4px solid $main-color02;
         }
         .dropdown-item.active,
         .dropdown-item:active {
             background-color: #e9ecef;
             color: #32373b;
-            font-weight: 500;
+         
             border-bottom: none;
         }
     }

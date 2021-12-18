@@ -16111,7 +16111,7 @@ readers do not read off random characters that represent icons */
 }
 
 .main-color02 {
-  color: #15a9e8;
+  color: #222;
 }
 
 .main-color03 {
@@ -16136,30 +16136,30 @@ readers do not read off random characters that represent icons */
   color: #fff;
 }
 
-.btn-color01 {
+.btn-main-color01 {
   color: #fff;
   background-color: #a37d1b;
   border-color: #a37d1b;
 }
 
-.btn-color01:hover {
+.btn-main-color01:hover {
   color: #fff;
   background-color: #8d6c17;
   border-color: #806215;
 }
 
-.btn-color01.outline-btn {
+.btn-main-color01.outline-btn {
   color: #a37d1b;
   background-color: transparent;
 }
 
-.btn-color01.outline-btn:hover {
+.btn-main-color01.outline-btn:hover {
   color: #fff;
   background-color: #a37d1b;
   border-color: #a37d1b;
 }
 
-.btn-color01.outline-btn:hover i {
+.btn-main-color01.outline-btn:hover i {
   color: #fff;
 }
 
@@ -16221,30 +16221,30 @@ readers do not read off random characters that represent icons */
   color: #fff;
 }
 
-.btn-blue {
+.btn-main-color02 {
   color: #fff;
-  background-color: #008ECC;
-  border-color: #008ECC;
+  background-color: #222;
+  border-color: #222;
 }
 
-.btn-blue:hover {
+.btn-main-color02:hover {
   color: #fff;
-  background-color: #007cb3;
-  border-color: #0072a3;
+  background-color: #151515;
+  border-color: #0e0e0e;
 }
 
-.btn-blue.outline-btn {
-  color: #008ECC;
+.btn-main-color02.outline-btn {
+  color: #222;
   background-color: transparent;
 }
 
-.btn-blue.outline-btn:hover {
+.btn-main-color02.outline-btn:hover {
   color: #fff;
-  background-color: #008ECC;
-  border-color: #008ECC;
+  background-color: #222;
+  border-color: #222;
 }
 
-.btn-blue.outline-btn:hover i {
+.btn-main-color02.outline-btn:hover i {
   color: #fff;
 }
 
@@ -16318,15 +16318,13 @@ readers do not read off random characters that represent icons */
 
 .navbar .navbar-nav .nav-current,
 .navbar .navbar-nav .active {
-  font-weight: 500;
-  border-bottom: 3.4px solid #15a9e8;
+  border-bottom: 3.4px solid #222;
 }
 
 .navbar .navbar-nav .dropdown-item.active,
 .navbar .navbar-nav .dropdown-item:active {
   background-color: #e9ecef;
   color: #32373b;
-  font-weight: 500;
   border-bottom: none;
 }
 
@@ -18663,9 +18661,15 @@ select.selectpicker {
 
 body {
   font-family: "Noto Sans TC", sans-serif;
-  background-color: #f3f3f3;
+  background-color: #fafafa;
   z-index: -2;
   overflow-x: hidden;
+  font-size: 1rem;
+}
+
+input.form-control {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border: 1px solid #ced4daf3  !important;
 }
 
 h5 {
@@ -18970,6 +18974,30 @@ main {
   color: red;
 }
 
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1116px !important;
+  }
+}
+
+@media (min-width: 1688px) {
+  .container {
+    max-width: 1246px !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1656px !important;
+  }
+}
+
+.search-area {
+  background-color: white;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
 .page {
   background-color: white;
 }
@@ -18977,6 +19005,14 @@ main {
 .navbar-brand {
   color: #a37d1b !important;
   font-weight: bold;
+}
+
+table {
+  background-color: white;
+}
+
+.table thead th {
+  border-top: transparent;
 }
 
 /*# sourceMappingURL=style.css.map */
