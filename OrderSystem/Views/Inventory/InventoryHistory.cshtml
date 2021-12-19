@@ -3,55 +3,82 @@
     ViewData["Title"] = "Create Page";
 }
 
-
-<div class="mb-3">
-    <a href="/Inventory" class="btn btn-primary">
-        返回列表
-    </a>
+<div class="container">
+    <div class="page mt-5 p-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4 main-color01">庫存歷程管理</h1>
+            </div>
+        </div>
+        <div class="row" id="Form">
+            <div class="col-6 mb-3">
+                <label>商品名稱</label>
+                <div>@ViewData["Name"]</div>
+            </div>
+            <div class="col-6 mb-3">
+                <label>商品編號</label>
+                <div>@ViewData["Number"]</div>
+            </div>
+            <div class="col-6 mb-3">
+                <label>目前數量</label>
+                <div>@ViewData["CurrentUnit"]</div>
+            </div>
+            <div class="col-6 mb-3">
+                <label>價格</label>
+                <div>@ViewData["Price"]</div>
+            </div>
+         
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                異動時間
+                            </th>
+                            <th>
+                                異動數量
+                            </th>
+                            <th>
+                                異動描述
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreateAt)
+                                </td>
+                                <td>
+                                    @if (item.Unit >= 0)
+                                    {
+                                        <span>+</span>
+                                    }
+                                    else
+                                    {
+                                        <span>-</span>
+                                    }
+                                    @Math.Abs(item.Unit.Value)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descrption)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12">
+                <div class="text-right my-3">
+                    <button onclick="history.go(-2);" type="button" class="btn btn-main-color02 outline-btn">
+                        返回
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="mb-3">
-    商品名稱:@ViewData["Name"]<br />
-    商品編號:@ViewData["Number"]<br />
-    目前數量:@ViewData["CurrentUnit"]<br />
-    價格:@ViewData["Price"]<br />
-</div>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>
-                異動時間
-            </th>
-            <th>
-                異動數量
-            </th>
-            <th>
-                異動描述
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreateAt)
-                </td>
-                <td>
-                    @if (item.Unit >= 0)
-                    {
-                        <span>+</span>
-                    }
-                    else
-                    {
-                        <span>-</span>
-                    }
-                    @Math.Abs(item.Unit.Value)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descrption)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>

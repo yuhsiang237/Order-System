@@ -6,7 +6,6 @@
 @inject IAuthorizationService AuthorizationService
     <form asp-action="Index" id="form_search">
         <div class="search-area">
-            
             <div class="container">
                 <div class="row">
                     <div class="col">
@@ -84,7 +83,7 @@
                                            </a>
                                            @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Basic_UserManagement_Delete }))).Succeeded)
                                            {
-                                               <button name="btn_deleteUser" data-Id="@item.Id" data-Name="@item.Name" type="button" class="btn btn-primary">
+                                               <button name="btn_deleteUser" data-Id="@item.Id" data-Name="@item.Name" type="button" class="btn btn-main-color02">
                                                    刪除
                                                </button>
                                            }
