@@ -8,84 +8,117 @@
         ReturnShipmentOrderDetails : @Html.Raw(@ViewData["ReturnShipmentOrderDetails"])
     }
 </script>
-<div id="Form">
-    <div class="form-group">
-        <label>退貨單編號</label>
-        <div v-text="ReturnShipmentOrder.Number"></div>
-        <label>出貨單編號</label>
-        <div v-text="ReturnShipmentOrder.ShipmentOrderNumber"></div>
-        <error-message :errors="Errors['ReturnShipmentOrder.ShipmentOrderId']"></error-message>
-        <label>退貨日</label>
-        <input id="ReturnDate" v-model="ReturnShipmentOrder.ReturnDate" type="text" class="form-control">
-        <error-message :errors="Errors['ReturnShipmentOrder.ReturnDate']"></error-message>
 
-        <label>備註</label>
-        <textarea class="form-control" v-model="ReturnShipmentOrder.Remarks"></textarea>
-        <br />
-        <div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>
-                            #
-                        </th>
-                        <th>
-                            (商品編號)商品名稱
-                        </th>
-                        <th>
-                            價格
-                        </th>
-                        <th>
-                            出貨數量
-                        </th>
-                        <th>
-                            退貨數量
-                        </th>
-                        <th>
-                            備註
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(item, index) in ReturnShipmentOrderDetails">
-                        <td>
-                            {{index+1}}
-                        </td>
-                        <td>
-                            (<span v-text="item.ProductNumber"></span>)
-                            <span v-text="item.ProductName"></span>
+<div class="container" id="Form">
+    <div class="page mt-5 p-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4 main-color01">退貨單編輯</h1>
+            </div>
+        </div>
+        <div class="row" id="Form">
+            <div class="col-6 mb-3">
+                <label>退貨單編號</label>
+                <div v-text="ReturnShipmentOrder.Number"></div>
+            </div>
+            <div class="col-6  mb-3">
 
-                        </td>
-                        <td>
-                            <span v-text="item.ProductPrice"></span>
-                        </td>
-                        <td>
-                            <span v-text="item.ProductUnit"></span>
-                        </td>
-                        <td>
-                            <input v-model="item.Unit" type="text" class="form-control" />
-                            <error-message :errors="Errors['ReturnShipmentOrderDetails['+index +'].Unit']"></error-message>
-                        </td>
-                        <td>
-                            <input v-model="item.Remarks" type="text" class="form-control" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+
+                <label>出貨單編號</label>
+                <div v-text="ReturnShipmentOrder.ShipmentOrderNumber"></div>
+                <error-message :errors="Errors['ReturnShipmentOrder.ShipmentOrderId']"></error-message>
+            </div>
+            <div class="col-6  mb-3">
+
+                <label>退貨日</label>
+                <input id="ReturnDate" v-model="ReturnShipmentOrder.ReturnDate" type="text" class="form-control">
+                <error-message :errors="Errors['ReturnShipmentOrder.ReturnDate']"></error-message>
+
+
+            </div>
+            <div class="col-12  mb-3">
+
+                <label>備註</label>
+                <textarea class="form-control" v-model="ReturnShipmentOrder.Remarks"></textarea>
+            </div>
+
         </div>
     </div>
-    <div class="text-right">
-        <button onclick="window.history.back();" type="button" class="btn btn-primary">
-            取消
-        </button>
-        @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_ReturnShipment_Modify }))).Succeeded)
-        {
-            <button v-on:click="createOrder()" type="button" class="btn btn-primary">
-                更新退貨單
-            </button>
-        }
+    <div class="page p-5">
+        <div class="row">
+            <div class="col-12">
+
+                <div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    (商品編號)商品名稱
+                                </th>
+                                <th>
+                                    價格
+                                </th>
+                                <th>
+                                    出貨數量
+                                </th>
+                                <th>
+                                    退貨數量
+                                </th>
+                                <th>
+                                    備註
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in ReturnShipmentOrderDetails">
+                                <td>
+                                    {{index+1}}
+                                </td>
+                                <td>
+                                    (<span v-text="item.ProductNumber"></span>)
+                                    <span v-text="item.ProductName"></span>
+
+                                </td>
+                                <td>
+                                    <span v-text="item.ProductPrice"></span>
+                                </td>
+                                <td>
+                                    <span v-text="item.ProductUnit"></span>
+                                </td>
+                                <td>
+                                    <input v-model="item.Unit" type="text" class="form-control" />
+                                    <error-message :errors="Errors['ReturnShipmentOrderDetails['+index +'].Unit']"></error-message>
+                                </td>
+                                <td>
+                                    <input v-model="item.Remarks" type="text" class="form-control" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+        <div class="col-12">
+            <div class="text-right my-3">
+
+                <button onclick="window.history.back();" type="button" class="btn btn-main-color02 outline-btn">
+                    取消
+                </button>
+                @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_ReturnShipment_Modify }))).Succeeded)
+                {
+                    <button v-on:click="createOrder()" type="button" class="btn btn-main-color01">
+                        更新退貨單
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
 </div>
+
 
 @section Scripts {
     <script src="~/js/Pages/Order/ReturnShipmentOrderEdit.js"></script>

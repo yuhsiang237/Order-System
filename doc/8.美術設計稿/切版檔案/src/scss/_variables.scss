@@ -4,17 +4,19 @@
 // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
 
 //預設文字顏色
-$text-color: #2e2e2e;
+$text-color: #222;
 
 // ====== 客制範圍 SR ======
 // 主色系變數
-$main-color01: #3d6273; //主色
-$main-color02: #15a9e8; //輔助色
+$main-color01: #a37d1b; //主色
+$main-color02: #222; //輔助色
 $main-color03: #1d688f; //輔助色
 $main-color04: #f67322; //強調色
 $main-color05: #ffffff; //基色
 
 $main-color01-light: #edf3f5;
+
+$primary : $main-color01;
 
 .main-color01 {
   color: $main-color01 !important;
@@ -41,7 +43,7 @@ $main-color01-light: #edf3f5;
   color: #fff;
 }
 
-.btn-color01 {
+.btn-main-color01 {
   color: #fff;
   background-color: $main-color01;
   border-color: $main-color01;
@@ -64,7 +66,6 @@ $main-color01-light: #edf3f5;
     }
   }
 }
-
 .bg-gray-light {
   background-color: #e9ecef !important;
 }
@@ -120,22 +121,22 @@ $main-color01-light: #edf3f5;
 }
 
 
-.btn-blue {
+.btn-main-color02 {
   color: #fff;
-  background-color: #008ECC;
-  border-color: #008ECC;
+  background-color: $main-color02;
+  border-color: $main-color02;
   &:hover {
     color: #fff;
-    background-color: darken(#008ECC, 5%);
-    border-color: darken(#008ECC, 8%);
+    background-color: darken($main-color02, 5%);
+    border-color: darken($main-color02, 8%);
   }
   &.outline-btn {
-    color: #008ECC;
+    color:$main-color02;
     background-color: transparent;
     &:hover {
       color: #fff;
-      background-color: #008ECC;
-      border-color: #008ECC;
+      background-color: $main-color02;
+      border-color: $main-color02;
       i{
         color: #fff;
       }
@@ -217,7 +218,7 @@ $colors: map-merge(
   $colors
 );
 
-$primary: #17a2b8 !default;
+$primary: $main-color01 !default;
 $secondary: $gray-600 !default;
 $success: $green !default;
 $info: $cyan !default;
