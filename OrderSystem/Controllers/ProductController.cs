@@ -18,7 +18,7 @@ namespace OrderSystem.Controllers
     public class ProductController : Controller
     {
         [PermissionFilter(Permissions.ProductCategory_View)]
-
+        [HttpGet]
         public async Task<IActionResult> ProductCategory(
     string sortOrder,
     string currentFilterName,
@@ -89,6 +89,7 @@ namespace OrderSystem.Controllers
             return View(await PaginatedList<ProductCategoryViewModel>.CreateAsync(query.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
         [PermissionFilter(Permissions.Product_View)]
+        [HttpGet]
 
         public async Task<IActionResult> Index(
        string sortOrder,

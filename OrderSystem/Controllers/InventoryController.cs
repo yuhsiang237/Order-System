@@ -55,6 +55,7 @@ namespace OrderSystem.Controllers
             return View(query);
         }
         [PermissionFilter(Permissions.Inventory_View)]
+        [HttpGet]
 
         public async Task<IActionResult> Index(
         string sortOrder,
