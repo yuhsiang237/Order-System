@@ -26,6 +26,7 @@ namespace OrderSystem.Controllers
             _context = context;
         }
         [PermissionFilter(Permissions.Order_Shipment_View)]
+        [HttpGet]
 
         public async Task<IActionResult> ShipmentOrder(
      string sortOrder,
@@ -103,6 +104,7 @@ namespace OrderSystem.Controllers
             return View(await PaginatedList<ShipmentOrderViewModel>.CreateAsync(query.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
         [PermissionFilter(Permissions.Order_ReturnShipment_View)]
+        [HttpGet]
 
         public async Task<IActionResult> ReturnShipmentOrder(
    string sortOrder,

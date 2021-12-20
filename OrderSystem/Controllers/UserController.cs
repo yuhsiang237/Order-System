@@ -29,7 +29,7 @@ namespace OrderSystem.Controllers
         }
 
         [PermissionFilter(Permissions.Basic_UserManagement_View)]
-
+        [HttpGet]
         public async Task<IActionResult> Index(
      string sortOrder,
      string currentFilterName,
