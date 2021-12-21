@@ -1,0 +1,23 @@
+Report created: 
+	12/21/2021	8:13:44 PM
+
+Project name: OP.aep
+
+Source files collected to: 
+	C:\Users\user\Music\OP\OP folder
+
+Source files collected: All
+
+Collected comps:  
+	Comp 1
+	
+Number of collected files:  1
+
+Size of collected files:  10.3 MB
+
+Collected source files: 
+	C:\Users\user\Downloads\banner.psd
+	
+Rendering plug-ins:
+	Classic 3D
+	
