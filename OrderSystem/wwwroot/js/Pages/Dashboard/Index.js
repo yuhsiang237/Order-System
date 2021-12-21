@@ -49,14 +49,6 @@
                     minWidth: 700
                 }
             },
-
-            data: {
-                csvURL: 'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/analytics.csv',
-                beforeParse: function (csv) {
-                    return csv.replace(/\n\n/g, '\n');
-                }
-            },
-
             title: {
                 text: ''
             },
@@ -66,13 +58,14 @@
             },
 
             xAxis: {
-                tickInterval: 7 * 24 * 3600 * 1000, // one week
-                tickWidth: 0,
-                gridLineWidth: 1,
+                type: 'datetime',
                 labels: {
-                    align: 'left',
-                    x: 3,
-                    y: -3
+                    formatter: function () {
+                        var date = new Date(this.value );
+                        return   date.getFullYear()+
+                            "-" + (date.getMonth() + 1) +
+                            "-" + date.getDate()
+                    }
                 }
             },
 
@@ -108,10 +101,12 @@
                 verticalAlign: 'top',
                 borderWidth: 0
             },
-
+            
             tooltip: {
                 shared: true,
-                crosshairs: true
+                crosshairs: true,
+                xDateFormat: '%B, %d %Y %H:%M:%S',
+
             },
 
             plotOptions: {
@@ -123,15 +118,12 @@
                     }
                 }
             },
-
             series: [{
-                name: 'All sessions',
-                lineWidth: 4,
-                marker: {
-                    radius: 4
-                }
-            }, {
-                name: 'New users'
+                color: "#a37d1b",
+                name:"出貨單",
+                data:$Page.shipmentOrderDeliveryChartData.map(it => {
+                    return new Array(it.DeliveryDate, it.Count)
+                })
             }]
         });
 
