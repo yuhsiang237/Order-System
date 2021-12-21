@@ -1,7 +1,18 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using OrderSystem.Authorization
+@using System.Security.Claims;
 @inject IAuthorizationService AuthorizationService
-
+@{
+    string Account = "";
+    foreach (Claim claim in Context.User.Claims)
+    {
+        if (claim.Type == "Account")
+        {
+            Account = claim.Value;
+            break;
+        }
+    }
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,13 +23,11 @@
     <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
     <link rel="stylesheet" href="~/css/style.css" />
     <style>
-        
     </style>
 </head>
 <body>
     <header>
-        <div class="light-navbar">
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm  border-bottom box-shadow">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-white navbar-light  border-bottom box-shadow">
                 <div class="container">
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OrderSystem</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -117,13 +126,12 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="@Url.Action("Logout","User")">登出</a>
+                                <div class="nav-link text-dark">您好，@Account  <a class="text-dark" href="@Url.Action("Logout","User")">登出</a></div>
                             </li>
                         }
                     </ul>
                 </div>
             </nav>
-        </div>
     </header>
     <div>
         @RenderBody()
