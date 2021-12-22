@@ -163,7 +163,7 @@ namespace OrderSystem.Controllers
         }
         public IActionResult SignUp()
         {
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
@@ -210,14 +210,14 @@ namespace OrderSystem.Controllers
         }
         public IActionResult SignIn()
         {
-            return View();
+            return PartialView();
         }
         [HttpPost]
         public async Task<IActionResult> SignInAsync(UserSignInViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return PartialView();
             }
             // vaild account and pwd
             var user = _context.Users.FirstOrDefault(x =>
@@ -226,7 +226,7 @@ namespace OrderSystem.Controllers
             if (user == null)
             {
                 ViewData["ErrorAccount"] = "錯誤的帳號或密碼";
-                return View();
+                return PartialView();
             }
             Boolean isValid = HashSaltTool.Validate(model.Password, user.Salt, user.Password);
             if (isValid)
@@ -243,12 +243,12 @@ namespace OrderSystem.Controllers
                     {
                         IsPersistent = true, // keep login when close browser
                     });
-               return RedirectToAction("Index", "Home");
+               return RedirectToAction("Index", "Dashboard");
             }
             else
             {
                 ViewData["ErrorAccount"] = "錯誤的帳號或密碼";
-                return View();
+                return PartialView();
             }
         }
 
@@ -273,27 +273,30 @@ namespace OrderSystem.Controllers
             if (isExistAccount != null)
             {
                 ViewData["ErrorAccountExist"] = "帳號已存在";
-                return View();
+                return PartialView();
             }
             if (isExistEmail != null)
             {
                 ViewData["ErrorEmailExist"] = "信箱已存在";
-                return View();
+                return PartialView();
             }
             if (model.Password != model.Password2)
             {
                 ViewData["ErrorPassword2"] = "密碼輸入不一致";
-                return View();
+                return PartialView();
+
             }
             if (!ModelState.IsValid)
             {
-                return View();
+                return PartialView();
+
             }
             // create an account
             User user = new User();
             user.Name = model.Name;
             user.Email = model.Name;
             user.Account = model.Account;
+            user.RoleId = 1; // basic role
             // Hash & Salt password
             var hashSaltResponse = HashSaltTool.Generate(model.Password);
             user.Password = hashSaltResponse.hash;
@@ -301,7 +304,9 @@ namespace OrderSystem.Controllers
 
             _context.Users.Add(user);
             _context.SaveChanges();
-            return View();
+            ViewData["IsSuccess"] = "true";
+            ViewData["Account"] = model.Account;
+            return PartialView();
         }
     }
 }
