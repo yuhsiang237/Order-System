@@ -2,22 +2,44 @@
 @{
     ViewData["Title"] = "Create Page";
 }
-
-<form asp-controller="User" asp-action="SignIn">
-
-    <div>
-        <label>帳號</label>
-        <input asp-for="Account" />
-        <span asp-validation-for="Account"></span>
-        <span>@ViewData["ErrorAccount"]</span>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OrderSystem</title>
+    <link rel="stylesheet" href="~/lib/jquery-ui/jquery-ui.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <style>
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col" style="background:black;min-height:100vh">
+                
+            </div>
+            <div class="col">
+                <div style="margin-top:35vh;">
+                    <h1>登入</h1>
+                    <form asp-controller="User" asp-action="SignIn">
+                        <div class="mb-3">
+                            <label>帳號</label>
+                            <input class="form-control" asp-for="Account" />
+                            <span class="error-message"asp-validation-for="Account"></span>
+                            <span class="error-message">@ViewData["ErrorAccount"]</span>
+                        </div>
+                        <div class="mb-3">
+                            <label>密碼</label>
+                            <input class="form-control" type="password" asp-for="Password" />
+                            <span  class="error-message" asp-validation-for="Password"></span>
+                        </div>
+                        <div class="mb-3">
+                            <input type="submit" class="btn btn-main-color01" value="登入" />
+                        </div>
+                        還沒有帳號嗎?<a href="/User/SignUp">註冊帳號</a>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label>密碼</label>
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <input type="submit" value="登入" />
-    </div>
-</form>
-
+</body>

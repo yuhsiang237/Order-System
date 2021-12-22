@@ -3,38 +3,70 @@
     ViewData["Title"] = "Create Page";
 }
 
-<form asp-controller="User" asp-action="SignUp" >
-    <div>
-        <label>姓名</label>
-        <input asp-for="Name" />
-        <span asp-validation-for="Name"></span>
-    </div>@ViewData["ErrorAccountExist"]
-    <div>
-        <label>帳號</label>
-        <input asp-for="Account" />
-        <span asp-validation-for="Account"></span>
-        <span>@ViewData["ErrorAccountExist"]</span>
-    </div>
-    <div>
-        <label>密碼</label>
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-       
-    </div>
-    <div>
-        <label>再輸入一次密碼</label>
-        <input asp-for="Password2" />
-        <span asp-validation-for="Password2"></span>
-        <span>@ViewData["ErrorPassword2"]</span>
-</div>
-    <div>
-        <label>信箱</label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-        <span>@ViewData["ErrorEmailExist"]</span>
-    </div>
-    <div>
-        <input type="submit" value="註冊" />
-    </div>
-</form>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OrderSystem</title>
+    <link rel="stylesheet" href="~/lib/jquery-ui/jquery-ui.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <style>
+    </style>
+</head>
+@if (ViewData["isSuccess"] == "true")
+{
+    <script>
+        alert('註冊成功!' + '@ViewData["Account"]');
+        window.location.href ='/User/SignIn'
+    </script>
+}
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col" style="background:black;min-height:100vh">
+                </div>
+                <div class="col">
+                    <div style="margin-top:20vh;">
+                        <h1>註冊</h1>
+                        <form asp-controller="User" asp-action="SignUp">
+                            <div class="mb-2">
+                                <label>姓名</label>
+                                <input class="form-control" asp-for="Name" />
+                                <span class="error-message" asp-validation-for="Name"></span>
+                            </div>
+                            <div class="mb-2">
+                                <label>帳號</label>
+                                <input class="form-control" asp-for="Account" />
+                                <span class="error-message" asp-validation-for="Account"></span>
+                                <span class="error-message">@ViewData["ErrorAccountExist"]</span>
+                            </div>
+                            <div class="mb-2">
+                                <label>密碼</label>
+                                <input class="form-control" type="password" asp-for="Password" />
+                                <span class="error-message" asp-validation-for="Password"></span>
+
+                            </div>
+                            <div class="mb-2">
+                                <label>再輸入一次密碼</label>
+                                <input class="form-control" type="password" asp-for="Password2" />
+                                <span class="error-message" asp-validation-for="Password2"></span>
+                                <span class="error-message">@ViewData["ErrorPassword2"]</span>
+                            </div>
+                            <div class="mb-3">
+                                <label>信箱</label>
+                                <input class="form-control" asp-for="Email" />
+                                <span class="error-message" asp-validation-for="Email"></span>
+                                <span class="error-message">@ViewData["ErrorEmailExist"]</span>
+                            </div>
+                            <div>
+                                <input type="submit" value="註冊" class="btn btn-main-color01" />
+                            </div>
+                        </form>
+                        <a href="/User/SignIn">返回登入</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
 
