@@ -1,0 +1,170 @@
+﻿@{
+    ViewData["Title"] = "總覽";
+}
+<script>
+    var $Page = {
+        shipmentOrderDeliveryChartData : @Html.Raw(ViewData["shipmentOrderDeliveryChartData"])
+    }
+</script>
+<div class="dashboard">
+    <div class="container-fluid banner mb-5  p-0 m-0">
+        <div class="row p-0 m-0">
+            <div class="col-12 p-0 m-0">
+                <video autoplay muted>
+                    <source src="./media/banner.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-2 mb-3">
+                <div class="date-card">
+                    @DateTime.Now.Year / <br />
+                    @DateTime.Now.Month. @DateTime.Now.Day
+                </div>
+            </div>
+            <div class="col  mb-3">
+                <div class="month-card">
+                    <div class="title">
+                        當月出貨總金額
+                    </div>
+                    <div class="text">
+                        $@ViewData["monthShipmentOrderSum"]
+                    </div>
+                </div>
+            </div>
+            <div class="col  mb-3">
+                <div class="month-card">
+                    <div class="title">
+                        當月退貨總金額
+                    </div>
+                    <div class="text">
+                        $@ViewData["monthReturnShipmentOrderSum"]
+                    </div>
+                </div>
+            </div>
+            <div class="col  mb-3">
+
+                <div class="month-card">
+                    <div class="title">
+                        當月淨利
+                    </div>
+                    <div class="text">
+                        $@ViewData["monthOrderProfit"]
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8  mb-3">
+                <div class="chart-card">
+                    <div class="title">
+                        本月訂單出貨日程
+                    </div>
+                    <div id="monthChart">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 mb-3">
+                <div class="info-card">
+                    <div class="title">
+                        累積資訊
+                    </div>
+                    <div class="text">
+                        <div class="row mb-3">
+                            <div class="col-7  text-left">
+                                所有出貨訂單
+                            </div>
+                            <div class="col-5 text-right">
+                                @ViewData["allShipmentOrderCount"]&nbsp;&nbsp;&nbsp;件
+                            </div>
+                        </div>
+                        <div class="row  mb-3">
+                            <div class="col-7  text-left">
+                                所有退貨訂單
+                            </div>
+                            <div class="col-5 text-right">
+                                @ViewData["allReturnShipmentOrderCount"]&nbsp;&nbsp;&nbsp;件
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-7  text-left">
+                                所有已完成訂單
+                            </div>
+                            <div class="col-5 text-right">
+                                @ViewData["allShipmentOrderCompletedCount"]&nbsp;&nbsp;&nbsp;件
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-7  text-left">
+                                所有進行中訂單
+                            </div>
+                            <div class="col-5 text-right">
+                                @ViewData["allShipmentOrderInProgressCount"]&nbsp;&nbsp;&nbsp;件
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-7  text-left">
+                                目前商品總數
+                            </div>
+                            <div class="col-5 text-right">
+                                @ViewData["allProductCount"]&nbsp;&nbsp;&nbsp;件
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="year-card">
+                    <div class="row">
+                        <div class="col  mb-3">
+                            <div class="title">
+                                年度出貨總金額
+                            </div>
+                            <div class="text">
+                                $@ViewData["yearShipmentOrderSum"]
+                            </div>
+                        </div>
+                        <div class="col  mb-3">
+                            <div class="title">
+                                年度退貨總金額
+                            </div>
+                            <div class="text">
+                                $@ViewData["yearReturnShipmentOrderSum"]
+                            </div>
+                        </div>
+                        <div class="col  mb-3">
+                            <div class="title">
+                                年度淨利
+                            </div>
+                            <div class="text">
+                                $@ViewData["yearOrderProfit"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="remarks-card">
+                    所有資料皆為及時運算之最新資料。資料時間 2021-12-20.<br />
+                    資料說明:年度出貨總金額、年度退貨總金額、年度淨利為當年所有資料結算統計。當月出貨總金額、當月退貨總金額、當月淨利為當月所有資料結算總計。累積資訊則為系統初始迄今之所有資料累積。
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+
+    <script src="~/js/Pages/Dashboard/Index.js"></script>
+}
