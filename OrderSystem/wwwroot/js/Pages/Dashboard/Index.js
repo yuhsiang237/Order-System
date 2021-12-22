@@ -49,6 +49,9 @@
                     minWidth: 700
                 }
             },
+            credits: {
+    enabled: false
+},
             title: {
                 text: ''
             },
@@ -61,7 +64,7 @@
                 type: 'datetime',
                 labels: {
                     formatter: function () {
-                        var date = new Date(this.value );
+                        var date = new Date(this.value);
                         return   date.getFullYear()+
                             "-" + (date.getMonth() + 1) +
                             "-" + date.getDate()
@@ -105,7 +108,6 @@
             tooltip: {
                 shared: true,
                 crosshairs: true,
-                xDateFormat: '%B, %d %Y %H:%M:%S',
 
             },
 

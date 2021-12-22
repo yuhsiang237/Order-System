@@ -80,13 +80,39 @@ namespace OrderSystem.Controllers
             ViewData["allProductCount"] = allProductCount;
 
             // shipmentOrder delivery chart
-            var shipmentOrderDeliveryChartData = (from a in _context.ShipmentOrders
+            var shipmentOrderDelivery = (from a in _context.ShipmentOrders
                                                   where a.IsDeleted != true
                                                   where a.DeliveryDate.Value.Month == DateTime.Now.Month
                                                   group a by a.DeliveryDate.Value.Date into g
-                                                  select new { DeliveryDate = ((DateTimeOffset)g.Key).ToUnixTimeSeconds()*1000, Count = g.Count() });
-            ViewData["shipmentOrderDeliveryChartData"] = JsonConvert.SerializeObject(shipmentOrderDeliveryChartData); 
+                                                  select new { DeliveryDate = g.Key, Count = g.Count() }).ToList();
+
+            List<object> shipmentOrderDeliveryChartData = new List<object>();
+            // Loop from the first day of the month until we hit the next month, moving forward a day at a time
+            for (var date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1); date.Month == DateTime.Now.Month; date = date.AddDays(1))
+            {
+                var dayDelivery = shipmentOrderDelivery.Where(x => x.DeliveryDate == date).FirstOrDefault();
+                if (dayDelivery != null)
+                {
+                    shipmentOrderDeliveryChartData.Add(new
+                    {
+                        DeliveryDate = ((DateTimeOffset)date).ToUnixTimeSeconds() * 1000,
+                        Count = dayDelivery.Count
+                    });
+                }
+                else
+                {
+                    shipmentOrderDeliveryChartData.Add(new
+                    {
+                        DeliveryDate = ((DateTimeOffset)date).ToUnixTimeSeconds() * 1000,
+                        Count = 0
+                    });
+                }
+            }
+            ViewData["shipmentOrderDeliveryChartData"] = JsonConvert.SerializeObject(shipmentOrderDeliveryChartData);
+
+
             return View();
         }
+
     }
 }
