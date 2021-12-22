@@ -15,8 +15,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col" style="background:black;min-height:100vh">
-                
+            <div class="col" style="background: url('/images/banner_outside.png'); background-size: cover; background-repeat: no-repeat; background-position: center center; min-height: 100vh ">
             </div>
             <div class="col">
                 <div style="margin-top:35vh;">
@@ -25,18 +24,20 @@
                         <div class="mb-3">
                             <label>帳號</label>
                             <input class="form-control" asp-for="Account" />
-                            <span class="error-message"asp-validation-for="Account"></span>
+                            <span class="error-message" asp-validation-for="Account"></span>
                             <span class="error-message">@ViewData["ErrorAccount"]</span>
                         </div>
                         <div class="mb-3">
                             <label>密碼</label>
                             <input class="form-control" type="password" asp-for="Password" />
-                            <span  class="error-message" asp-validation-for="Password"></span>
+                            <span class="error-message" asp-validation-for="Password"></span>
                         </div>
                         <div class="mb-3">
                             <input type="submit" class="btn btn-main-color01" value="登入" />
                         </div>
-                        還沒有帳號嗎?<a href="/User/SignUp">註冊帳號</a>
+                        <div class="text-muted">
+                            還沒有帳號嗎?<a href="/User/SignUp">註冊帳號</a>
+                        </div>
                     </form>
                 </div>
             </div>
