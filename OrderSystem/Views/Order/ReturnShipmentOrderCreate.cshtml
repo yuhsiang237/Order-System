@@ -29,7 +29,8 @@
             <div class="col-6  mb-3">
 
                 <label>退貨日</label>
-                <input id="ReturnDate" v-model="ReturnDate" type="text" class="form-control">
+                <date-picker class="form-control" placeholder="選擇退貨日" date-format="yy-mm-dd" v-model="ReturnDate"></date-picker>
+
                 <error-message :errors="Errors['ReturnShipmentOrder.ReturnDate']"></error-message>
 
             </div>

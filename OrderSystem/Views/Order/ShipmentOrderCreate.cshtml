@@ -19,7 +19,7 @@
             <div class="col-6  mb-3">
 
                 <label>出貨日</label>
-                <input class="form-control" placeholder="選擇出貨日" type="text" id="DeliveryDate" v-model="DeliveryDate" />
+                <date-picker class="form-control" placeholder="選擇出貨日" date-format="yy-mm-dd" v-model="DeliveryDate"></date-picker>
                 <div>
                     <error-message :errors="Errors['ShipmentOrder.DeliveryDate']"></error-message>
                 </div>
@@ -31,7 +31,8 @@
             </div>
             <div class="col-6  mb-3">
                 <label>完成日</label>
-                <input class="form-control" placeholder="選擇完成日" type="text" id="FinishDate" v-model="FinishDate" />
+                <date-picker class="form-control" placeholder="選擇完成日" date-format="yy-mm-dd" v-model="FinishDate"></date-picker>
+
             </div>
             <div class="col-6  mb-3">
                 <label>總金額(自動計算)</label>

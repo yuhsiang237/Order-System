@@ -22,9 +22,6 @@
                 <div v-text="ReturnShipmentOrder.Number"></div>
             </div>
             <div class="col-6  mb-3">
-
-
-
                 <label>出貨單編號</label>
                 <div v-text="ReturnShipmentOrder.ShipmentOrderNumber"></div>
                 <error-message :errors="Errors['ReturnShipmentOrder.ShipmentOrderId']"></error-message>
@@ -32,7 +29,8 @@
             <div class="col-6  mb-3">
 
                 <label>退貨日</label>
-                <input id="ReturnDate" v-model="ReturnShipmentOrder.ReturnDate" type="text" class="form-control">
+                <date-picker class="form-control" placeholder="選擇退貨日" date-format="yy-mm-dd" v-model="ReturnShipmentOrder.ReturnDate"></date-picker>
+
                 <error-message :errors="Errors['ReturnShipmentOrder.ReturnDate']"></error-message>
 
 
