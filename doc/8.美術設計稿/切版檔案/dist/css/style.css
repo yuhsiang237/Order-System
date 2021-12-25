@@ -19054,8 +19054,56 @@ table {
   border-top: transparent;
 }
 
+.sign-in-page .form-block {
+  margin-top: 35vh;
+}
+
+@media (max-width: 767.98px) {
+  .sign-in-page .form-block {
+    margin-top: 10vh;
+  }
+}
+
+.sign-in-page .watermark-block {
+  min-height: 100vh;
+}
+
+@media (max-width: 767.98px) {
+  .sign-in-page .watermark-block {
+    height: 200px;
+  }
+}
+
+.sign-up-page .form-block {
+  margin-top: 20vh;
+}
+
+@media (max-width: 767.98px) {
+  .sign-up-page .form-block {
+    margin-top: 10vh;
+  }
+}
+
+.sign-up-page .watermark-block {
+  min-height: 100vh;
+}
+
+@media (max-width: 767.98px) {
+  .sign-up-page .watermark-block {
+    height: 200px;
+  }
+}
+
 .dashboard .banner {
   min-height: calc(80vh);
+  margin-bottom: 30px !important;
+}
+
+@media (max-width: 767.98px) {
+  .dashboard .banner {
+    min-height: calc(0vh);
+    margin-bottom: 30px !important;
+  }
 }
 
 .dashboard .date-card {
@@ -19068,6 +19116,12 @@ table {
   font-weight: bold;
   min-height: 100%;
   border: solid 1px #dfdfdf;
+}
+
+@media (max-width: 767.98px) {
+  .dashboard .date-card {
+    padding: 15px;
+  }
 }
 
 .dashboard .month-card {

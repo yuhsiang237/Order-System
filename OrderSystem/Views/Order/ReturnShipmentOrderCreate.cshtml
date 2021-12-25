@@ -8,12 +8,12 @@
             </div>
         </div>
         <div class="row" id="Form">
-            <div class="col-6 mb-3">
+            <div class="col-12 col-md-6   mb-3">
 
                 <label>退貨單編號</label>
                 <input disabled value="系統自動產生" type="text" class="form-control">
             </div>
-            <div class="col-6  mb-3">
+            <div class="col-12 col-md-6    mb-3">
 
 
                 <label>出貨單編號</label>
@@ -26,7 +26,7 @@
 
                 <error-message :errors="Errors['ReturnShipmentOrder.ShipmentOrderId']"></error-message>
             </div>
-            <div class="col-6  mb-3">
+            <div class="col-12 col-md-6   mb-3">
 
                 <label>退貨日</label>
                 <date-picker class="form-control" placeholder="選擇退貨日" date-format="yy-mm-dd" v-model="ReturnDate"></date-picker>
@@ -34,7 +34,7 @@
                 <error-message :errors="Errors['ReturnShipmentOrder.ReturnDate']"></error-message>
 
             </div>
-            <div class="col-12  mb-3">
+            <div class="col-12 col-md-6   mb-3">
                 <label>備註</label>
                 <textarea class="form-control" v-model="Remarks"></textarea>
             </div>
