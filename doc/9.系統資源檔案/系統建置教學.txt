@@ -3,9 +3,9 @@
 2.建置資料庫，請注意有順序性，先匯入結構再來才是資料
   
   a.先匯入資料庫的結構 
-  OrderSystemSchemaScript.sql
+  /doc/9.系統資源檔案/OrderSystemSchemaScript.sql
   b.再匯入基礎資料(角色權限、基礎帳號資料)
-  OrderSystemDefaultDataScript.sql
+  /doc/9.系統資源檔案/OrderSystemDefaultDataScript.sql
 
 3.開啟專案OrderSystem.sln
 
