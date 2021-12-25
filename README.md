@@ -37,3 +37,10 @@
 - ASP.NET Core 3.1
 - SQL Server 2019
 - Visual Studio 2019
+
+### 基礎內頁展示
+<img style="width:250px" src="https://github.com/yuhsiang237/Order-System/blob/master/doc/8.美術設計稿/demofile/1.png" />
+<img style="width:250px" src="https://github.com/yuhsiang237/Order-System/blob/master/doc/8.美術設計稿/demofile/2.png" />
+<img style="width:250px" src="https://github.com/yuhsiang237/Order-System/blob/master/doc/8.美術設計稿/demofile/3.png" />
+<img style="width:250px" src="https://github.com/yuhsiang237/Order-System/blob/master/doc/8.美術設計稿/demofile/4.png" />
+<img style="width:250px" src="https://github.com/yuhsiang237/Order-System/blob/master/doc/8.美術設計稿/demofile/5.png" />
