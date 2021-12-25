@@ -1,4 +1,4 @@
-# 商品出退貨訂單系統 OrderSystem
+# 商品出退貨訂單系統 (OrderSystem)
 ### 說明(Intro)
 主要用來出退貨商品訂單，能夠建立出貨、退貨訂單，並具備商品庫存機制、多角色權限、權限限制(新、刪、修、查)等頁面的細微權限。  
 並且使用到ASP.NET Core MVC、Entity Framework、Vue.js、Jquery、Bootstrap、SQL Server進行開發。  
