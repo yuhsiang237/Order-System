@@ -1,6 +1,10 @@
-# order-system
-商品出退貨訂單系統
-### Setup
+# 商品出退貨訂單系統 OrderSystem
+### 說明(Intro)
+主要用來出退貨商品訂單，能夠建立出貨、退貨訂單，並具備商品庫存機制、多角色權限、權限限制(新、刪、修、查)等頁面的細微權限。  
+並且使用到ASP.NET Core MVC、Entity Framework、Vue.js、Jquery、Bootstrap、SQL Server進行開發。  
+在資料庫規劃上也考量到現實情況，亦有多對多關聯的設計。  
+
+### 系統安裝與啟用(Setup)
 可以直接參考此 [完整安裝影片](https://github.com/yuhsiang237/Order-System/blob/master/doc/9.%E7%B3%BB%E7%B5%B1%E8%B3%87%E6%BA%90%E6%AA%94%E6%A1%88/%E7%B3%BB%E7%B5%B1%E5%BB%BA%E7%BD%AE%E6%95%99%E5%AD%B8%E5%BD%B1%E7%89%87.mp4)，協助搭建，約5分鐘。
 ```
 1.從Github將專案Order-System下載下來。
@@ -26,3 +30,8 @@
 
 6.完成
 ```
+
+### 系統開發環境要求
+- ASP.NET Core 3.1
+- SQL Server 2019
+- Visual Studio 2019
