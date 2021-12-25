@@ -20,6 +20,7 @@ namespace OrderSystem.Models.Validator
             RuleFor(x => x).Custom((x, c) =>
             {
                 var isExistNumber = context.Products.FirstOrDefault(item =>
+                            item.IsDeleted !=true &&
                             item.Number == x.Number
                         );
                 if (isExistNumber != null)
