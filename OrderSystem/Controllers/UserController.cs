@@ -255,7 +255,7 @@ namespace OrderSystem.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return RedirectToAction("Index", "Home");// direct to home page
+            return RedirectToAction("SignIn", "User");// direct to sign in page
         }
 
         [HttpPost]

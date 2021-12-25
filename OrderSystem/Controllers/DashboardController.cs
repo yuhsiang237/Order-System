@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using OrderSystem.Authorization;
 using OrderSystem.Models;
 using OrderSystem.Tools;
 using System;
@@ -21,6 +22,8 @@ namespace OrderSystem.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        [PermissionFilter(Permissions.Default_Login)]
         public IActionResult Index()
         {
 
@@ -109,8 +112,6 @@ namespace OrderSystem.Controllers
                 }
             }
             ViewData["shipmentOrderDeliveryChartData"] = JsonConvert.SerializeObject(shipmentOrderDeliveryChartData);
-
-
             return View();
         }
 
