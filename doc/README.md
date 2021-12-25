@@ -8,3 +8,4 @@
 6. OrderSystem WBS.xlsx:將工作拆成細項，管理工作的進度使用。即Work Breakdown Structure。
 7. 開發者日誌.md:將工作與處理到的問題回報
 8. 美術設計稿:設計檔案。
+9. 系統資源檔案:主要存系統設置檔案(DB Script、啟用示範影片等等)。

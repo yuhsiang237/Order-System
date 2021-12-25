@@ -294,7 +294,7 @@ namespace OrderSystem.Controllers
             // create an account
             User user = new User();
             user.Name = model.Name;
-            user.Email = model.Name;
+            user.Email = model.Email;
             user.Account = model.Account;
             user.RoleId = 1; // basic role
             // Hash & Salt password
