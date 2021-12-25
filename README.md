@@ -1,6 +1,7 @@
 # order-system
 商品出退貨訂單系統
 ### Setup
+可以直接參考此 [完整安裝影片](https://github.com/yuhsiang237/Order-System/blob/master/doc/9.%E7%B3%BB%E7%B5%B1%E8%B3%87%E6%BA%90%E6%AA%94%E6%A1%88/%E7%B3%BB%E7%B5%B1%E5%BB%BA%E7%BD%AE%E6%95%99%E5%AD%B8%E5%BD%B1%E7%89%87.mp4)，協助搭建，約5分鐘。
 ```
 1.從Github將專案Order-System下載下來。
 
