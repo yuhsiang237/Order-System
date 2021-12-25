@@ -6,7 +6,7 @@
 並且使用到ASP.NET Core MVC、Entity Framework、Vue.js、Jquery、Bootstrap、SQL Server進行開發。  
 在資料庫規劃上也考量到現實情況，亦有多對多關聯的設計。  
 為保護帳號安全，密碼部分則採用HASH與加鹽方式儲存。  
-資料驗證欄位採用Fluent Validation及部分Model validation。
+資料驗證欄位採用Fluent Validation及部分Model Validation。
 
 完整操作影片請看:[系統操作展示影片](doc/9.系統資源檔案/系統操作影片.mp4) 
 
