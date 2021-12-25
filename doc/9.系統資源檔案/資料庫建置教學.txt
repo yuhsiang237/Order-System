@@ -1,9 +1,0 @@
-1.先匯入資料庫的結構 
-OrderSystemSchemaScript.sql
-
-2.再匯入基礎資料(角色權限、基礎帳號資料)
-OrderSystemDefaultDataScript.sql
-
-3.再來可用預設帳密做登入:
-帳號:demouser
-密碼:demopwd
