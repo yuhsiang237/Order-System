@@ -53,15 +53,14 @@
                                     @Html.DisplayFor(modelItem => item.CreateAt)
                                 </td>
                                 <td>
-                                    @if (item.Unit >= 0)
-                                    {
-                                        <span>+</span>
-                                    }
-                                    else
-                                    {
-                                        <span>-</span>
-                                    }
-                                    @Math.Abs(item.Unit.Value)
+                                        @if (item.Unit >= 0)
+                                        {
+                                            <span>+</span>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }@Math.Abs(item.Unit.Value)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Descrption)

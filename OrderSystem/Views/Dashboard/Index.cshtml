@@ -7,10 +7,10 @@
     }
 </script>
 <div class="dashboard">
-    <div class="container-fluid banner mb-5  p-0 m-0">
+    <div class="container-fluid banner p-0 m-0">
         <div class="row p-0 m-0">
-            <div class="col-12 p-0 m-0">
-                <video autoplay muted>
+            <div class="col-md-12 p-0 m-0">
+                <video autoplay muted width="100%">
                     <source src="./media/banner.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -19,13 +19,13 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-2 mb-3">
+            <div class="col-12 col-md-2 mb-3">
                 <div class="date-card">
                     @DateTime.Now.Year / <br />
                     @DateTime.Now.Month. @DateTime.Now.Day
                 </div>
             </div>
-            <div class="col  mb-3">
+            <div class="col-12 col-md  mb-3">
                 <div class="month-card">
                     <div class="title">
                         當月出貨總金額
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col  mb-3">
+            <div class="col-12 col-md   mb-3">
                 <div class="month-card">
                     <div class="title">
                         當月退貨總金額
@@ -45,8 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col  mb-3">
-
+            <div class="col-12 col-md  mb-3">
                 <div class="month-card">
                     <div class="title">
                         當月淨利
@@ -58,17 +57,16 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-8  mb-3">
+            <div class="col-12 col-md-8  mb-3">
                 <div class="chart-card">
                     <div class="title">
                         本月訂單出貨日程
                     </div>
                     <div id="monthChart">
-
                     </div>
                 </div>
             </div>
-            <div class="col-4 mb-3">
+            <div class="col-12 col-md-4 mb-3">
                 <div class="info-card">
                     <div class="title">
                         累積資訊
@@ -122,7 +120,7 @@
             <div class="col-12">
                 <div class="year-card">
                     <div class="row">
-                        <div class="col  mb-3">
+                        <div class="col-12 col-md mb-3">
                             <div class="title">
                                 年度出貨總金額
                             </div>
@@ -130,7 +128,7 @@
                                 $@ViewData["yearShipmentOrderSum"]
                             </div>
                         </div>
-                        <div class="col  mb-3">
+                        <div class="col-12 col-md  mb-3">
                             <div class="title">
                                 年度退貨總金額
                             </div>
@@ -138,7 +136,7 @@
                                 $@ViewData["yearReturnShipmentOrderSum"]
                             </div>
                         </div>
-                        <div class="col  mb-3">
+                        <div class="col-12 col-md  mb-3">
                             <div class="title">
                                 年度淨利
                             </div>

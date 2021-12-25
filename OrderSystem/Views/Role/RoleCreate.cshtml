@@ -1,181 +1,192 @@
 ﻿@Html.AntiForgeryToken()
 @using OrderSystem.Authorization;
 
-<div id="Form">
-    <div class="form-group">
-        <label>權限角色名稱</label>
-        <input v-model="Role.Name" type="text" class="form-control">
-        <error-message :errors="Errors['Role.Name']"></error-message>
-        <div class="row my-3">
-            <div class="col-12"><h3>基本資料管理</h3></div>
+
+<div class="container">
+    <div class="page mt-5 p-5" id="Form">
+        <div class="row">
             <div class="col-12">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th >功能</th>
-                            <th >權限</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>使用者管理</th>
-                            <td >
-                                <input type="checkbox" id="@Permissions.Basic_UserManagement_View" value="@Permissions.Basic_UserManagement_View" v-model="Permissions">
-                                <label for="@Permissions.Basic_UserManagement_View">檢視</label>
-                                <input type="checkbox" id="@Permissions.Basic_UserManagement_Create" value="@Permissions.Basic_UserManagement_Create" v-model="Permissions">
-                                <label for="@Permissions.Basic_UserManagement_Create">新增</label>
-                                <input type="checkbox" id="@Permissions.Basic_UserManagement_Modify" value="@Permissions.Basic_UserManagement_Modify" v-model="Permissions">
-                                <label for="@Permissions.Basic_UserManagement_Modify">編輯</label>
-                                <input type="checkbox" id="@Permissions.Basic_UserManagement_Delete" value="@Permissions.Basic_UserManagement_Delete" v-model="Permissions">
-                                <label for="@Permissions.Basic_UserManagement_Delete">刪除</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="col-sm-3">權限角色管理</th>
-                            <td class="col-sm-9">
-                                <input type="checkbox" id="@Permissions.Basic_Permission_View"
-                                       value="@Permissions.Basic_Permission_View" v-model="Permissions">
-                                <label>檢視</label>
-                                <input type="checkbox" id="@Permissions.Basic_Permission_Create"
-                                       value="@Permissions.Basic_Permission_Create" v-model="Permissions">
-                                <label>新增</label>
-                                <input type="checkbox" id="@Permissions.Basic_Permission_Modify"
-                                       value="@Permissions.Basic_Permission_Modify" v-model="Permissions">
-                                <label>編輯</label>
-                                <input type="checkbox" id="@Permissions.Basic_Permission_Delete"
-                                       value="@Permissions.Basic_Permission_Delete" v-model="Permissions">
-                                <label>刪除</label>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h1 class="mb-4 main-color01">權限角色建立</h1>
             </div>
         </div>
-        <div class="row my-3">
-            <div class="col-12"><h3>商品管理</h3></div>
-            <div class="col-12">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">功能</th>
-                            <th scope="col">權限</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th class="col-sm-3">商品項目管理</th>
-                            <td class="col-sm-9">
-                                <input type="checkbox" id="@Permissions.Product_View"
-                                       value="@Permissions.Product_View" v-model="Permissions">
-                                <label>檢視</label>
-                                <input type="checkbox" id="@Permissions.Product_Create"
-                                       value="@Permissions.Product_Create" v-model="Permissions">
-                                <label>新增</label>
-                                <input type="checkbox" id="@Permissions.Product_Modify"
-                                       value="@Permissions.Product_Modify" v-model="Permissions">
-                                <label>編輯</label>
-                                <input type="checkbox" id="@Permissions.Product_Delete"
-                                       value="@Permissions.Product_Delete" v-model="Permissions">
-                                <label>刪除</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="col-sm-3">商品分類管理</th>
-                            <td class="col-sm-9">
-                                <input type="checkbox" id="@Permissions.ProductCategory_View"
-                                       value="@Permissions.ProductCategory_View" v-model="Permissions">
-                                <label>檢視</label>
-                                <input type="checkbox" id="@Permissions.ProductCategory_Create"
-                                       value="@Permissions.ProductCategory_Create" v-model="Permissions">
-                                <label>新增</label>
-                                <input type="checkbox" id="@Permissions.ProductCategory_Modify"
-                                       value="@Permissions.ProductCategory_Modify" v-model="Permissions">
-                                <label>編輯</label>
-                                <input type="checkbox" id="@Permissions.ProductCategory_Delete"
-                                       value="@Permissions.ProductCategory_Delete" v-model="Permissions">
-                                <label>刪除</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="col-sm-3">商品庫存管理</th>
-                            <td class="col-sm-9">
-                                <input type="checkbox" id="@Permissions.Inventory_View"
-                                       value="@Permissions.Inventory_View" v-model="Permissions">
-                                <label>檢視</label>
-                                <input type="checkbox" id="@Permissions.Inventory_Create"
-                                       value="@Permissions.Inventory_Create" v-model="Permissions">
-                                <label>新增</label>
-                                <input type="checkbox" id="@Permissions.Inventory_Modify"
-                                       value="@Permissions.Inventory_Modify" v-model="Permissions">
-                                <label>編輯</label>
-                                <input type="checkbox" id="@Permissions.Inventory_Delete"
-                                       value="@Permissions.Inventory_Delete" v-model="Permissions">
-                                <label>刪除</label>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="row">
+            <div class="col-12 col-md-4 mb-3">
+                <label>權限角色名稱</label>
+                <input v-model="Role.Name" type="text" class="form-control">
+                <error-message :errors="Errors['Role.Name']"></error-message>
             </div>
         </div>
-        <div class="row my-3">
-            <div class="col-12"><h3>訂單管理</h3></div>
-            <div class="col-12">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">功能</th>
-                            <th scope="col">權限</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th class="col-sm-3">出貨單管理</th>
-                            <td class="col-sm-9">
-                                <input type="checkbox" id="@Permissions.Order_Shipment_View"
-                                       value="@Permissions.Order_Shipment_View" v-model="Permissions">
-                                <label>檢視</label>
-                                <input type="checkbox" id="@Permissions.Order_Shipment_Create"
-                                       value="@Permissions.Order_Shipment_Create" v-model="Permissions">
-                                <label>新增</label>
-                                <input type="checkbox" id="@Permissions.Order_Shipment_Modify"
-                                       value="@Permissions.Order_Shipment_Modify" v-model="Permissions">
-                                <label>編輯</label>
-                                <input type="checkbox" id="@Permissions.Order_Shipment_Delete"
-                                       value="@Permissions.Order_Shipment_Delete" v-model="Permissions">
-                                <label>刪除</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="col-sm-3">退貨單管理</th>
-                            <td class="col-sm-9">
-                                <input type="checkbox" id="@Permissions.Order_ReturnShipment_View" 
-                                       value="@Permissions.Order_ReturnShipment_View" v-model="Permissions">
-                                <label>檢視</label>
-                                <input type="checkbox" id="@Permissions.Order_ReturnShipment_Create" 
-                                       value="@Permissions.Order_ReturnShipment_Create" v-model="Permissions">
-                                <label >新增</label>
-                                <input type="checkbox" id="@Permissions.Order_ReturnShipment_Modify" 
-                                       value="@Permissions.Order_ReturnShipment_Modify" v-model="Permissions">
-                                <label>編輯</label>
-                                <input type="checkbox" id="@Permissions.Order_ReturnShipment_Delete" 
-                                       value="@Permissions.Order_ReturnShipment_Delete" v-model="Permissions">
-                                <label>刪除</label>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="form-group">
+            <div class="row my-3">
+                <div class="col-12"><h3>基本資料管理</h3></div>
+                <div class="col-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>功能</th>
+                                <th>權限</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>使用者管理</th>
+                                <td>
+                                    <input type="checkbox" id="@Permissions.Basic_UserManagement_View" value="@Permissions.Basic_UserManagement_View" v-model="Permissions">
+                                    <label for="@Permissions.Basic_UserManagement_View">檢視</label>
+                                    <input type="checkbox" id="@Permissions.Basic_UserManagement_Create" value="@Permissions.Basic_UserManagement_Create" v-model="Permissions">
+                                    <label for="@Permissions.Basic_UserManagement_Create">新增</label>
+                                    <input type="checkbox" id="@Permissions.Basic_UserManagement_Modify" value="@Permissions.Basic_UserManagement_Modify" v-model="Permissions">
+                                    <label for="@Permissions.Basic_UserManagement_Modify">編輯</label>
+                                    <input type="checkbox" id="@Permissions.Basic_UserManagement_Delete" value="@Permissions.Basic_UserManagement_Delete" v-model="Permissions">
+                                    <label for="@Permissions.Basic_UserManagement_Delete">刪除</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="col-sm-3">權限角色管理</th>
+                                <td class="col-sm-9">
+                                    <input type="checkbox" id="@Permissions.Basic_Permission_View"
+                                           value="@Permissions.Basic_Permission_View" v-model="Permissions">
+                                    <label>檢視</label>
+                                    <input type="checkbox" id="@Permissions.Basic_Permission_Create"
+                                           value="@Permissions.Basic_Permission_Create" v-model="Permissions">
+                                    <label>新增</label>
+                                    <input type="checkbox" id="@Permissions.Basic_Permission_Modify"
+                                           value="@Permissions.Basic_Permission_Modify" v-model="Permissions">
+                                    <label>編輯</label>
+                                    <input type="checkbox" id="@Permissions.Basic_Permission_Delete"
+                                           value="@Permissions.Basic_Permission_Delete" v-model="Permissions">
+                                    <label>刪除</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="text-right">
-            <button onclick="window.history.back();" type="button" class="btn btn-primary">
-                取消
-            </button>
-            <button v-on:click="create()" type="button" class="btn btn-primary">
-                建立權限角色
-            </button>
+            <div class="row my-3">
+                <div class="col-12"><h3>商品管理</h3></div>
+                <div class="col-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">功能</th>
+                                <th scope="col">權限</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="col-sm-3">商品項目管理</th>
+                                <td class="col-sm-9">
+                                    <input type="checkbox" id="@Permissions.Product_View"
+                                           value="@Permissions.Product_View" v-model="Permissions">
+                                    <label>檢視</label>
+                                    <input type="checkbox" id="@Permissions.Product_Create"
+                                           value="@Permissions.Product_Create" v-model="Permissions">
+                                    <label>新增</label>
+                                    <input type="checkbox" id="@Permissions.Product_Modify"
+                                           value="@Permissions.Product_Modify" v-model="Permissions">
+                                    <label>編輯</label>
+                                    <input type="checkbox" id="@Permissions.Product_Delete"
+                                           value="@Permissions.Product_Delete" v-model="Permissions">
+                                    <label>刪除</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="col-sm-3">商品分類管理</th>
+                                <td class="col-sm-9">
+                                    <input type="checkbox" id="@Permissions.ProductCategory_View"
+                                           value="@Permissions.ProductCategory_View" v-model="Permissions">
+                                    <label>檢視</label>
+                                    <input type="checkbox" id="@Permissions.ProductCategory_Create"
+                                           value="@Permissions.ProductCategory_Create" v-model="Permissions">
+                                    <label>新增</label>
+                                    <input type="checkbox" id="@Permissions.ProductCategory_Modify"
+                                           value="@Permissions.ProductCategory_Modify" v-model="Permissions">
+                                    <label>編輯</label>
+                                    <input type="checkbox" id="@Permissions.ProductCategory_Delete"
+                                           value="@Permissions.ProductCategory_Delete" v-model="Permissions">
+                                    <label>刪除</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="col-sm-3">商品庫存管理</th>
+                                <td class="col-sm-9">
+                                    <input type="checkbox" id="@Permissions.Inventory_View"
+                                           value="@Permissions.Inventory_View" v-model="Permissions">
+                                    <label>檢視</label>
+                                    <input type="checkbox" id="@Permissions.Inventory_Create"
+                                           value="@Permissions.Inventory_Create" v-model="Permissions">
+                                    <label>新增</label>
+                                    <input type="checkbox" id="@Permissions.Inventory_Modify"
+                                           value="@Permissions.Inventory_Modify" v-model="Permissions">
+                                    <label>編輯</label>
+                                    <input type="checkbox" id="@Permissions.Inventory_Delete"
+                                           value="@Permissions.Inventory_Delete" v-model="Permissions">
+                                    <label>刪除</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-12"><h3>訂單管理</h3></div>
+                <div class="col-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">功能</th>
+                                <th scope="col">權限</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="col-sm-3">出貨單管理</th>
+                                <td class="col-sm-9">
+                                    <input type="checkbox" id="@Permissions.Order_Shipment_View"
+                                           value="@Permissions.Order_Shipment_View" v-model="Permissions">
+                                    <label>檢視</label>
+                                    <input type="checkbox" id="@Permissions.Order_Shipment_Create"
+                                           value="@Permissions.Order_Shipment_Create" v-model="Permissions">
+                                    <label>新增</label>
+                                    <input type="checkbox" id="@Permissions.Order_Shipment_Modify"
+                                           value="@Permissions.Order_Shipment_Modify" v-model="Permissions">
+                                    <label>編輯</label>
+                                    <input type="checkbox" id="@Permissions.Order_Shipment_Delete"
+                                           value="@Permissions.Order_Shipment_Delete" v-model="Permissions">
+                                    <label>刪除</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="col-sm-3">退貨單管理</th>
+                                <td class="col-sm-9">
+                                    <input type="checkbox" id="@Permissions.Order_ReturnShipment_View"
+                                           value="@Permissions.Order_ReturnShipment_View" v-model="Permissions">
+                                    <label>檢視</label>
+                                    <input type="checkbox" id="@Permissions.Order_ReturnShipment_Create"
+                                           value="@Permissions.Order_ReturnShipment_Create" v-model="Permissions">
+                                    <label>新增</label>
+                                    <input type="checkbox" id="@Permissions.Order_ReturnShipment_Modify"
+                                           value="@Permissions.Order_ReturnShipment_Modify" v-model="Permissions">
+                                    <label>編輯</label>
+                                    <input type="checkbox" id="@Permissions.Order_ReturnShipment_Delete"
+                                           value="@Permissions.Order_ReturnShipment_Delete" v-model="Permissions">
+                                    <label>刪除</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-right">
+                <button onclick="window.history.back();" type="button"  class="btn btn-main-color02 outline-btn">
+                    取消
+                </button>
+                <button v-on:click="create()" type="button" class="btn btn-main-color01">
+                    建立權限角色
+                </button>
+            </div>
         </div>
     </div>
-</div>
-@section Scripts {
-    <script src="~/js/Pages/Role/RoleCreate.js"></script>
-}
+    @section Scripts {
+        <script src="~/js/Pages/Role/RoleCreate.js"></script>
+    }

@@ -12,19 +12,17 @@
     <div class="page mt-5 p-5" id="Form">
         <div class="row">
             <div class="col-12">
-                <h1 class="mb-4 main-color01">權限角色名稱</h1>
+                <h1 class="mb-4 main-color01">權限角色編輯</h1>
             </div>
         </div>
-
         <div class="row">
-            <div class="col-4 mb-3">
+            <div class="col-12 col-md-4 mb-3">
+                <label>權限角色名稱</label>
                 <input v-model="Role.Name" type="text" class="form-control">
                 <error-message :errors="Errors['Role.Name']"></error-message>
             </div>
         </div>
         <div class="form-group">
-
-
             <div class="row my-3">
                 <div class="col-12"><h3>基本資料管理</h3></div>
                 <div class="col-12">
@@ -189,15 +187,12 @@
                 <button onclick="window.history.back();" type="button" class="btn btn-main-color02 outline-btn">
                     取消
                 </button>
-                <button v-on:click="create()" type="button"class="btn btn-main-color01">
+                <button v-on:click="create()" type="button" class="btn btn-main-color01">
                     更新權限角色
                 </button>
             </div>
         </div>
     </div>
-
-<div id="Form">
-   
 </div>
 @section Scripts {
     <script src="~/js/Pages/Role/RoleUpdate.js"></script>
