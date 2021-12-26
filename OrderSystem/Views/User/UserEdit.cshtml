@@ -51,7 +51,7 @@
                     <div class="col-12">
                         <div class="text-right my-3">
                             <button onclick="window.history.back()" type="button" class="btn btn-main-color02 outline-btn">
-                                取消
+                                返回
                             </button>
                             @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Basic_UserManagement_Modify }))).Succeeded)
                             {
