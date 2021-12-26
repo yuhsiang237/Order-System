@@ -151,6 +151,59 @@ namespace OrderSystem.Controllers
             return View();
         }
 
+        [HttpGet]
+
+        public IActionResult UserSelfEdit()
+        {
+            string userAccount = null;
+            foreach (Claim claim in User.Claims)
+            {
+                if (claim.Type == "Account")
+                {
+                    userAccount = claim.Value;
+                    break;
+                }
+            }
+
+            ViewData["User"] = JsonConvert.SerializeObject((from a in _context.Users
+                                                            where a.Account == userAccount
+                                                            join b in _context.Roles
+                                                            on a.RoleId equals b.Id
+                                                            select new
+                                                            {
+                                                                Id = a.Id,
+                                                                Account = a.Account,
+                                                                RoleId = a.RoleId,
+                                                                Name = a.Name,
+                                                                Email = a.Email,
+                                                                RoleName = b.Name
+                                                            }).FirstOrDefault());
+
+
+          
+            //get user permission
+            User user = _context.Users.FirstOrDefault(x => x.Account == userAccount);
+
+            // role character modify permission
+            var isRoleModifyPermission = _context.Permissions.
+        FirstOrDefault(item => item.RoleId == user.RoleId
+        && item.Code == Permissions.Basic_Permission_Modify);
+            if (isRoleModifyPermission != null)
+            {
+                ViewData["Roles"] = JsonConvert.SerializeObject((from a in _context.Roles
+                                                                 where a.IsDeleted != true
+                                                                 select a).ToList());
+            }
+            else
+            {
+                ViewData["Roles"] = JsonConvert.SerializeObject((from a in _context.Roles
+                                                                 where a.Id == user.RoleId
+                                                                 select a).ToList());
+            }
+
+            return View();
+        }
+
         [HttpPost]
         [PermissionFilter(Permissions.Basic_UserManagement_Delete)]
         public IActionResult DeleteUser(Product model)
@@ -206,8 +259,52 @@ namespace OrderSystem.Controllers
                     return Ok(ResponseModel.Fail("建立失敗", null, 0, ""));
                 }
             }
+        }
+
+        [HttpPost]
+        [PermissionFilter(Permissions.Default_Login)]
+        public IActionResult UserSelfUpdate(UserUpdateViewModel m)
+        {
+            using (var tr = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    // vaildate data
+                    UserUpdateValidator validator = new UserUpdateValidator(_context);
+                    ValidationResult result = validator.Validate(m);
+                    if (!result.IsValid)
+                    {
+                        return Ok(ResponseModel.Fail(null, null, 0, result.Errors));
+                    }
+                    // update
+                    User user = _context.Users.FirstOrDefault(x => x.Id == m.Id);
+                    user.Name = m.Name;
+                    user.Email = m.Email;
+                    // update role character
+                    if (user.RoleId != m.RoleId)
+                    {
+                        var isRoleModifyPermission = _context.Permissions.
+                    FirstOrDefault(item => item.RoleId == user.RoleId
+                    && item.Code == Permissions.Basic_Permission_Modify);
+                        if (isRoleModifyPermission != null)
+                        {
+                            user.RoleId = m.RoleId;
+                        }
+                    }
+                    _context.Update(user);
+                    _context.SaveChanges();
+                    tr.Commit();
+                    return Ok(ResponseModel.Success(""));
+                }
+                catch (Exception ex)
+                {
+                    return Ok(ResponseModel.Fail("建立失敗", null, 0, ""));
+                }
+            }
 
         }
+
+
         public IActionResult SignIn()
         {
             return PartialView();
