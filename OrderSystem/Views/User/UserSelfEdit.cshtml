@@ -1,0 +1,67 @@
+﻿@Html.AntiForgeryToken()
+@using OrderSystem.Authorization;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<script>
+    var $Page = {
+        User: @Html.Raw(@ViewData["User"]),
+        Roles : @Html.Raw(@ViewData["Roles"])
+    }
+</script>
+
+<div class="container">
+    <div class="page mt-5 p-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4 main-color01">個人資料編輯</h1>
+            </div>
+        </div>
+        <div class="row"  id="Form">
+                    <div class="col-12 col-md-6 mb-3">
+                        <label>帳號</label>
+                        <div v-text="Account"></div>
+                    </div>
+                    <div class="col-12 col-md-6 mb-3">
+                        <label>姓名</label>
+                        <input v-model="Name" type="text" class="form-control">
+                        <error-message :errors="Errors['Name']"></error-message>
+                    </div>
+                    <div class="col-12 col-md-6  mb-3">
+                        <label>信箱</label>
+                        <input v-model="Email" type="text" class="form-control">
+                        <error-message :errors="Errors['Email']"></error-message>
+                    </div>
+                    <div class="col-12 col-md-6  mb-3">
+                        <label>權限角色</label>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { "Basic_Permission_Modify" }))).Succeeded)
+                        {
+                            <select class="form-control" v-model="RoleId">
+                                <option v-for="option in Roles" v-bind:value="option.Id">
+                                    {{ option.Name }}
+                                </option>
+                            </select>
+                        }
+                        else
+                        {
+                            <div v-text="RoleName"></div>
+                        }
+                    </div>
+                    <div class="col-12">
+                        <div class="text-right my-3">
+                            <button onclick="window.history.back()" type="button" class="btn btn-main-color02 outline-btn">
+                                取消
+                            </button>
+                            <button v-on:click="create()" type="button" class="btn btn-main-color01">
+                                更新基本資料
+                            </button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+   
+     
+    @section Scripts {
+        <script src="~/js/Pages/User/UserSelfUpdate.js"></script>
+    }
