@@ -9,11 +9,9 @@
 資料驗證欄位採用Fluent Validation及部分Model Validation。  
 樣式支援RWD行動裝置瀏覽。
 
-系統介紹文件請看:[系統介紹文件](https://github.com/yuhsiang237/Order-System/raw/master/doc/10.%E7%B3%BB%E7%B5%B1%E4%BB%8B%E7%B4%B9%E6%96%87%E4%BB%B6.pdf
+- 系統介紹文件請看:[系統介紹文件](https://github.com/yuhsiang237/Order-System/raw/master/doc/10.%E7%B3%BB%E7%B5%B1%E4%BB%8B%E7%B4%B9%E6%96%87%E4%BB%B6.pdf
 ) 
-
-
-完整操作影片請看:[系統操作展示影片](https://www.youtube.com/watch?v=nSk6OZjhDMY) 
+- 完整操作影片請看:[系統操作展示影片](https://www.youtube.com/watch?v=nSk6OZjhDMY) 
 
 ### 系統安裝與啟用(Setup)
 可以直接參考此 [完整安裝影片](https://www.youtube.com/watch?v=-MZ5YEJWP2o)，協助搭建，約5分鐘。  
