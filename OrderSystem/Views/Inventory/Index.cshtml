@@ -110,12 +110,9 @@
                                         @Html.DisplayFor(modelItem => item.CurrentUnit)
                                     </td>
                                     <td>
-                                        @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Inventory_Modify }))).Succeeded)
-                                        {
-                                            <a href="/Inventory/InventoryHistory?productId=@item.Id" class="btn btn-main-color01 ">
-                                                管理庫存
-                                            </a>
-                                        }
+                                        <a href="/Inventory/InventoryHistory?productId=@item.Id" class="btn btn-main-color01 ">
+                                            管理庫存
+                                        </a>
                                     </td>
                                 </tr>
                             }
