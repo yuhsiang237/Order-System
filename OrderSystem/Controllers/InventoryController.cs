@@ -57,7 +57,7 @@ namespace OrderSystem.Controllers
         [PermissionFilter(Permissions.Inventory_View)]
         [HttpGet]
 
-        public async Task<IActionResult> Index(
+        public async Task<IActionResult> Search(
         string sortOrder,
         string currentFilterNumber,
         string searchStringNumber,

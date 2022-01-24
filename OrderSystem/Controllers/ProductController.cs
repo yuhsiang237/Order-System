@@ -19,7 +19,7 @@ namespace OrderSystem.Controllers
     {
         [PermissionFilter(Permissions.ProductCategory_View)]
         [HttpGet]
-        public async Task<IActionResult> ProductCategory(
+        public async Task<IActionResult> SearchProductCategory(
     string sortOrder,
     string currentFilterName,
     string searchStringName,
@@ -91,7 +91,7 @@ namespace OrderSystem.Controllers
         [PermissionFilter(Permissions.Product_View)]
         [HttpGet]
 
-        public async Task<IActionResult> Index(
+        public async Task<IActionResult> Search(
        string sortOrder,
        string currentFilterNumber,
        string searchStringNumber,
@@ -212,7 +212,7 @@ namespace OrderSystem.Controllers
         [HttpPost]
         [PermissionFilter(Permissions.Product_Create)]
 
-        public IActionResult ProductCategoryCreate(ProductCategory m)
+        public IActionResult CreateProductCategory(ProductCategory m)
         {
             // vaildate data
             ProductCategoryCreateValidator validator = new ProductCategoryCreateValidator(_context);
@@ -232,7 +232,7 @@ namespace OrderSystem.Controllers
         [HttpPost]
         [PermissionFilter(Permissions.Product_Modify)]
 
-        public IActionResult ProductCategoryUpdate(ProductCategory m)
+        public IActionResult UpdateProductCategory(ProductCategory m)
         {
             // vaildate data
             ProductCategoryUpdateValidator validator = new ProductCategoryUpdateValidator(_context);
