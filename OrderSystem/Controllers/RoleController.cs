@@ -28,7 +28,7 @@ namespace OrderSystem.Controllers
             _context = context;
         }
 
-        public IActionResult RoleCreate()
+        public IActionResult CreateRole()
         {
             return View();
         }
@@ -36,7 +36,7 @@ namespace OrderSystem.Controllers
         [HttpPost]
         [PermissionFilter(Permissions.Basic_Permission_Create)]
 
-        public IActionResult RoleCreate(RoleCreateViewModel m)
+        public IActionResult CreateRole(RoleCreateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())
             {
@@ -88,7 +88,7 @@ namespace OrderSystem.Controllers
         }
         [HttpGet]
 
-        public IActionResult RoleEdit(int RoleId)
+        public IActionResult UpdateRole(int RoleId)
         {
             ViewData["Role"] = JsonConvert.SerializeObject((from a in _context.Roles
                                                                    where a.Id == RoleId
@@ -101,7 +101,7 @@ namespace OrderSystem.Controllers
         [HttpPost]
         [PermissionFilter(Permissions.Basic_Permission_Modify)]
 
-        public IActionResult RoleUpdate(RoleUpdateViewModel m)
+        public IActionResult UpdateRole(RoleUpdateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())
             {
@@ -152,7 +152,7 @@ namespace OrderSystem.Controllers
         }
         [PermissionFilter(Permissions.Basic_Permission_View)]
         [HttpGet]
-        public async Task<IActionResult> Index(
+        public async Task<IActionResult> Search(
      string sortOrder,
      string currentFilterName,
      string searchStringName,
