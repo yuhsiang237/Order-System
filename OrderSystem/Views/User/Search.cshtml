@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using OrderSystem.Authorization
 @inject IAuthorizationService AuthorizationService
-    <form asp-action="Index"  method="get" id="form_search">
+    <form asp-action="Search"  method="get" id="form_search">
         <div class="search-area">
             <div class="container">
                 <div class="row">
@@ -78,7 +78,7 @@
                                            @Html.DisplayFor(modelItem => item.Email)
                                        </td>
                                        <td>
-                                           <a href="/User/UserEdit?UserId=@item.Id" type="button" class="btn btn-main-color01">
+                                           <a href="/User/UpdateUser?UserId=@item.Id" type="button" class="btn btn-main-color01">
                                                管理
                                            </a>
                                            @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Basic_UserManagement_Delete }))).Succeeded)
@@ -145,5 +145,5 @@
     </form>
 
     @section Scripts {
-        <script src="~/js/Pages/User/Index.js"></script>
+        <script src="~/js/Pages/User/Search.js"></script>
     }

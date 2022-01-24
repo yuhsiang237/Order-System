@@ -28,7 +28,7 @@
                     $.ajax({
                         type: 'POST',
                         context: this,
-                        url: '/User/UserUpdate',
+                        url: '/User/UpdateUserSelf',
                         contentType: 'application/x-www-form-urlencoded',
                         headers: {
                             "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()

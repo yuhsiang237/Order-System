@@ -30,7 +30,7 @@ namespace OrderSystem.Controllers
 
         [PermissionFilter(Permissions.Basic_UserManagement_View)]
         [HttpGet]
-        public async Task<IActionResult> Index(
+        public async Task<IActionResult> Search(
      string sortOrder,
      string currentFilterName,
      string searchStringName,
@@ -103,7 +103,7 @@ namespace OrderSystem.Controllers
 
         [HttpGet]
 
-        public IActionResult UserEdit(int UserId)
+        public IActionResult UpdateUser(int UserId)
         {
             ViewData["User"] = JsonConvert.SerializeObject((from a in _context.Users
                                                             where a.Id == UserId
@@ -153,7 +153,7 @@ namespace OrderSystem.Controllers
 
         [HttpGet]
 
-        public IActionResult UserSelfEdit()
+        public IActionResult UpdateUserSelf()
         {
             string userAccount = null;
             foreach (Claim claim in User.Claims)
@@ -221,7 +221,7 @@ namespace OrderSystem.Controllers
 
         [HttpPost]
         [PermissionFilter(Permissions.Basic_UserManagement_Modify)]
-        public IActionResult UserUpdate(UserUpdateViewModel m)
+        public IActionResult UpdateUser(UserUpdateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())
             {
@@ -263,7 +263,7 @@ namespace OrderSystem.Controllers
 
         [HttpPost]
         [PermissionFilter(Permissions.Default_Login)]
-        public IActionResult UserSelfUpdate(UserUpdateViewModel m)
+        public IActionResult UpdateUserSelf(UserUpdateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())
             {
