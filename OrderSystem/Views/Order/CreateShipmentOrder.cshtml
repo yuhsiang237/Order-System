@@ -1,62 +1,64 @@
 ﻿@Html.AntiForgeryToken()
-@using Microsoft.AspNetCore.Authorization
-@using OrderSystem.Authorization
-@inject IAuthorizationService AuthorizationService
 <script>
     var $Page = {
-        Order: @Html.Raw(@ViewData["Order"]),
-        OrderDetails : @Html.Raw(@ViewData["OrderDetails"])
+        ProductData : @Html.Raw(@ViewData["ProductData"])
     }
 </script>
-
 <div class="container" id="Form">
     <div class="page mt-5 p-5">
         <div class="row">
             <div class="col-12">
-                <h1 class="mb-4 main-color01">出貨單編輯</h1>
+                <h1 class="mb-4 main-color01">出貨單建立</h1>
             </div>
         </div>
         <div class="row" id="Form">
             <div class="col-12 col-md-6  mb-3">
                 <label>出貨單編號</label>
-                <input disabled v-model="Number" type="text" class="form-control">
+                <input disabled value="系統自動產生" type="text" class="form-control">
             </div>
             <div class="col-12 col-md-6    mb-3">
 
                 <label>出貨日</label>
-                <date-picker class="form-control" placeholder="選擇出貨日" date-format="yy-mm-dd" v-model="DeliveryDate" ></date-picker>
-                <error-message :errors="Errors['ShipmentOrder.DeliveryDate']"></error-message>
+                <date-picker class="form-control" placeholder="選擇出貨日" date-format="yy-mm-dd" v-model="DeliveryDate"></date-picker>
+                <div>
+                    <error-message :errors="Errors['ShipmentOrder.DeliveryDate']"></error-message>
+                </div>
             </div>
-            <div class="col-12 col-md-6   mb-3">
+            <div class="col-12 col-md-6    mb-3">
                 <label>出貨地址</label>
                 <input class="form-control" placeholder="地址" type="text" v-model="Address" />
                 <error-message :errors="Errors['ShipmentOrder.Address']"></error-message>
             </div>
-            <div class="col-12 col-md-6    mb-3">
+            <div class="col-12 col-md-6   mb-3">
                 <label>完成日</label>
                 <date-picker class="form-control" placeholder="選擇完成日" date-format="yy-mm-dd" v-model="FinishDate"></date-picker>
+
             </div>
             <div class="col-12 col-md-6   mb-3">
                 <label>總金額(自動計算)</label>
                 <input disabled v-model="Total" type="text" class="form-control">
             </div>
-            <div class="col-12 col-md-6   mb-3">
+            <div class="col-12 col-md-6    mb-3">
+
                 <label>簽收者</label>
                 <input v-model="SignName" type="text" class="form-control">
             </div>
-            <div class="col-12  mb-3">
-
+            <div class="col-12 col-md-6    mb-3">
 
                 <label>備註</label>
                 <textarea class="form-control" v-model="Remarks"></textarea>
             </div>
-
+          
         </div>
     </div>
     <div class="page p-5">
         <div class="row">
             <div class="col-12">
-
+                <div class="text-right mb-3">
+                    <button v-on:click="createRow()" type="button" class="btn btn-main-color01">
+                        增加一列
+                    </button>
+                </div>
                 <error-message :errors="Errors['OrderDetails']"></error-message>
                 <div>
                     <table class="table table-bordered">
@@ -77,25 +79,38 @@
                                 <th>
                                     備註
                                 </th>
+                                <th>
+                                    操作
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(item, index) in OrderDetails">
                                 <td>
-                                    <span v-text="index+1"></span>
+                                    {{index+1}}
                                 </td>
                                 <td>
-                                    (<span v-text="item.ProductNumber"></span>)
-                                    <span v-text="item.ProductName"></span>
+                                    <select class="custom-select" v-model="item.ProductId">
+                                        <option value="">請選擇</option>
+                                        <option v-for="(item, index) in ProductOption" :value="item.Id" :key="item.Id">
+                                            ({{item.Number}}){{item.Name}}
+                                        </option>
+                                    </select>
                                 </td>
                                 <td>
-                                    <span v-text="item.ProductPrice"></span>
+                                    <span v-text="getProductPrice(item.ProductId)"></span>
                                 </td>
                                 <td>
-                                    <span v-text="item.ProductUnit"></span>
+                                    <input v-model="item.ProductUnit" type="text" class="form-control" />
+                                    <error-message :errors="Errors['ShipmentOrderDetails['+index +'].ProductUnit']"></error-message>
                                 </td>
                                 <td>
-                                    <span v-text="item.ProductRemarks"></span>
+                                    <input v-model="item.ProductRemarks" type="text" class="form-control" />
+                                </td>
+                                <td>
+                                    <button v-on:click="deleteRow(item.index)" type="button" class="btn btn-main-color02 ">
+                                        刪除
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -107,12 +122,9 @@
                     <button onclick="window.history.back();" type="button" class="btn btn-main-color02 outline-btn">
                         返回
                     </button>
-                    @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_Shipment_Modify }))).Succeeded)
-                    {
-                        <button v-on:click="updateOrder()" type="button" class="btn btn-main-color01">
-                            更新訂單
-                        </button>
-                    }
+                    <button v-on:click="createOrder()" type="button" class="btn btn-main-color01">
+                        新建訂單
+                    </button>
                 </div>
             </div>
         </div>
@@ -120,6 +132,7 @@
 </div>
 
 
-        @section Scripts {
-            <script src="~/js/Pages/Order/ShipmentOrderEdit.js"></script>
-        }
+
+@section Scripts {
+    <script src="~/js/Pages/Order/CreateShipmentOrder.js"></script>
+}

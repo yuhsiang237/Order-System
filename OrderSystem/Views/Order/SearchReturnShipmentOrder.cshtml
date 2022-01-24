@@ -6,7 +6,7 @@
 @inject IAuthorizationService AuthorizationService
 
 
-<form asp-action="ReturnShipmentOrder" method="get" id="form_search">
+<form asp-action="SearchReturnShipmentOrder" method="get" id="form_search">
     <div class="search-area">
         <div class="container">
             <div class="row">
@@ -50,7 +50,7 @@
                 <div class="text-right ">
                     @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_ReturnShipment_Create }))).Succeeded)
                     {
-                        <a href="/Order/ReturnShipmentOrderCreate" type="button" class="btn btn-main-color01">
+                        <a href="/Order/CreateReturnShipmentOrder" type="button" class="btn btn-main-color01">
                             新增退貨單
                         </a>
                     }
@@ -105,7 +105,7 @@
                                         @Html.DisplayFor(modelItem => item.Total)
                                     </td>
                                     <td>
-                                        <a href="/Order/ReturnShipmentOrderEdit?ReturnShipmentOrderId=@item.Id" type="button" class="btn btn-main-color01">
+                                        <a href="/Order/UpdateReturnShipmentOrder?ReturnShipmentOrderId=@item.Id" type="button" class="btn btn-main-color01">
                                             管理
                                         </a>
                                     </td>
@@ -168,5 +168,5 @@
 </form>
 
 @section Scripts {
-    <script src="~/js/Pages/Order/ReturnShipmentOrder.js"></script>
+    <script src="~/js/Pages/Order/SearchReturnShipmentOrder.js"></script>
 }

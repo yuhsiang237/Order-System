@@ -96,13 +96,13 @@
                                         @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_Shipment_View }))).Succeeded)
                                         {
 
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="ShipmentOrder">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="SearchShipmentOrder">
                                                 出貨單管理
                                             </a>
                                         }
                                         @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_ReturnShipment_View }))).Succeeded)
                                         {
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="ReturnShipmentOrder">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="SearchReturnShipmentOrder">
                                                 退貨單管理
                                             </a>
                                         }
