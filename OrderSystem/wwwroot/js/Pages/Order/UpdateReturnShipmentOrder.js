@@ -72,7 +72,7 @@
                     $.ajax({
                         type: 'POST',
                         context: this,
-                        url: '/Order/ReturnShipmentOrderUpdate',
+                        url: '/Order/UpdateReturnShipmentOrder',
                         contentType: 'application/x-www-form-urlencoded',
                         headers: {
                             "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()

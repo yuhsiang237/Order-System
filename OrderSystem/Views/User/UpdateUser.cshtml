@@ -14,7 +14,7 @@
     <div class="page mt-5 p-5">
         <div class="row">
             <div class="col-12">
-                <h1 class="mb-4 main-color01">個人資料編輯</h1>
+                <h1 class="mb-4 main-color01">使用者編輯</h1>
             </div>
         </div>
         <div class="row"  id="Form">
@@ -34,6 +34,7 @@
                     </div>
                     <div class="col-12 col-md-6  mb-3">
                         <label>權限角色</label>
+
                         @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { "Basic_Permission_Modify" }))).Succeeded)
                         {
                             <select class="form-control" v-model="RoleId">
@@ -52,9 +53,12 @@
                             <button onclick="window.history.back()" type="button" class="btn btn-main-color02 outline-btn">
                                 返回
                             </button>
-                            <button v-on:click="create()" type="button" class="btn btn-main-color01">
-                                更新基本資料
-                            </button>
+                            @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Basic_UserManagement_Modify }))).Succeeded)
+                            {
+                                <button v-on:click="create()" type="button" class="btn btn-main-color01">
+                                    更新基本資料
+                                </button>
+                            }
                         </div>
                     </div>
             </div>
@@ -63,5 +67,5 @@
    
      
     @section Scripts {
-        <script src="~/js/Pages/User/UserSelfUpdate.js"></script>
+        <script src="~/js/Pages/User/UpdateUser.js"></script>
     }

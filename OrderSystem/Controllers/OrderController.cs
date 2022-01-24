@@ -29,7 +29,7 @@ namespace OrderSystem.Controllers
         [PermissionFilter(Permissions.Order_Shipment_View)]
         [HttpGet]
 
-        public async Task<IActionResult> ShipmentOrder(
+        public async Task<IActionResult> SearchShipmentOrder(
      string sortOrder,
      string currentFilterNumber,
      string searchStringNumber,
@@ -107,7 +107,7 @@ namespace OrderSystem.Controllers
         [PermissionFilter(Permissions.Order_ReturnShipment_View)]
         [HttpGet]
 
-        public async Task<IActionResult> ReturnShipmentOrder(
+        public async Task<IActionResult> SearchReturnShipmentOrder(
    string sortOrder,
    string currentFilterNumber,
    string searchStringNumber,
@@ -185,7 +185,7 @@ namespace OrderSystem.Controllers
         [HttpPost]
         [PermissionFilter(Permissions.Order_Shipment_Modify)]
 
-        public IActionResult ShipmentOrderUpdate(ShipmentOrderUpdateViewModel m)
+        public IActionResult UpdateShipmentOrder(ShipmentOrderUpdateViewModel m)
         {
             ShipmentOrderUpdateValidator validator = new ShipmentOrderUpdateValidator(_context);
             ValidationResult result = validator.Validate(m);
@@ -215,7 +215,7 @@ namespace OrderSystem.Controllers
         [HttpPost]
         [PermissionFilter(Permissions.Order_ReturnShipment_Create)]
 
-        public IActionResult ReturnShipmentOrderCreate(ReturnShipmentOrderCreateViewModel m)
+        public IActionResult CreateReturnShipmentOrder(ReturnShipmentOrderCreateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())
             {
@@ -280,7 +280,7 @@ namespace OrderSystem.Controllers
         [HttpPost]
         [PermissionFilter(Permissions.Order_ReturnShipment_Modify)]
 
-        public IActionResult ReturnShipmentOrderUpdate(ReturnShipmentOrderCreateViewModel m)
+        public IActionResult UpdateReturnShipmentOrder(ReturnShipmentOrderCreateViewModel m)
         {
             using (var tr = _context.Database.BeginTransaction())
             {
@@ -352,7 +352,7 @@ namespace OrderSystem.Controllers
         [HttpPost]
         [PermissionFilter(Permissions.Order_Shipment_Create)]
 
-        public IActionResult ShipmentOrderCreate(ShipmentOrderCreateViewModel m)
+        public IActionResult CreateShipmentOrder(ShipmentOrderCreateViewModel m)
         {
           
             using (var tr = _context.Database.BeginTransaction())
@@ -432,7 +432,7 @@ namespace OrderSystem.Controllers
 
         [HttpGet]
 
-        public IActionResult ShipmentOrderCreate()
+        public IActionResult CreateShipmentOrder()
         {
             ViewData["ProductData"] = JsonConvert.SerializeObject((from a in _context.Products
                                       where a.IsDeleted != true
@@ -441,7 +441,7 @@ namespace OrderSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult getAllShipmentOrderNumber()
+        public IActionResult GetAllShipmentOrderNumber()
         {
             var orderNumber = (from a in _context.ShipmentOrders
                                 select new { 
@@ -451,7 +451,7 @@ namespace OrderSystem.Controllers
             return Ok(ResponseModel.Success("", orderNumber));
         }
         [HttpGet]
-        public IActionResult getShipmentOrderById(int ShipmentOrderId)
+        public IActionResult GetShipmentOrderById(int ShipmentOrderId)
         {
             var Order = _context.ShipmentOrders.FirstOrDefault(x => x.Id == ShipmentOrderId);
             var OrderDetails = (from a in _context.ShipmentOrderDetails
@@ -472,12 +472,12 @@ namespace OrderSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult ReturnShipmentOrderCreate()
+        public IActionResult CreateReturnShipmentOrder()
         {                                       
             return View();
         }
         [HttpGet]
-        public IActionResult ReturnShipmentOrderEdit(int ReturnShipmentOrderId)
+        public IActionResult UpdateReturnShipmentOrder(int ReturnShipmentOrderId)
         {
             ViewData["ReturnShipmentOrder"] = JsonConvert.SerializeObject(
                 (from a in _context.ReturnShipmentOrders
@@ -517,7 +517,7 @@ namespace OrderSystem.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult ShipmentOrderEdit(int OrderId)
+        public IActionResult UpdateShipmentOrder(int OrderId)
         {
             ViewData["Order"] = JsonConvert.SerializeObject(_context.ShipmentOrders.FirstOrDefault(x => x.Id == OrderId));
             ViewData["OrderDetails"] = JsonConvert.SerializeObject((from a in _context.ShipmentOrderDetails

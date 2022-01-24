@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using OrderSystem.Authorization
 @inject IAuthorizationService AuthorizationService
-    <form asp-action="Index"  method="get" id="form_search">
+    <form asp-action="Search"  method="get" id="form_search">
         <div class="search-area">
             <div class="container">
                 <div class="row">
@@ -78,7 +78,7 @@
                                            @Html.DisplayFor(modelItem => item.Email)
                                        </td>
                                        <td>
-                                           <a href="/User/UserEdit?UserId=@item.Id" type="button" class="btn btn-main-color01">
+                                           <a href="/User/UpdateUser?UserId=@item.Id" type="button" class="btn btn-main-color01">
                                                管理
                                            </a>
                                            @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Basic_UserManagement_Delete }))).Succeeded)
@@ -107,7 +107,7 @@
                                    <option value="30" selected="@((int)ViewData["pageSize"]==30)">30</option>
                                    <option value="50" selected="@((int)ViewData["pageSize"]==50)">50</option>
                                </select>，第 <span>@(Model.TotalPages < Model.PageIndex ? 0 : Model.PageIndex) / @Model.TotalPages</span> 頁，共 <span>@Model.TotalPages</span> 頁，
-                               <a asp-action="Index"
+                               <a asp-action="Search"
                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
                                   asp-route-pageNumber="@(Model.PageIndex - 1)"
                                   asp-route-currentFilterNumber="@ViewData["CurrentFilterNumber"]"
@@ -128,7 +128,7 @@
                                    }
                                </select>
                                頁｜
-                               <a asp-action="Index"
+                               <a asp-action="Search"
                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
                                   asp-route-currentFilterName="@ViewData["CurrentFilterName"]"
                                   asp-route-pageSize="@ViewData["PageSize"]"
@@ -145,5 +145,5 @@
     </form>
 
     @section Scripts {
-        <script src="~/js/Pages/User/Index.js"></script>
+        <script src="~/js/Pages/User/Search.js"></script>
     }

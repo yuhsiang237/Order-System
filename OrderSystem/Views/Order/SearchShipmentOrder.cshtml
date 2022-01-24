@@ -1,32 +1,24 @@
-﻿@model OrderSystem.Commons.PaginatedList<OrderSystem.ViewModels.InventoryIndexViewModel>
+﻿@model OrderSystem.Commons.PaginatedList<OrderSystem.ViewModels.ShipmentOrderViewModel>
 
 @Html.AntiForgeryToken()
 @using Microsoft.AspNetCore.Authorization
 @using OrderSystem.Authorization
 @inject IAuthorizationService AuthorizationService
 
-<form asp-action="Index" id="form_search" method="get">
+<form asp-action="SearchShipmentOrder" method="get" id="form_search">
     <div class="search-area">
         <div class="container">
             <div class="row">
                 <div class="col">
                     <div>
-                        <h1 class="pt-5 pb-3 main-color01">商品庫存列表</h1>
+                        <h1 class="pt-5 pb-3 main-color01">出貨單列表</h1>
                     </div>
                     <div class="row">
                         <div class="col-sm col-md-2 col-lg-2 col-xl-2">
-                            <label class="custom-label">商品編號</label>
+                            <label class="custom-label">訂單編號</label>
                             <div class="form-group form-row">
                                 <div class="col">
                                     <input id="input_number" type="text" class="form-control mr-2" name="searchStringNumber" value="@ViewData["CurrentFilterNumber"]" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm col-md-2 col-lg-2 col-xl-2">
-                            <label class="custom-label">商品名稱</label>
-                            <div class="form-group form-row">
-                                <div class="col">
-                                    <input id="input_name" type="text" class="form-control mr-2" name="searchStringName" value="@ViewData["CurrentFilterName"]" />
                                 </div>
                             </div>
                         </div>
@@ -41,12 +33,8 @@
                             <div class="form-group">
                                 <select class="form-control" name="sortOrder" onchange="this.form.submit()">
                                     <option value="0" selected="@((string)ViewData["CurrentSort"] == "0")">預設排序</option>
-                                    <option value="1" selected="@((string)ViewData["CurrentSort"] == "1")">商品名稱 高→低</option>
-                                    <option value="2" selected="@((string)ViewData["CurrentSort"] == "2")">商品名稱 低→高</option>
-                                    <option value="3" selected="@((string)ViewData["CurrentSort"] == "3")">商品庫存量 高→低</option>
-                                    <option value="4" selected="@((string)ViewData["CurrentSort"] == "4")">商品庫存量 低→高</option>
-                                    <option value="5" selected="@((string)ViewData["CurrentSort"] == "5")">商品價格 高→高</option>
-                                    <option value="6" selected="@((string)ViewData["CurrentSort"] == "6")">商品價格 低→高</option>
+                                    <option value="1" selected="@((string)ViewData["CurrentSort"] == "1")">訂單編號 高→低</option>
+                                    <option value="2" selected="@((string)ViewData["CurrentSort"] == "2")">訂單編號 低→高</option>
                                 </select>
                             </div>
                         </div>
@@ -55,28 +43,43 @@
             </div>
         </div>
     </div>
-
     <div class="container">
-        <div class="row mt-5">
+        <div class="row my-3">
             <div class="col">
-                <div class="table-responsive" id="InventoryTable">
+                <div class="text-right ">
+                    @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_Shipment_Create }))).Succeeded)
+                    {
+                        <a href="/Order/CreateShipmentOrder" type="button" class="btn btn-main-color01">
+                            新增出貨單
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+
+                <div class="table-responsive" id="OrderTable">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>
-                                    商品編號
+                                    訂單編號
                                 </th>
                                 <th>
-                                    商品名稱
+                                    出貨日
                                 </th>
                                 <th>
-                                    商品分類
+                                    完成日
                                 </th>
                                 <th>
-                                    價格
+                                    簽收簽名
                                 </th>
                                 <th>
-                                    目前庫存量
+                                    總額
+                                </th>
+                                <th>
+                                    訂單狀態
                                 </th>
                                 <th>
                                     操作
@@ -91,12 +94,10 @@
                                         @Html.DisplayFor(modelItem => item.Number)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
-                                    <td>
-                                        @if (item.Category != "" && item.Category != null)
+
+                                        @if (@item.DeliveryDate != null)
                                         {
-                                            @Html.DisplayFor(modelItem => item.Category)
+                                            @item.DeliveryDate.Value.ToString("yyyy/MM/dd")
                                         }
                                         else
                                         {
@@ -104,14 +105,38 @@
                                         }
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Price)
+                                        @if (@item.FinishDate != null)
+                                        {
+                                            @item.FinishDate.Value.ToString("yyyy/MM/dd")
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.CurrentUnit)
+                                        @Html.DisplayFor(modelItem => item.SignName)
                                     </td>
                                     <td>
-                                        <a href="/Inventory/InventoryHistory?productId=@item.Id" class="btn btn-main-color01 ">
-                                            管理庫存
+                                        @Html.DisplayFor(modelItem => item.Total)
+                                    </td>
+                                    <td>
+                                        @if (item.Status == Constant.OrderStatus.InProgress)
+                                        {
+                                            <span>進行中</span>
+                                        }
+                                        @if (item.Status == Constant.OrderStatus.Completed)
+                                        {
+                                            <span>已完成</span>
+                                        }
+                                        @if (item.Status == Constant.OrderStatus.Return)
+                                        {
+                                            <span>已退貨</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="/Order/UpdateShipmentOrder?OrderId=@item.Id" type="button" class="btn btn-main-color01">
+                                            管理
                                         </a>
                                     </td>
                                 </tr>
@@ -122,8 +147,7 @@
             </div>
         </div>
     </div>
-
-               
+             
                 @{
                     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
                     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
@@ -138,11 +162,10 @@
                                 <option value="30" selected="@((int)ViewData["pageSize"]==30)">30</option>
                                 <option value="50" selected="@((int)ViewData["pageSize"]==50)">50</option>
                             </select>，第 <span>@(Model.TotalPages < Model.PageIndex ? 0 : Model.PageIndex) / @Model.TotalPages</span> 頁，共 <span>@Model.TotalPages</span> 頁，
-                            <a asp-action="Index"
+                            <a asp-action="SearchShipmentOrder"
                                asp-route-sortOrder="@ViewData["CurrentSort"]"
                                asp-route-pageNumber="@(Model.PageIndex - 1)"
                                asp-route-currentFilterNumber="@ViewData["CurrentFilterNumber"]"
-                               asp-route-currentFilterName="@ViewData["CurrentFilterName"]"
                                asp-route-pageSize="@ViewData["PageSize"]"
                                class="btn btn-outline-secondary btn-sm @prevDisabled">
                                 上一頁
@@ -159,11 +182,10 @@
                                 }
                             </select>
                             頁｜
-                            <a asp-action="Index"
+                            <a asp-action="SearchShipmentOrder"
                                asp-route-sortOrder="@ViewData["CurrentSort"]"
                                asp-route-pageNumber="@(Model.PageIndex + 1)"
                                asp-route-currentFilterNumber="@ViewData["CurrentFilterNumber"]"
-                               asp-route-currentFilterName="@ViewData["CurrentFilterName"]"
                                asp-route-pageSize="@ViewData["PageSize"]"
                                class="btn btn-outline-secondary btn-sm @nextDisabled">
                                 下一頁
@@ -173,7 +195,6 @@
                 </div>
 </form>
 
-
 @section Scripts {
-    <script src="~/js/Pages/Inventory/Index.js"></script>
+    <script src="~/js/Pages/Order/SearchShipmentOrder.js"></script>
 }

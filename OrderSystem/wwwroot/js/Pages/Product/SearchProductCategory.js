@@ -48,7 +48,7 @@
                     $.ajax({
                         type: 'POST',
                         context:this,
-                        url: '/Product/ProductCategoryCreate',
+                        url: '/Product/CreateProductCategory',
                         contentType: 'application/x-www-form-urlencoded',
                         headers: {
                             "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
@@ -83,7 +83,7 @@
                     $.ajax({
                         type: 'POST',
                         context: this,
-                        url: '/Product/ProductCategoryUpdate',
+                        url: '/Product/UpdateProductCategory',
                         contentType: 'application/x-www-form-urlencoded',
                         headers: {
                             "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()

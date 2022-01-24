@@ -1,21 +1,22 @@
-﻿@model OrderSystem.Commons.PaginatedList<OrderSystem.ViewModels.ShipmentOrderViewModel>
+﻿@model OrderSystem.Commons.PaginatedList<OrderSystem.ViewModels.ReturnShipmentOrderViewModel>
 
 @Html.AntiForgeryToken()
 @using Microsoft.AspNetCore.Authorization
 @using OrderSystem.Authorization
 @inject IAuthorizationService AuthorizationService
 
-<form asp-action="ShipmentOrder" method="get" id="form_search">
+
+<form asp-action="SearchReturnShipmentOrder" method="get" id="form_search">
     <div class="search-area">
         <div class="container">
             <div class="row">
                 <div class="col">
                     <div>
-                        <h1 class="pt-5 pb-3 main-color01">出貨單列表</h1>
+                        <h1 class="pt-5 pb-3 main-color01">退貨單列表</h1>
                     </div>
                     <div class="row">
                         <div class="col-sm col-md-2 col-lg-2 col-xl-2">
-                            <label class="custom-label">訂單編號</label>
+                            <label class="custom-label">退貨訂單編號</label>
                             <div class="form-group form-row">
                                 <div class="col">
                                     <input id="input_number" type="text" class="form-control mr-2" name="searchStringNumber" value="@ViewData["CurrentFilterNumber"]" />
@@ -47,39 +48,32 @@
         <div class="row my-3">
             <div class="col">
                 <div class="text-right ">
-                    @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_Shipment_Create }))).Succeeded)
+                    @if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(new string[] { Permissions.Order_ReturnShipment_Create }))).Succeeded)
                     {
-                        <a href="/Order/ShipmentOrderCreate" type="button" class="btn btn-main-color01">
-                            新增出貨單
+                        <a href="/Order/CreateReturnShipmentOrder" type="button" class="btn btn-main-color01">
+                            新增退貨單
                         </a>
                     }
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row ">
             <div class="col">
-
                 <div class="table-responsive" id="OrderTable">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>
-                                    訂單編號
+                                    退貨單編號
                                 </th>
                                 <th>
-                                    出貨日
+                                    出貨單編號
                                 </th>
                                 <th>
-                                    完成日
+                                    退貨日
                                 </th>
                                 <th>
-                                    簽收簽名
-                                </th>
-                                <th>
-                                    總額
-                                </th>
-                                <th>
-                                    訂單狀態
+                                    退貨總額
                                 </th>
                                 <th>
                                     操作
@@ -94,48 +88,24 @@
                                         @Html.DisplayFor(modelItem => item.Number)
                                     </td>
                                     <td>
+                                        @Html.DisplayFor(modelItem => item.ShipmentOrderNumber)
+                                    </td>
+                                    <td>
 
-                                        @if (@item.DeliveryDate != null)
+                                        @if (@item.ReturnDate != null)
                                         {
-                                            @item.DeliveryDate.Value.ToString("yyyy/MM/dd")
+                                            @item.ReturnDate.Value.ToString("yyyy/MM/dd")
                                         }
                                         else
                                         {
                                             <span>-</span>
                                         }
-                                    </td>
-                                    <td>
-                                        @if (@item.FinishDate != null)
-                                        {
-                                            @item.FinishDate.Value.ToString("yyyy/MM/dd")
-                                        }
-                                        else
-                                        {
-                                            <span>-</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SignName)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Total)
                                     </td>
                                     <td>
-                                        @if (item.Status == Constant.OrderStatus.InProgress)
-                                        {
-                                            <span>進行中</span>
-                                        }
-                                        @if (item.Status == Constant.OrderStatus.Completed)
-                                        {
-                                            <span>已完成</span>
-                                        }
-                                        @if (item.Status == Constant.OrderStatus.Return)
-                                        {
-                                            <span>已退貨</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        <a href="/Order/ShipmentOrderEdit?OrderId=@item.Id" type="button" class="btn btn-main-color01">
+                                        <a href="/Order/UpdateReturnShipmentOrder?ReturnShipmentOrderId=@item.Id" type="button" class="btn btn-main-color01">
                                             管理
                                         </a>
                                     </td>
@@ -147,7 +117,9 @@
             </div>
         </div>
     </div>
-             
+
+               
+            
                 @{
                     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
                     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
@@ -162,7 +134,7 @@
                                 <option value="30" selected="@((int)ViewData["pageSize"]==30)">30</option>
                                 <option value="50" selected="@((int)ViewData["pageSize"]==50)">50</option>
                             </select>，第 <span>@(Model.TotalPages < Model.PageIndex ? 0 : Model.PageIndex) / @Model.TotalPages</span> 頁，共 <span>@Model.TotalPages</span> 頁，
-                            <a asp-action="ShipmentOrder"
+                            <a asp-action="SearchReturnShipmentOrder"
                                asp-route-sortOrder="@ViewData["CurrentSort"]"
                                asp-route-pageNumber="@(Model.PageIndex - 1)"
                                asp-route-currentFilterNumber="@ViewData["CurrentFilterNumber"]"
@@ -182,7 +154,7 @@
                                 }
                             </select>
                             頁｜
-                            <a asp-action="ShipmentOrder"
+                            <a asp-action="SearchReturnShipmentOrder"
                                asp-route-sortOrder="@ViewData["CurrentSort"]"
                                asp-route-pageNumber="@(Model.PageIndex + 1)"
                                asp-route-currentFilterNumber="@ViewData["CurrentFilterNumber"]"
@@ -196,5 +168,5 @@
 </form>
 
 @section Scripts {
-    <script src="~/js/Pages/Order/ShipmentOrder.js"></script>
+    <script src="~/js/Pages/Order/SearchReturnShipmentOrder.js"></script>
 }
