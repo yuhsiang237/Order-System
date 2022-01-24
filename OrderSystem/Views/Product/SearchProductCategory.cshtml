@@ -134,7 +134,7 @@
                                 <option value="30" selected="@((int)ViewData["pageSize"]==30)">30</option>
                                 <option value="50" selected="@((int)ViewData["pageSize"]==50)">50</option>
                             </select>，第 <span>@(Model.TotalPages < Model.PageIndex ? 0 : Model.PageIndex) / @Model.TotalPages</span> 頁，共 <span>@Model.TotalPages</span> 頁，
-                            <a asp-action="Index"
+                            <a asp-action="SearchProductCategory"
                                asp-route-sortOrder="@ViewData["CurrentSort"]"
                                asp-route-pageNumber="@(Model.PageIndex - 1)"
                                asp-route-currentFilterNumber="@ViewData["CurrentFilterNumber"]"
@@ -155,7 +155,7 @@
                                 }
                             </select>
                             頁｜
-                            <a asp-action="Index"
+                            <a asp-action="SearchProductCategory"
                                asp-route-sortOrder="@ViewData["CurrentSort"]"
                                asp-route-pageNumber="@(Model.PageIndex + 1)"
                                asp-route-currentFilterNumber="@ViewData["CurrentFilterNumber"]"
