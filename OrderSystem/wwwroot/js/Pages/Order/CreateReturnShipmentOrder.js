@@ -96,7 +96,7 @@
                             if (res.IsSuccess) {
                                 this.Errors = {};
                                 alert('成功建立訂單!')
-                                location.href = "/Order/ReturnShipmentOrder"
+                                location.href = "/Order/SearchReturnShipmentOrder"
                             } else {
                                 this.Errors = res.Error;
                                 alert('訂單建立失敗，請查看錯誤')
