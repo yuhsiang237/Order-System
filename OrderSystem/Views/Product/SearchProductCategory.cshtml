@@ -33,12 +33,8 @@
                             <div class="form-group">
                                 <select class="form-control" name="sortOrder" onchange="this.form.submit()">
                                     <option value="0" selected="@((string)ViewData["CurrentSort"] == "0")">預設排序</option>
-                                    <option value="1" selected="@((string)ViewData["CurrentSort"] == "1")">商品名稱 高→低</option>
-                                    <option value="2" selected="@((string)ViewData["CurrentSort"] == "2")">商品名稱 低→高</option>
-                                    <option value="3" selected="@((string)ViewData["CurrentSort"] == "3")">商品庫存量 高→低</option>
-                                    <option value="4" selected="@((string)ViewData["CurrentSort"] == "4")">商品庫存量 低→高</option>
-                                    <option value="5" selected="@((string)ViewData["CurrentSort"] == "5")">商品價格 高→高</option>
-                                    <option value="6" selected="@((string)ViewData["CurrentSort"] == "6")">商品價格 低→高</option>
+                                    <option value="1" selected="@((string)ViewData["CurrentSort"] == "1")">商品分類名稱 高→低</option>
+                                    <option value="2" selected="@((string)ViewData["CurrentSort"] == "2")">商品分類名稱 低→高</option>
                                 </select>
                             </div>
                         </div>
